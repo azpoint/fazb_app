@@ -1,0 +1,231 @@
+0 verbose cli /usr/local/bin/node /usr/local/bin/npm
+1 info using npm@10.9.2
+2 info using node@v22.14.0
+3 silly config load:file:/usr/local/lib/node_modules/npm/npmrc
+4 silly config load:file:/app/.npmrc
+5 silly config load:file:/usr/local/etc/npmrc
+6 verbose title npm install
+7 verbose argv "install"
+8 verbose logfile logs-max:10 dir:/app/.npm/_logs/2025-04-23T19_27_24_638Z-
+9 verbose logfile /app/.npm/_logs/2025-04-23T19_27_24_638Z-debug-0.log
+10 silly logfile done cleaning log files
+11 silly packumentCache heap:2197815296 maxSize:549453824 maxEntrySize:274726912
+12 silly idealTree buildDeps
+13 silly reify moves {}
+14 verbose reify failed optional dependency /app/node_modules/@tailwindcss/oxide-wasm32-wasi
+15 silly reify mark deleted [ '/app/node_modules/@tailwindcss/oxide-wasm32-wasi' ]
+16 silly audit bulk request {
+16 silly audit   '@alloc/quick-lru': [ '5.2.0' ],
+16 silly audit   '@emnapi/runtime': [ '1.4.3' ],
+16 silly audit   '@img/sharp-darwin-arm64': [ '0.34.1' ],
+16 silly audit   '@img/sharp-darwin-x64': [ '0.34.1' ],
+16 silly audit   '@img/sharp-libvips-darwin-arm64': [ '1.1.0' ],
+16 silly audit   '@img/sharp-libvips-darwin-x64': [ '1.1.0' ],
+16 silly audit   '@img/sharp-libvips-linux-arm': [ '1.1.0' ],
+16 silly audit   '@img/sharp-libvips-linux-arm64': [ '1.1.0' ],
+16 silly audit   '@img/sharp-libvips-linux-ppc64': [ '1.1.0' ],
+16 silly audit   '@img/sharp-libvips-linux-s390x': [ '1.1.0' ],
+16 silly audit   '@img/sharp-libvips-linux-x64': [ '1.1.0' ],
+16 silly audit   '@img/sharp-libvips-linuxmusl-arm64': [ '1.1.0' ],
+16 silly audit   '@img/sharp-libvips-linuxmusl-x64': [ '1.1.0' ],
+16 silly audit   '@img/sharp-linux-arm': [ '0.34.1' ],
+16 silly audit   '@img/sharp-linux-arm64': [ '0.34.1' ],
+16 silly audit   '@img/sharp-linux-s390x': [ '0.34.1' ],
+16 silly audit   '@img/sharp-linux-x64': [ '0.34.1' ],
+16 silly audit   '@img/sharp-linuxmusl-arm64': [ '0.34.1' ],
+16 silly audit   '@img/sharp-linuxmusl-x64': [ '0.34.1' ],
+16 silly audit   '@img/sharp-wasm32': [ '0.34.1' ],
+16 silly audit   '@img/sharp-win32-ia32': [ '0.34.1' ],
+16 silly audit   '@img/sharp-win32-x64': [ '0.34.1' ],
+16 silly audit   '@next/env': [ '15.3.1' ],
+16 silly audit   '@next/swc-darwin-arm64': [ '15.3.1' ],
+16 silly audit   '@next/swc-darwin-x64': [ '15.3.1' ],
+16 silly audit   '@next/swc-linux-arm64-gnu': [ '15.3.1' ],
+16 silly audit   '@next/swc-linux-arm64-musl': [ '15.3.1' ],
+16 silly audit   '@next/swc-linux-x64-gnu': [ '15.3.1' ],
+16 silly audit   '@next/swc-linux-x64-musl': [ '15.3.1' ],
+16 silly audit   '@next/swc-win32-arm64-msvc': [ '15.3.1' ],
+16 silly audit   '@next/swc-win32-x64-msvc': [ '15.3.1' ],
+16 silly audit   '@swc/counter': [ '0.1.3' ],
+16 silly audit   '@swc/helpers': [ '0.5.15' ],
+16 silly audit   '@tailwindcss/node': [ '4.1.4' ],
+16 silly audit   '@tailwindcss/oxide': [ '4.1.4' ],
+16 silly audit   '@tailwindcss/oxide-android-arm64': [ '4.1.4' ],
+16 silly audit   '@tailwindcss/oxide-darwin-arm64': [ '4.1.4' ],
+16 silly audit   '@tailwindcss/oxide-darwin-x64': [ '4.1.4' ],
+16 silly audit   '@tailwindcss/oxide-freebsd-x64': [ '4.1.4' ],
+16 silly audit   '@tailwindcss/oxide-linux-arm-gnueabihf': [ '4.1.4' ],
+16 silly audit   '@tailwindcss/oxide-linux-arm64-gnu': [ '4.1.4' ],
+16 silly audit   '@tailwindcss/oxide-linux-arm64-musl': [ '4.1.4' ],
+16 silly audit   '@tailwindcss/oxide-linux-x64-gnu': [ '4.1.4' ],
+16 silly audit   '@tailwindcss/oxide-linux-x64-musl': [ '4.1.4' ],
+16 silly audit   '@tailwindcss/oxide-win32-arm64-msvc': [ '4.1.4' ],
+16 silly audit   '@tailwindcss/oxide-win32-x64-msvc': [ '4.1.4' ],
+16 silly audit   '@tailwindcss/postcss': [ '4.1.4' ],
+16 silly audit   busboy: [ '1.6.0' ],
+16 silly audit   'caniuse-lite': [ '1.0.30001715' ],
+16 silly audit   'client-only': [ '0.0.1' ],
+16 silly audit   color: [ '4.2.3' ],
+16 silly audit   'color-convert': [ '2.0.1' ],
+16 silly audit   'color-name': [ '1.1.4' ],
+16 silly audit   'color-string': [ '1.9.1' ],
+16 silly audit   'detect-libc': [ '2.0.4' ],
+16 silly audit   'enhanced-resolve': [ '5.18.1' ],
+16 silly audit   'graceful-fs': [ '4.2.11' ],
+16 silly audit   'is-arrayish': [ '0.3.2' ],
+16 silly audit   jiti: [ '2.4.2' ],
+16 silly audit   lightningcss: [ '1.29.2' ],
+16 silly audit   'lightningcss-darwin-arm64': [ '1.29.2' ],
+16 silly audit   'lightningcss-darwin-x64': [ '1.29.2' ],
+16 silly audit   'lightningcss-freebsd-x64': [ '1.29.2' ],
+16 silly audit   'lightningcss-linux-arm-gnueabihf': [ '1.29.2' ],
+16 silly audit   'lightningcss-linux-arm64-gnu': [ '1.29.2' ],
+16 silly audit   'lightningcss-linux-arm64-musl': [ '1.29.2' ],
+16 silly audit   'lightningcss-linux-x64-gnu': [ '1.29.2' ],
+16 silly audit   'lightningcss-linux-x64-musl': [ '1.29.2' ],
+16 silly audit   'lightningcss-win32-arm64-msvc': [ '1.29.2' ],
+16 silly audit   'lightningcss-win32-x64-msvc': [ '1.29.2' ],
+16 silly audit   nanoid: [ '3.3.11' ],
+16 silly audit   next: [ '15.3.1' ],
+16 silly audit   postcss: [ '8.4.31', '8.5.3' ],
+16 silly audit   picocolors: [ '1.1.1' ],
+16 silly audit   react: [ '19.1.0' ],
+16 silly audit   'react-dom': [ '19.1.0' ],
+16 silly audit   scheduler: [ '0.26.0' ],
+16 silly audit   semver: [ '7.7.1' ],
+16 silly audit   sharp: [ '0.34.1' ],
+16 silly audit   'simple-swizzle': [ '0.2.2' ],
+16 silly audit   'source-map-js': [ '1.2.1' ],
+16 silly audit   streamsearch: [ '1.1.0' ],
+16 silly audit   'styled-jsx': [ '5.1.6' ],
+16 silly audit   tailwindcss: [ '4.1.4' ],
+16 silly audit   tapable: [ '2.2.1' ],
+16 silly audit   tslib: [ '2.8.1' ],
+16 silly audit   '@tailwindcss/oxide-wasm32-wasi': [ '4.1.4' ]
+16 silly audit }
+17 verbose reify failed optional dependency /app/node_modules/lightningcss-win32-x64-msvc
+18 silly reify mark deleted [ '/app/node_modules/lightningcss-win32-x64-msvc' ]
+19 verbose reify failed optional dependency /app/node_modules/lightningcss-win32-arm64-msvc
+20 silly reify mark deleted [ '/app/node_modules/lightningcss-win32-arm64-msvc' ]
+21 verbose reify failed optional dependency /app/node_modules/lightningcss-linux-arm64-musl
+22 silly reify mark deleted [ '/app/node_modules/lightningcss-linux-arm64-musl' ]
+23 verbose reify failed optional dependency /app/node_modules/lightningcss-linux-arm64-gnu
+24 silly reify mark deleted [ '/app/node_modules/lightningcss-linux-arm64-gnu' ]
+25 verbose reify failed optional dependency /app/node_modules/lightningcss-linux-arm-gnueabihf
+26 silly reify mark deleted [ '/app/node_modules/lightningcss-linux-arm-gnueabihf' ]
+27 verbose reify failed optional dependency /app/node_modules/lightningcss-freebsd-x64
+28 silly reify mark deleted [ '/app/node_modules/lightningcss-freebsd-x64' ]
+29 verbose reify failed optional dependency /app/node_modules/lightningcss-darwin-x64
+30 silly reify mark deleted [ '/app/node_modules/lightningcss-darwin-x64' ]
+31 verbose reify failed optional dependency /app/node_modules/lightningcss-darwin-arm64
+32 silly reify mark deleted [ '/app/node_modules/lightningcss-darwin-arm64' ]
+33 verbose reify failed optional dependency /app/node_modules/@tailwindcss/oxide-win32-x64-msvc
+34 silly reify mark deleted [ '/app/node_modules/@tailwindcss/oxide-win32-x64-msvc' ]
+35 verbose reify failed optional dependency /app/node_modules/@tailwindcss/oxide-win32-arm64-msvc
+36 silly reify mark deleted [ '/app/node_modules/@tailwindcss/oxide-win32-arm64-msvc' ]
+37 verbose reify failed optional dependency /app/node_modules/@tailwindcss/oxide-linux-arm64-musl
+38 silly reify mark deleted [ '/app/node_modules/@tailwindcss/oxide-linux-arm64-musl' ]
+39 verbose reify failed optional dependency /app/node_modules/@tailwindcss/oxide-linux-arm64-gnu
+40 silly reify mark deleted [ '/app/node_modules/@tailwindcss/oxide-linux-arm64-gnu' ]
+41 verbose reify failed optional dependency /app/node_modules/@tailwindcss/oxide-linux-arm-gnueabihf
+42 silly reify mark deleted [ '/app/node_modules/@tailwindcss/oxide-linux-arm-gnueabihf' ]
+43 verbose reify failed optional dependency /app/node_modules/@tailwindcss/oxide-freebsd-x64
+44 silly reify mark deleted [ '/app/node_modules/@tailwindcss/oxide-freebsd-x64' ]
+45 verbose reify failed optional dependency /app/node_modules/@tailwindcss/oxide-darwin-x64
+46 silly reify mark deleted [ '/app/node_modules/@tailwindcss/oxide-darwin-x64' ]
+47 verbose reify failed optional dependency /app/node_modules/@tailwindcss/oxide-darwin-arm64
+48 silly reify mark deleted [ '/app/node_modules/@tailwindcss/oxide-darwin-arm64' ]
+49 verbose reify failed optional dependency /app/node_modules/@tailwindcss/oxide-android-arm64
+50 silly reify mark deleted [ '/app/node_modules/@tailwindcss/oxide-android-arm64' ]
+51 verbose reify failed optional dependency /app/node_modules/@next/swc-win32-x64-msvc
+52 silly reify mark deleted [ '/app/node_modules/@next/swc-win32-x64-msvc' ]
+53 verbose reify failed optional dependency /app/node_modules/@next/swc-win32-arm64-msvc
+54 silly reify mark deleted [ '/app/node_modules/@next/swc-win32-arm64-msvc' ]
+55 verbose reify failed optional dependency /app/node_modules/@next/swc-linux-arm64-musl
+56 silly reify mark deleted [ '/app/node_modules/@next/swc-linux-arm64-musl' ]
+57 verbose reify failed optional dependency /app/node_modules/@next/swc-linux-arm64-gnu
+58 silly reify mark deleted [ '/app/node_modules/@next/swc-linux-arm64-gnu' ]
+59 verbose reify failed optional dependency /app/node_modules/@next/swc-darwin-x64
+60 silly reify mark deleted [ '/app/node_modules/@next/swc-darwin-x64' ]
+61 verbose reify failed optional dependency /app/node_modules/@next/swc-darwin-arm64
+62 silly reify mark deleted [ '/app/node_modules/@next/swc-darwin-arm64' ]
+63 verbose reify failed optional dependency /app/node_modules/@img/sharp-win32-x64
+64 silly reify mark deleted [ '/app/node_modules/@img/sharp-win32-x64' ]
+65 verbose reify failed optional dependency /app/node_modules/@img/sharp-win32-ia32
+66 silly reify mark deleted [ '/app/node_modules/@img/sharp-win32-ia32' ]
+67 verbose reify failed optional dependency /app/node_modules/@img/sharp-wasm32
+68 silly reify mark deleted [ '/app/node_modules/@img/sharp-wasm32' ]
+69 verbose reify failed optional dependency /app/node_modules/@img/sharp-linuxmusl-arm64
+70 silly reify mark deleted [ '/app/node_modules/@img/sharp-linuxmusl-arm64' ]
+71 verbose reify failed optional dependency /app/node_modules/@img/sharp-linux-s390x
+72 silly reify mark deleted [ '/app/node_modules/@img/sharp-linux-s390x' ]
+73 verbose reify failed optional dependency /app/node_modules/@img/sharp-linux-arm64
+74 silly reify mark deleted [ '/app/node_modules/@img/sharp-linux-arm64' ]
+75 verbose reify failed optional dependency /app/node_modules/@img/sharp-linux-arm
+76 silly reify mark deleted [ '/app/node_modules/@img/sharp-linux-arm' ]
+77 verbose reify failed optional dependency /app/node_modules/@img/sharp-libvips-linuxmusl-arm64
+78 silly reify mark deleted [ '/app/node_modules/@img/sharp-libvips-linuxmusl-arm64' ]
+79 verbose reify failed optional dependency /app/node_modules/@img/sharp-libvips-linux-s390x
+80 silly reify mark deleted [ '/app/node_modules/@img/sharp-libvips-linux-s390x' ]
+81 verbose reify failed optional dependency /app/node_modules/@img/sharp-libvips-linux-ppc64
+82 silly reify mark deleted [ '/app/node_modules/@img/sharp-libvips-linux-ppc64' ]
+83 verbose reify failed optional dependency /app/node_modules/@img/sharp-libvips-linux-arm64
+84 silly reify mark deleted [ '/app/node_modules/@img/sharp-libvips-linux-arm64' ]
+85 verbose reify failed optional dependency /app/node_modules/@img/sharp-libvips-linux-arm
+86 silly reify mark deleted [ '/app/node_modules/@img/sharp-libvips-linux-arm' ]
+87 verbose reify failed optional dependency /app/node_modules/@img/sharp-libvips-darwin-x64
+88 silly reify mark deleted [ '/app/node_modules/@img/sharp-libvips-darwin-x64' ]
+89 verbose reify failed optional dependency /app/node_modules/@img/sharp-libvips-darwin-arm64
+90 silly reify mark deleted [ '/app/node_modules/@img/sharp-libvips-darwin-arm64' ]
+91 verbose reify failed optional dependency /app/node_modules/@img/sharp-darwin-x64
+92 silly reify mark deleted [ '/app/node_modules/@img/sharp-darwin-x64' ]
+93 verbose reify failed optional dependency /app/node_modules/@img/sharp-darwin-arm64
+94 silly reify mark deleted [ '/app/node_modules/@img/sharp-darwin-arm64' ]
+95 http fetch POST 200 https://registry.npmjs.org/-/npm/v1/security/advisories/bulk 360ms
+96 silly audit report {}
+97 silly ADD
+98 silly ADD
+99 silly ADD
+100 silly ADD
+101 silly ADD
+102 silly ADD
+103 silly ADD
+104 silly ADD
+105 silly ADD
+106 silly ADD
+107 silly ADD
+108 silly ADD
+109 silly ADD
+110 silly ADD
+111 silly ADD
+112 silly ADD
+113 silly ADD
+114 silly ADD
+115 silly ADD
+116 silly ADD
+117 silly ADD
+118 silly ADD
+119 silly ADD
+120 silly ADD
+121 silly ADD
+122 silly ADD
+123 silly ADD
+124 silly ADD
+125 silly ADD
+126 silly ADD
+127 silly ADD
+128 silly ADD
+129 silly ADD
+130 silly ADD
+131 silly ADD
+132 silly ADD
+133 silly ADD
+134 silly ADD
+135 silly ADD
+136 silly ADD
+137 verbose cwd /app
+138 verbose os Linux 5.15.167.4-microsoft-standard-WSL2
+139 verbose node v22.14.0
+140 verbose npm  v10.9.2
+141 verbose exit 0
+142 info ok
