@@ -1,0 +1,13 @@
+.is-open {
+	transform: translate(-100%);
+}
+
+.obras-open {
+	display: block;
+	translate: 0;
+}
+
+.obras-close {
+	display: none;
+	translate: 0 -120%;
+}
