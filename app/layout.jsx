@@ -1,5 +1,5 @@
 //Styles
-import "@/app/globals.css";
+import "@/src/styles/globals.css";
 import { openSans, dancingScript } from "@/src/styles/fonts";
 
 export const metadata = {
