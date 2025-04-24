@@ -16,7 +16,6 @@
 # next.js
 /.next/
 /out/
-/.npm/
 
 # production
 /build
@@ -24,6 +23,7 @@
 # misc
 .DS_Store
 *.pem
+/.npm/
 
 # debug
 npm-debug.log*

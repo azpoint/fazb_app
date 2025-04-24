@@ -22,7 +22,7 @@ body {
 
 @layer base {
 	a {
-		@apply text-sky-800 font-medium underline hover:text-teal-700
+		@apply text-sky-800 font-medium underline hover:text-teal-500
 	}
 }
 
