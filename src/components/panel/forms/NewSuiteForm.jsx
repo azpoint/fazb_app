@@ -425,7 +425,7 @@ export default function NewSuitesForm() {
                                     type="file"
                                     id="images"
                                     name="images"
-                                    className={`w-4/6 outline-none justify-self-end ${
+                                    className={`w-5/6 outline-none justify-self-end ${
                                         formState.errors?.images
                                             ? "border-rose-600"
                                             : null
@@ -457,7 +457,7 @@ export default function NewSuitesForm() {
                                     type="file"
                                     id="audios"
                                     name="audios"
-                                    className={`w-4/6 outline-none justify-self-end ${
+                                    className={`w-5/6 outline-none justify-self-end ${
                                         formState.errors?.audios
                                             ? "border-rose-600"
                                             : null
