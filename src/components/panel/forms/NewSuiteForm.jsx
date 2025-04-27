@@ -29,7 +29,7 @@ export default function NewSuitesForm() {
         youtube_l: [""],
         description: "",
     });
-    const [description, setDescription] = useState("");
+    // const [description, setDescription] = useState("");
     const [suiteState, setSuiteState] = useState(false);
     const descriptionRef = useRef(null);
 
@@ -79,7 +79,7 @@ export default function NewSuitesForm() {
         }));
     };
 
-    const handleSubmit = (formData) => {
+    const handleSubmit = async (formData) => {
         if (formData.get("created") !== "")
             formData.set(
                 "created",
@@ -88,7 +88,10 @@ export default function NewSuitesForm() {
         if (formData.get("rev") !== "")
             formData.set("rev", new Date(formData.get("rev")).toISOString());
         formData.append("description", descriptionRef.current.innerHTML);
-        formStateAction(formData);
+
+        const result = await formStateAction(formData)
+
+        return result
     };
 
     return (
@@ -234,7 +237,7 @@ export default function NewSuitesForm() {
                                     placeholder="Introduce el Título aquí"
                                     value={formValues.title}
                                     onChange={handleInputChange}
-                                    className={`w-5/6 rounded-md px-2 py-1 text-xl focus:border-sky-700 border-2 border-solid outline-none ${
+                                    className={`field ${
                                         formState.errors?.title
                                             ? "border-rose-600"
                                             : null
@@ -247,7 +250,7 @@ export default function NewSuitesForm() {
                                 error={formState.errors.title?.join(", ")}
                                 errorStyle="text-rose-600 text-right"
                                 hint="Sólo letras, números, espacios ó guión"
-                                hintStyle="text-stone-900 text-right"
+                                hintStyle="text-sky-600 text-right"
                             />
                         </div>
 
@@ -290,7 +293,7 @@ export default function NewSuitesForm() {
                                     name="created"
                                     value={formValues.created}
                                     onChange={handleInputChange}
-                                    className={`w-5/6 rounded-md px-2 py-1 text-xl focus:border-sky-700 border-2 border-solid outline-none ${
+                                    className={`field ${
                                         formState.errors?.created
                                             ? "border-rose-600"
                                             : null
@@ -301,7 +304,7 @@ export default function NewSuitesForm() {
                                 error={formState.errors.created?.join(", ")}
                                 errorStyle="text-rose-600 text-right"
                                 hint="Si no sabes el día exacto usa el primero del mes"
-                                hintStyle="text-stone-900 text-right"
+                                hintStyle="text-sky-600 text-right"
                             />
                         </div>
 
@@ -314,7 +317,7 @@ export default function NewSuitesForm() {
                                     type="date"
                                     id="rev"
                                     name="rev"
-                                    className={`w-5/6 rounded-md px-2 py-1 text-xl focus:border-sky-700 border-2 border-solid outline-none ${
+                                    className={`field ${
                                         formState.errors?.rev
                                             ? "border-rose-600"
                                             : null
@@ -325,7 +328,7 @@ export default function NewSuitesForm() {
                                 error={formState.errors.rev?.join(", ")}
                                 errorStyle="text-rose-600 text-right"
                                 hint="Si no sabes el día exacto usa el primero del mes"
-                                hintStyle="text-stone-900 text-right"
+                                hintStyle="text-sky-600 text-right"
                             />
                         </div>
 
@@ -342,7 +345,7 @@ export default function NewSuitesForm() {
                                     id="_length"
                                     name="_length"
                                     placeholder="Formato Tiempo: H:MM:SS en números"
-                                    className={`w-5/6 rounded-md px-2 py-1 text-xl focus:border-sky-700 border-2 border-solid outline-none ${
+                                    className={`field ${
                                         formState.errors?._length
                                             ? "border-rose-600"
                                             : null
@@ -353,7 +356,7 @@ export default function NewSuitesForm() {
                                 error={formState.errors._length?.join(", ")}
                                 errorStyle="text-rose-600 text-right"
                                 hint="Formato Tiempo: H:MM:SS en números"
-                                hintStyle="text-stone-900 text-right"
+                                hintStyle="text-sky-600 text-right"
                             />
                         </div>
 
@@ -370,7 +373,7 @@ export default function NewSuitesForm() {
                                     id="edition"
                                     name="edition"
                                     placeholder="Introduce Editor"
-                                    className={`w-5/6 rounded-md px-2 py-1 text-xl focus:border-sky-700 border-2 border-solid outline-none ${
+                                    className={`field ${
                                         formState.errors?.edition
                                             ? "border-rose-600"
                                             : null
@@ -381,7 +384,7 @@ export default function NewSuitesForm() {
                                 error={formState.errors.edition?.join(", ")}
                                 errorStyle="text-rose-600 text-right"
                                 hint="Hasta 50 caracteres"
-                                hintStyle="text-stone-900 text-right"
+                                hintStyle="text-sky-600 text-right"
                             />
                         </div>
 
@@ -410,11 +413,11 @@ export default function NewSuitesForm() {
                         </div>
 
                         {/* -------- File Input -------- */}
-                        <div>
-                            <div className="flex">
+                        <div className="space-y-2 my-8">
+                            <div className="grid grid-cols-2 items-center">
                                 <label
                                     htmlFor="images"
-                                    className="w-1/6 text-xl"
+                                    className="text-xl justify-self-start"
                                 >
                                     Imágenes
                                 </label>
@@ -422,7 +425,7 @@ export default function NewSuitesForm() {
                                     type="file"
                                     id="images"
                                     name="images"
-                                    className={`w-5/6 border-2 border-solid outline-none ${
+                                    className={`w-4/6 outline-none justify-self-end ${
                                         formState.errors?.images
                                             ? "border-rose-600"
                                             : null
@@ -438,15 +441,15 @@ export default function NewSuitesForm() {
                                 error={formState.errors.images?.join(", ")}
                                 errorStyle="text-rose-600 text-right"
                                 hint="Sólo imagenes JPG ó PNG"
-                                hintStyle="text-stone-900 text-right"
+                                hintStyle="text-sky-600 text-right"
                             />
                         </div>
 
-                        <div>
-                            <div className="flex">
+                        <div className="space-y-2 my-8">
+                            <div className="grid grid-cols-2 items-center">
                                 <label
                                     htmlFor="audios"
-                                    className="w-1/6 text-xl"
+                                    className="text-xl justify-self-start"
                                 >
                                     Audios
                                 </label>
@@ -454,7 +457,7 @@ export default function NewSuitesForm() {
                                     type="file"
                                     id="audios"
                                     name="audios"
-                                    className={`w-5/6 border-2 border-solid outline-none ${
+                                    className={`w-4/6 outline-none justify-self-end ${
                                         formState.errors?.audios
                                             ? "border-rose-600"
                                             : null
@@ -470,7 +473,7 @@ export default function NewSuitesForm() {
                                 error={formState.errors.audios?.join(", ")}
                                 errorStyle="text-rose-600 text-right"
                                 hint="Sólo archivos mp3"
-                                hintStyle="text-stone-900 text-right"
+                                hintStyle="text-sky-600 text-right"
                             />
                         </div>
 

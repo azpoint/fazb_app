@@ -15,7 +15,7 @@ export default function MovField({_index, formState}) {
 					id="mov"
 					name="mov"
 					placeholder="Nombre del Movimiento"
-					className={`w-5/6 rounded-md px-2 py-1 text-xl focus:border-sky-700 border-2 border-solid outline-none ${
+					className={`field ${
 						formState.errors?.mov && formState.errors?.mov[_index] ? "border-rose-600" : null
 					}`}
 				/>

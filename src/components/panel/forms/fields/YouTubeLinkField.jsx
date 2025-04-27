@@ -13,7 +13,7 @@ export default function YoutubeLinkField({ _index, formState }) {
 					id="youtube_l"
 					name="youtube_l"
 					placeholder="https://www.youtube.com/watch?v=Y3OUDRQMcxs"
-					className={`w-5/6 rounded-md px-2 py-1 text-xl focus:border-sky-700 border-2 border-solid outline-none ${
+					className={`field ${
 						formState.errors?.youtube_l && formState.errors?.youtube_l[_index] ? "border-rose-600" : null
 					}`}
 				/>
@@ -23,7 +23,7 @@ export default function YoutubeLinkField({ _index, formState }) {
 					error={formState.errors?.youtube_l && formState.errors?.youtube_l[_index] ? formState.errors.youtube_l[_index]: null}
 					errorStyle="text-rose-600 text-right"
 					hint="Copia el link de la barra de dirección de Youtube"
-					hintStyle="text-stone-900 text-right"
+					hintStyle="text-sky-600 text-right"
 				/>
 				
 			</div>
