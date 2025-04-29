@@ -9,7 +9,6 @@ import fse from "fs-extra";
 //Dependencies
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-// import { db } from "../lib/db/db";
 import { v4 as uuidv4 } from "uuid";
 import slugify from "slugify";
 import appPaths from "@/src/paths/appPaths";
@@ -154,14 +153,17 @@ export async function createSuite(_formState, formData) {
 				if (file.type === "image/jpeg" || file.type === "image/png") {
 					const bytes = await file.arrayBuffer();
 					const buffer = Buffer.from(bytes);
+
 					const imageName = `Francisco Zapata Bello-${title}-${uuidv4().slice(
 						0,
 						8
 					)}.${file.type === "image/jpeg" ? "jpg" : "png"}`;
+
 					await writeFileAsync(
 						`${path.resolve(imageFilePath)}/${imageName}`,
 						buffer
 					);
+					
 					fileData.filePath = `/suites/${title}/images/${imageName}`;
 					fileData.fileDescription = file.name;
 					imagePaths.push(fileData);

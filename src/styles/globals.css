@@ -41,6 +41,6 @@ body {
     }
 
     .field {
-        @apply w-5/6 rounded-md px-2 py-1 text-xl focus:border-sky-800 border-2 border-solid outline-none bg-stone-100
+        @apply w-5/6 rounded-md px-2 py-1 text-xl focus:border-sky-800 border-2 border-solid outline-none bg-stone-100;
     }
 }

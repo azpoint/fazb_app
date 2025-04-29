@@ -2,7 +2,10 @@
 //Dependencies
 import { useState } from "react";
 import { useActionState } from "react";
-import { useRef } from "react";
+import { Suspense } from "react";
+
+//Text Editor
+import MDXEditorWrapper from "@/src/components/panel/TextEditor";
 
 //Components
 import HintFeedBack from "@/src/components/panel/forms/controls/HintFeedback";
@@ -12,6 +15,8 @@ import MovField from "@/src/components/panel/forms/fields/MovementField";
 import { FaCircleMinus } from "react-icons/fa6";
 import { FaCirclePlus } from "react-icons/fa6";
 
+//Styles
+
 //Actions & Options
 import * as actions from "@/src/components/panel/forms/actions/createSuite";
 
@@ -19,6 +24,7 @@ export default function NewSuitesForm() {
     const [formState, formStateAction] = useActionState(actions.createSuite, {
         errors: {},
     });
+
     const [formValues, setFormValues] = useState({
         title: "",
         mov: ["", ""],
@@ -29,9 +35,10 @@ export default function NewSuitesForm() {
         youtube_l: [""],
         description: "",
     });
-    // const [description, setDescription] = useState("");
+
     const [suiteState, setSuiteState] = useState(false);
-    const descriptionRef = useRef(null);
+    const [editorContent, setEditorContent] = useState("");
+    console.log(editorContent)
 
     //TODO: Binding to use server actions from a client component to a server component without formState. Binding call a function with predefined parameters.
     // const createCompositionAction = actions.createComposition.bind(
@@ -87,11 +94,11 @@ export default function NewSuitesForm() {
             );
         if (formData.get("rev") !== "")
             formData.set("rev", new Date(formData.get("rev")).toISOString());
-        formData.append("description", descriptionRef.current.innerHTML);
+        formData.append("description", editorContent);
 
-        const result = await formStateAction(formData)
+        const result = await formStateAction(formData);
 
-        return result
+        return result;
     };
 
     return (
@@ -486,22 +493,13 @@ export default function NewSuitesForm() {
                                 Descripción y/o anotaciones
                             </label>
 
-                            <div
-                                ref={descriptionRef}
-                                contentEditable
-                                suppressContentEditableWarning
-                                className="bg-white min-h-[35vh] mt-4 p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
-                                placeholder="Escribe aquí toda la información de la obra..."
-                                data-placeholder="Escribe aquí toda la información de la obra..."
-                                style={{
-                                    whiteSpace: "pre-wrap",
-                                    wordBreak: "break-word",
-                                    lineHeight: "1.6",
-                                    fontSize: "16px",
-                                    padding: "1rem",
-                                    overflow: "auto",
-                                }}
-                            />
+                            <div className="mt-8">
+                                <Suspense
+                                    fallback={<div>Loading editor...</div>}
+                                >
+                                    <MDXEditorWrapper onChange={(markdown) => setEditorContent(markdown)}/>
+                                </Suspense>
+                            </div>
                         </div>
 
                         <div>
