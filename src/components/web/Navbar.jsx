@@ -247,7 +247,7 @@ export default function Navbar() {
             <div
                 id="mobile-menu"
                 onClick={handleBurger}
-                className="fixed pt-0 top-20 sm:top-24 left-full w-screen h-screen bg-slate-100/90 transition-all duration-300"
+                className="fixed pt-0 top-20 sm:top-24 left-full w-screen h-screen bg-slate-100/90 transition-all duration-150"
             >
                 <ul className="flex flex-col items-center">
                     <ul className="mobileLink">
