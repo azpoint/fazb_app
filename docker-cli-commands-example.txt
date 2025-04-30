@@ -1,0 +1,19 @@
+docker run -it --network fazb-net -p 3000:3000 --name fazb-app \
+  -v /home/alejo/dev/fazb/fazb_app/:/app/ \
+  -v /home/alejo/dev/fazb/fazb_app/node_modules/:/app/node_modules/ \
+  -v /home/alejo/dev/fazb/fazb_app/.next:/app/.next/ \
+  node-starter:v1
+
+docker start -ai fazb-app
+
+docker run -it --network fazb-net --name db-fazb -p 5432:5432 \
+-e POSTGRES_DB="" \
+-e POSTGRES_USER="" \
+-e POSTGRES_PASSWORD="" \
+-v /home/alejo/dev/fazb/fazb_app/db/data:/var/lib/postgresql/data \
+postgres:16.8-alpine
+
+docker start -ai db-fazb
+
+# Attach to fazb-app terminal
+docker exec -it fazb-app sh
