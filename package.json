@@ -3,7 +3,9 @@
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
-		"dev": "next dev --turbopack",
+		"dev": "next dev",
+		"migrate": "npx knex migrate:latest --knexfile db/knexfile.js",
+		"seed": "npx knex seed:run --knexfile db/knexfile.js",
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint"
@@ -11,7 +13,9 @@
 	"dependencies": {
 		"@mdxeditor/editor": "^3.31.0",
 		"fs-extra": "^11.3.0",
+		"knex": "^3.1.0",
 		"next": "15.3.1",
+		"pg": "^8.15.6",
 		"postcss": "^8.5.3",
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0",

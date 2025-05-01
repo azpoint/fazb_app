@@ -37,7 +37,7 @@ import {
 
 
 export default function MDXEditorWrapper({ onChange }) {
-    const [markdown, setMarkdown] = useState("This is a [link](https://example.com)");
+    const [markdown, setMarkdown] = useState("Escribe aquí tu descripción...");
 
     return (
         <div
