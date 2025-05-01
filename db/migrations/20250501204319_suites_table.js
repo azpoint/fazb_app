@@ -15,14 +15,14 @@ exports.up = function (knex) {
 		table.string("type").notNullable();
 		table.string("title").notNullable();
 		table.string("slug").notNullable().unique();
-		table.jsonb("mov");
+		table.text("mov");
 		table.date("suite_created_at").notNullable();
 		table.date("suite_rev_at");
 		table.string("suite_length");
 		table.string("suite_edition");
-		table.jsonb("yt_links");
-		table.jsonb("images");
-		table.jsonb("audios");
+		table.text("yt_links");
+		table.text("images");
+		table.text("audios");
 		table.text("notes");
 		table.timestamps(true, true);
 	});
