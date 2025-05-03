@@ -1,13 +1,16 @@
 exports.seed = async function (knex) {
 	// Ensure at least one user exists
-	const [user] = await knex("users").select("user_id").limit(1);
+	const [user] = await knex("users").limit(1);
 	if (!user) throw new Error("No users found. Cannot seed suites.");
+
+	console.log(user)
 
 	await knex("suites").del();
 
 	await knex("suites").insert([
 		{
 			author_id: user.user_id,
+			author: user.full_name,
 			type: "guitarra",
 			title: "Test Suite 1",
 			slug: "test-suite-1",

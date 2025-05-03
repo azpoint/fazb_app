@@ -1,0 +1,9 @@
+FROM node:22.14.0
+
+RUN useradd -d /app -u 1001 alejo
+
+USER 1001
+
+WORKDIR /app
+
+ENTRYPOINT [ "sh" ]

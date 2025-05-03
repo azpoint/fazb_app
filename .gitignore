@@ -30,6 +30,8 @@
 /.npm/
 /ai_prompts/
 *.Identifier
+docker-compose.yml
+docker-cli-commands.txt
 
 # debug
 npm-debug.log*

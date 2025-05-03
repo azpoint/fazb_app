@@ -12,6 +12,7 @@ exports.up = function (knex) {
 			.references("user_id")
 			.inTable("users")
 			.onDelete("CASCADE");
+		table.string("author");
 		table.string("type").notNullable();
 		table.string("title").notNullable();
 		table.string("slug").notNullable().unique();
