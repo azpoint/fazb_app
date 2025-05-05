@@ -13,6 +13,9 @@ import { v4 as uuidv4 } from "uuid";
 import slugify from "slugify";
 import appPaths from "@/src/paths/appPaths";
 
+//DB
+import db from '@/db/db'
+
 //Actions, Options, Validation Schemas
 import { createSuiteZodSchema } from "@/lib/setup-options/zodSchemas/createSuiteZodSchema";
 import slugifyOptions from "@/lib/setup-options/slugify-options";
@@ -22,8 +25,6 @@ import slugifyOptions from "@/lib/setup-options/slugify-options";
 const writeFileAsync = util.promisify(fs.writeFile);
 
 export async function createSuite(_formState, formData) {
-	await new Promise((resolve) => setTimeout(resolve, 500));
-
 	//--------- Form Validator ---------
 	const zodResult = createSuiteZodSchema.safeParse({
 		title: formData.get("title"),

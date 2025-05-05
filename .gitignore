@@ -12,7 +12,6 @@
 
 # DDBB
 /db/data/
-/db/knexfile.js
 
 # testing
 /coverage
