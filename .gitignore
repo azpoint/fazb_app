@@ -15,6 +15,7 @@
 
 # DB
 /db/data/
+generated/prisma/
 
 # next.js
 /.next/

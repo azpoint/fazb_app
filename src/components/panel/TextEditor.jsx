@@ -37,7 +37,7 @@ import {
 
 
 export default function MDXEditorWrapper({ onChange }) {
-    const [markdown, setMarkdown] = useState("This is a [link](https://example.com)");
+    const [markdown, setMarkdown] = useState("Escribe aquí las **descripciones o notas** de tu obra...");
 
     return (
         <div
@@ -85,5 +85,4 @@ export default function MDXEditorWrapper({ onChange }) {
 
 // Use it with:
 
-// "@mdx-js/react": "^3.1.0",
 // "@mdxeditor/editor": "^3.31.0"

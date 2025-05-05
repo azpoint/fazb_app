@@ -17,12 +17,15 @@ import appPaths from "@/src/paths/appPaths";
 import { createSuiteZodSchema } from "@/lib/setup-options/zodSchemas/createSuiteZodSchema";
 import slugifyOptions from "@/lib/setup-options/slugify-options";
 
+//DB
+import { PrismaClient } from "@/generated/prisma";
+
 //-------- Definitions -------
 //Convert a callback-based function into a promise-based function
 const writeFileAsync = util.promisify(fs.writeFile);
+const prisma = new PrismaClient()
 
 export async function createSuite(_formState, formData) {
-	await new Promise((resolve) => setTimeout(resolve, 500));
 
 	//--------- Form Validator ---------
 	const zodResult = createSuiteZodSchema.safeParse({
@@ -249,38 +252,39 @@ export async function createSuite(_formState, formData) {
 
 
 	//User load
-	// const user = await db.user.findFirst({
-	// 	where: {
-	// 		OR: [{ id: 1 }, { email: "franzapata2@gmail.com" }],
-	// 	},
-	// });
+	const user = await prisma.user.findFirst({
+		where: {
+			OR: [{ user_id: 1 }, { email: "franzapata2@gmail.com" }],
+		},
+	});
+
 
 	try {
-		// let returnData = await db.suite.create({
-		// 	data: {
-		// 		author: { connect: { id: user.id } },
-		// 		type: formData.get("type"),
-		// 		title: formData.get("title"),
-		// 		slug: slug,
-		// 		mov: movs.length === 0 ? null : JSON.stringify(movs),
-		// 		created: formData.get("created"),
-		// 		rev: formData.get("rev") === "" ? null : formData.get("rev"),
-		// 		timeLength:
-		// 			formData.get("_length") === "" ? null : formData.get("_length"),
-		// 		edition:
-		// 			formData.get("edition") === "" ? null : formData.get("edition"),
-		// 		notes:
-		// 			formData.get("description") === ""
-		// 				? null
-		// 				: formData.get("description"),
-		// 		images: imagePaths.length === 0 ? null : JSON.stringify(imagePaths),
-		// 		audios: audioPaths.length === 0 ? null : JSON.stringify(audioPaths),
-		// 		ytLinks: ytIds.length === 0 ? null : JSON.stringify(ytIds),
-		// 	},
-		// });
+		let returnData = await prisma.suite.create({
+			data: {
+				author: { connect: { user_id: user.user_id } },
+				type: formData.get("type"),
+				title: formData.get("title"),
+				slug: slug,
+				mov: movs.length === 0 ? null : JSON.stringify(movs),
+				created: formData.get("created"),
+				rev: formData.get("rev") === "" ? null : formData.get("rev"),
+				timeLength:
+					formData.get("_length") === "" ? null : formData.get("_length"),
+				edition:
+					formData.get("edition") === "" ? null : formData.get("edition"),
+				notes:
+					formData.get("description") === ""
+						? null
+						: formData.get("description"),
+				images: imagePaths.length === 0 ? null : JSON.stringify(imagePaths),
+				audios: audioPaths.length === 0 ? null : JSON.stringify(audioPaths),
+				ytLinks: ytIds.length === 0 ? null : JSON.stringify(ytIds),
+			},
+		});
 
 		//Redirect must be outside of the try catch because redirect is handled like an error
-		console.log(formData);
+		console.log(returnData);
 		
 	} catch (error) {
 		if (error instanceof Error) {
