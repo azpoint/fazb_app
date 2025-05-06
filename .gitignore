@@ -32,6 +32,7 @@ generated/prisma/
 *.Identifier
 docker-compose.yml
 docker-cli-commands.txt
+/public/suites/
 
 # debug
 npm-debug.log*
