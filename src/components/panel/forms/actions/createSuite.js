@@ -11,7 +11,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { v4 as uuidv4 } from "uuid";
 import slugify from "slugify";
-import appPaths from "@/src/paths/appPaths";
+import appPaths from "@/src/appPaths";
 
 //Actions, Options, Validation Schemas
 import { createSuiteZodSchema } from "@/lib/setup-options/zodSchemas/createSuiteZodSchema";
@@ -22,17 +22,17 @@ import { PrismaClient } from "@/generated/prisma";
 
 //-------- Definitions -------
 //Convert a callback-based function into a promise-based function
+const prisma = new PrismaClient();
 const writeFileAsync = util.promisify(fs.writeFile);
-const prisma = new PrismaClient()
 
 export async function createSuite(_formState, formData) {
-
 	//--------- Form Validator ---------
 	const zodResult = createSuiteZodSchema.safeParse({
 		title: formData.get("title"),
 		created: formData.get("created"),
 		rev: formData.get("rev") === "" ? null : formData.get("rev"),
-		_length: formData.get("_length") === "" ? null : formData.get("_length"),
+		_length:
+			formData.get("_length") === "" ? null : formData.get("_length"),
 		edition: formData.get("edition"),
 	});
 
@@ -136,7 +136,12 @@ export async function createSuite(_formState, formData) {
 	if (imageFiles.length !== 0) {
 		try {
 			//File directory path
-			const imageFilePath = path.join("public", "/suites", title, "/images");
+			const imageFilePath = path.join(
+				"public",
+				"/suites",
+				title,
+				"/images"
+			);
 
 			//Check if directory exist and creates it if not
 			if (!fs.existsSync(path.resolve(imageFilePath))) {
@@ -144,7 +149,8 @@ export async function createSuite(_formState, formData) {
 			}
 			//Empty directory to avoid redundant files
 			fse.emptyDirSync(path.resolve(imageFilePath), (error) => {
-				if (error) throw new Error("Error liberando directorio de imagenes");
+				if (error)
+					throw new Error("Error liberando directorio de imagenes");
 			});
 
 			const writePromises = imageFiles.map(async (file) => {
@@ -166,7 +172,7 @@ export async function createSuite(_formState, formData) {
 						`${path.resolve(imageFilePath)}/${imageName}`,
 						buffer
 					);
-					
+
 					fileData.filePath = `/suites/${title}/images/${imageName}`;
 					fileData.fileDescription = file.name;
 					imagePaths.push(fileData);
@@ -197,7 +203,12 @@ export async function createSuite(_formState, formData) {
 
 	if (audioFiles.length !== 0) {
 		try {
-			const audioFilePath = path.join("public", "/suites", title, "/audios");
+			const audioFilePath = path.join(
+				"public",
+				"/suites",
+				title,
+				"/audios"
+			);
 
 			//Check if directory exist and creates it if not
 			if (!fs.existsSync(path.resolve(audioFilePath))) {
@@ -205,7 +216,8 @@ export async function createSuite(_formState, formData) {
 			}
 			//Empty directory to avoid redundant files
 			fse.emptyDirSync(path.resolve(audioFilePath), (error) => {
-				if (error) throw new Error("Error liberando directorio de audio");
+				if (error)
+					throw new Error("Error liberando directorio de audio");
 			});
 
 			const writePromises = audioFiles.map(async (file) => {
@@ -250,14 +262,12 @@ export async function createSuite(_formState, formData) {
 	//------- DDBB Create -------
 	let slug = slugify(formData.get("title"), slugifyOptions);
 
-
 	//User load
 	const user = await prisma.user.findFirst({
 		where: {
 			OR: [{ user_id: 1 }, { email: "franzapata2@gmail.com" }],
 		},
 	});
-
 
 	try {
 		let returnData = await prisma.suite.create({
@@ -270,22 +280,27 @@ export async function createSuite(_formState, formData) {
 				created: formData.get("created"),
 				rev: formData.get("rev") === "" ? null : formData.get("rev"),
 				timeLength:
-					formData.get("_length") === "" ? null : formData.get("_length"),
+					formData.get("_length") === ""
+						? null
+						: formData.get("_length"),
 				edition:
-					formData.get("edition") === "" ? null : formData.get("edition"),
+					formData.get("edition") === ""
+						? null
+						: formData.get("edition"),
 				notes:
 					formData.get("description") === ""
 						? null
 						: formData.get("description"),
-				images: imagePaths.length === 0 ? null : JSON.stringify(imagePaths),
-				audios: audioPaths.length === 0 ? null : JSON.stringify(audioPaths),
+				images:
+					imagePaths.length === 0 ? null : JSON.stringify(imagePaths),
+				audios:
+					audioPaths.length === 0 ? null : JSON.stringify(audioPaths),
 				ytLinks: ytIds.length === 0 ? null : JSON.stringify(ytIds),
 			},
 		});
 
 		//Redirect must be outside of the try catch because redirect is handled like an error
 		console.log(returnData);
-		
 	} catch (error) {
 		if (error instanceof Error) {
 			if (error.code === "P2002") {
@@ -309,8 +324,14 @@ export async function createSuite(_formState, formData) {
 		}
 	}
 
-	// redirect(appPaths.editPhotos(slug));
-	return { errors: {} };
+	finally {
+		await prisma.$disconnect() 
+	}
+
+	// Update static pages on the server at the path in production mode.
+	// revalidatePath('/suites')
+	redirect(appPaths.mainPanel());
+	// return { errors };
 }
 
 // //Delete previous files if exists

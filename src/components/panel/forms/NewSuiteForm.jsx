@@ -38,7 +38,6 @@ export default function NewSuitesForm() {
 
 	const [suiteState, setSuiteState] = useState(false);
 	const [editorContent, setEditorContent] = useState("");
-	console.log(editorContent);
 
 	//TODO: Binding to use server actions from a client component to a server component without formState. Binding call a function with predefined parameters.
 	// const createCompositionAction = actions.createComposition.bind(
