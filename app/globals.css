@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+
 :root {
     --background: oklch(97% 0.001 106.424);
     --foreground: #171717;
@@ -25,9 +26,7 @@ body {
     a {
         @apply text-sky-800 font-medium underline hover:text-teal-500 visited:text-teal-500;
     }
-    button {
-        @apply bg-sky-900 text-stone-300 hover:bg-sky-800 hover:text-sky-900 active:scale-[98%] shadow-lg w-full rounded-b-md
-    }
+
 }
 
 @layer components {
