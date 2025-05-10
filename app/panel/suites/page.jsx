@@ -1,6 +1,6 @@
-import React from "react";
+"use server"
+
 import { PrismaClient } from "@/generated/prisma";
-import Image from "next/image";
 
 const prisma = new PrismaClient();
 
@@ -12,14 +12,17 @@ export default async function Suites() {
 
 	const firstImages = suites.map( suite => {
 		const image = JSON.parse(suite.images)?.[0]?.filePath
+		const imageDescription = JSON.parse(suite.images)?.[0]?.fileDescription
 		if(image)
-		return image ?? null
+			return {image, imageDescription}
+		return ""
 	})
 
 	console.log(firstImages)
 
 	return (
 		<>
+		<SuiteCard image={firstImages[1].image} imageDescription={firstImages[1].imageDescription}/>
 			{/* <div>Suites</div>
 			<Image
 				src={images[0].filePath}
