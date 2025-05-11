@@ -18,11 +18,11 @@ import { createSuiteZodSchema } from "@/lib/setup-options/zodSchemas/createSuite
 import slugifyOptions from "@/lib/setup-options/slugify-options";
 
 //DB
-import { PrismaClient } from "@/generated/prisma";
+import prisma from "@/lib/prisma";
+
 
 //-------- Definitions -------
 //Convert a callback-based function into a promise-based function
-const prisma = new PrismaClient();
 const writeFileAsync = util.promisify(fs.writeFile);
 
 export async function createSuite(_formState, formData) {
