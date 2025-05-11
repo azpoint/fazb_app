@@ -8,7 +8,7 @@ export default function SuiteCard({
 	createdAt,
 	revAt,
 	publishedAt,
-	lastUpdateAt
+	lastUpdateAt,
 }) {
 	const imageCard = image || "/assets/Oraquesta-70s-fazb.jpg";
 
@@ -20,32 +20,32 @@ export default function SuiteCard({
 						src={imageCard}
 						alt={imageDescription || "Suite Text"}
 						fill={true}
+						className="object-cover object-center"
 						// width={200}
 						// height={200}
-						className="object-cover object-center"
 					/>
 				</div>
 				<div className="p-4">
 					<h4 className="text-center text-2xl font-bold">{title}</h4>
 				</div>
 				<div>
-					<p className="w-fit py-1 px-4 font-bold">
-						Creada en: {createdAt}
+					<p className="w-fit py-1 px-4 font-semibold">
+						Creada en: <strong>{createdAt}</strong>
 					</p>
 				</div>
 				<div>
-					<p className="w-fit py-1 px-4 font-bold">
-						Revisada en: {revAt}
+					<p className="w-fit py-1 px-4 font-semibold">
+						Revisada en: <strong>{revAt}</strong>
 					</p>
 				</div>
 				<div>
-					<p className="w-fit py-1 px-4 font-bold">
-						En linea desde: {publishedAt}
+					<p className="w-fit py-1 px-4 font-semibold">
+						En linea desde: <strong>{publishedAt}</strong>
 					</p>
 				</div>
 				<div>
-					<p className="w-fit pt-1 pb-2 px-4 font-bold">
-						Última Actualización: {lastUpdateAt}
+					<p className="w-fit pt-1 pb-2 px-4 font-semibold">
+						Última Actualización: <strong>{lastUpdateAt}</strong>
 					</p>
 				</div>
 			</div>
