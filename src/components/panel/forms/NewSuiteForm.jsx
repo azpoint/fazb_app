@@ -1,6 +1,6 @@
 "use client";
 //Dependencies
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useActionState } from "react";
 import { Suspense } from "react";
 
@@ -12,13 +12,18 @@ import HintFeedBack from "@/src/components/panel/forms/controls/HintFeedback";
 import FormButton from "@/src/components/panel/forms/controls/FormButton";
 import YoutubeLinkField from "@/src/components/panel/forms/fields/YouTubeLinkField";
 import MovField from "@/src/components/panel/forms/fields/MovementField";
-import { FaCircleMinus } from "react-icons/fa6";
-import { FaCirclePlus } from "react-icons/fa6";
+import { FaCircleMinus, FaCirclePlus } from "react-icons/fa6";
 
 //Styles
 
 //Actions & Options
 import { createSuite } from "@/src/components/panel/forms/actions/createSuite";
+
+// Binding to use server actions from a client component to a server component without formState. Binding call a function with predefined parameters.
+// const createCompositionAction = actions.createComposition.bind(
+// 	null,
+// 	description
+// );
 
 export default function NewSuitesForm() {
 	const [formState, formStateAction] = useActionState(createSuite, {
@@ -38,13 +43,6 @@ export default function NewSuitesForm() {
 
 	const [suiteState, setSuiteState] = useState(false);
 	const [editorContent, setEditorContent] = useState("");
-	console.log(editorContent);
-
-	//TODO: Binding to use server actions from a client component to a server component without formState. Binding call a function with predefined parameters.
-	// const createCompositionAction = actions.createComposition.bind(
-	// 	null,
-	// 	description
-	// );
 
 	//Mov Fields Handler
 	const handleMovFields = (code) => {
@@ -203,7 +201,6 @@ export default function NewSuitesForm() {
 						<label
 							htmlFor="suite"
 							className="inline-flex items-start gap-4 mt-4 font-semibold"
-							onMouseDown={() => setSuiteState(!suiteState)}
 						>
 							Esta obra es una suite
 							<div className="relative align-">
@@ -211,6 +208,8 @@ export default function NewSuitesForm() {
 									type="checkbox"
 									name=""
 									id="suite"
+									checked={suiteState}
+									onChange={() => setSuiteState(!suiteState)}
 									className="appearance-none w-6 h-6 border-[3px] border-sky-900 rounded-sm bg-slate-100 checked:bg-sky-700 checked:border-0"
 								/>
 								<svg
