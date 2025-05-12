@@ -17,7 +17,8 @@ export default async function Suites() {
 
 	return (
 		<div className="container mx-auto px-4 py-8">
-			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+			<div className="text-[60px] font-bold text-center text-sky-800">Obras/Suites</div>
+			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">
 				{suites.map((suite, index) => (
 					<SuiteCard
 						key={suite.suite_id}
@@ -28,6 +29,7 @@ export default async function Suites() {
 						revAt={suite.rev?.toLocaleDateString("es-ES", { year: "numeric" })}
 						publishedAt={suite.createdAt?.toLocaleDateString()}
 						lastUpdateAt={suite.updatedAt?.toLocaleDateString()}
+						published={suite.published}
 					/>
 				))}
 			</div>

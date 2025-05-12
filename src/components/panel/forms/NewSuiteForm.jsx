@@ -12,8 +12,7 @@ import HintFeedBack from "@/src/components/panel/forms/controls/HintFeedback";
 import FormButton from "@/src/components/panel/forms/controls/FormButton";
 import YoutubeLinkField from "@/src/components/panel/forms/fields/YouTubeLinkField";
 import MovField from "@/src/components/panel/forms/fields/MovementField";
-import { FaCircleMinus } from "react-icons/fa6";
-import { FaCirclePlus } from "react-icons/fa6";
+import { FaCircleMinus, FaCirclePlus } from "react-icons/fa6";
 
 //Styles
 
@@ -44,14 +43,6 @@ export default function NewSuitesForm() {
 
 	const [suiteState, setSuiteState] = useState(false);
 	const [editorContent, setEditorContent] = useState("");
-
-	//Suite check error reset
-
-	// useEffect(() => {
-	// 	if (formState.errors) {
-	// 		setSuiteState(false);
-	// 	}
-	// }, [formState.errors]);
 
 	//Mov Fields Handler
 	const handleMovFields = (code) => {
