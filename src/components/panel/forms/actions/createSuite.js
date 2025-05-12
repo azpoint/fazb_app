@@ -330,7 +330,7 @@ export async function createSuite(_formState, formData) {
 
 	// Update static pages on the server at the path in production mode.
 	// revalidatePath('/suites')
-	redirect(appPaths.mainPanel());
+	redirect(appPaths.suitesPanel());
 	// return { errors };
 }
 

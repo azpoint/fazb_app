@@ -24,9 +24,9 @@ export default async function Suites() {
 						image={firstImages[index]?.image}
 						imageDescription={firstImages[index]?.imageDescription}
 						title={suite.title}
-						createdAt={suite.created?.toLocaleDateString()}
-						revAt={suite.rev?.toLocaleDateString()}
-						publishedvAt={suite.createdAt?.toLocaleDateString()}
+						createdAt={suite.created?.toLocaleDateString("es-ES", { year: "numeric" })}
+						revAt={suite.rev?.toLocaleDateString("es-ES", { year: "numeric" })}
+						publishedAt={suite.createdAt?.toLocaleDateString()}
 						lastUpdateAt={suite.updatedAt?.toLocaleDateString()}
 					/>
 				))}
