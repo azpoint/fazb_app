@@ -25,7 +25,7 @@ import prisma from "@/lib/prisma";
 //Convert a callback-based function into a promise-based function
 const writeFileAsync = util.promisify(fs.writeFile);
 
-export async function createSuite(_formState, formData) {
+export async function editSuite(_formState, formData) {
 	//--------- Form Validator ---------
 	const zodResult = createSuiteZodSchema.safeParse({
 		title: formData.get("title"),
@@ -334,18 +334,3 @@ export async function createSuite(_formState, formData) {
 	// return { errors };
 }
 
-// //Delete previous files if exists
-// fs.readdir(path.resolve(imageFilePath), (error, files) => {
-// 	if (error) throw new Error("Error leyendo directorio");
-// 	console.log(files);
-// 	if (files.length !== 0) {
-// 		files.forEach((file) => {
-// 			const filePath = path.join(path.resolve(imageFilePath), file);
-
-// 			fs.unlink(filePath, (unlinkError) => {
-// 				if (unlinkError) throw new Error("Error eliminando un archivo");
-// 				console.log("Archivos anteriores eliminados correctamente");
-// 			});
-// 		});
-// 	}
-// });

@@ -1,20 +1,17 @@
 const appPaths = {
 	home() {
-		return `/`
+		return `/`;
 	},
 	mainPanel() {
-		return `/panel`
-	},
-	suitesPanel() {
-		return '/panel/suites'
+		return `/panel`;
 	},
 	createSuite() {
-		return `/panel/new-suite`
+		return `/panel/new-suite`;
+	},
+	editSuite(slug) {
+		return `/panel/edit-suite/${slug}`;
 	}
-	,
-	// editPhotos(slug) {
-	// 	return `/panel/suites/${slug}/photo-edit`
-	// }
-}
 
-export default appPaths
+};
+
+export default appPaths;

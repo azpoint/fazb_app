@@ -36,8 +36,8 @@ import {
 } from "@mdxeditor/editor";
 
 
-export default function MDXEditorWrapper({ onChange }) {
-    const [markdown, setMarkdown] = useState("Escribe aquí las **descripciones o notas** de tu obra...");
+export default function MDXEditorWrapper({ onChange, prevMarkdown }) {
+    const [markdown, setMarkdown] = useState(prevMarkdown);
 
     return (
         <div
