@@ -18,16 +18,17 @@ import { FaCircleMinus, FaCirclePlus } from "react-icons/fa6";
 import { editSuite } from "@/src/components/panel/forms/actions/editSuite";
 
 export default function EditSuitesForm({ suite }) {
+	// Format the date object to insert it into the form.
 	const formatDate = (date) => {
-        const dateFormated = new Date(date);
-        const month = '' + (dateFormated.getMonth() + 1).toString().padStart(2, '0');
-        const day = '' + dateFormated.getDate().toString().padStart(2, '0');
-        const year = dateFormated.getFullYear();
+        const date_to_format = new Date(date);
+        const month = '' + (date_to_format.getMonth() + 1).toString().padStart(2, '0');
+        const day = '' + date_to_format.getDate().toString().padStart(2, '0');
+        const year = date_to_format.getFullYear();
 
         return [year, month, day].join('-');
     };
 
-	console.log(suite)
+	// console.log(suite)
 	const [formState, formStateAction] = useActionState(editSuite, {
 		errors: {},
 	});
@@ -43,7 +44,7 @@ export default function EditSuitesForm({ suite }) {
 		description: "",
 	});
 
-	const [suiteState, setSuiteState] = useState(suite.mov.length != 0);
+	const [suiteState, setSuiteState] = useState(suite?.mov ? true : false);
 	const [editorContent, setEditorContent] = useState("");
 
 	//Mov Fields Handler
@@ -61,6 +62,13 @@ export default function EditSuitesForm({ suite }) {
 			}));
 		}
 	};
+
+	//Handle Change in the value field
+	const handleMovChange = (index, value) => {
+        const newMov = [...formValues.mov];
+        newMov[index] = value;
+        setFormValues({ ...formValues, mov: newMov });
+    };
 
 	//Youtube Link Fields Handler
 	const handleYTLFields = (code) => {
@@ -283,6 +291,8 @@ export default function EditSuitesForm({ suite }) {
 											key={index}
 											_index={index}
 											formState={formState}
+											editValue={formValues.mov[index]}
+											onMovChange={handleMovChange}
 										/>
 									))
 								: null}
@@ -497,8 +507,8 @@ export default function EditSuitesForm({ suite }) {
 									fallback={<div>Loading editor...</div>}
 								>
 									<MDXEditorWrapper
-										onChange={(markdown) =>
-											setEditorContent(markdown)
+										onChange={(movArray) =>
+											setEditorContent(movArray)
 										}
 										prevMarkdown={suite.notes}
 									/>

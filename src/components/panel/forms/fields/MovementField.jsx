@@ -2,7 +2,10 @@
 //Components
 import HintFeedBack from "@/src/components/panel/forms/controls/HintFeedback";
 
-export default function MovField({_index, formState}) {
+export default function MovField({_index, formState, editValue, onMovChange}) {
+	const handleChange = (event) => {
+        onMovChange(_index, event.target.value); // Call parent's handler
+    };
 	
 	return (
 		<div className="flex flex-col items-end">
@@ -18,6 +21,8 @@ export default function MovField({_index, formState}) {
 					className={`field ${
 						formState.errors?.mov && formState.errors?.mov[_index] ? "border-rose-600" : null
 					}`}
+					value={editValue}
+					onChange={handleChange}
 				/>
 			</div>
 			<div className="flex justify-end gap-x-2">
