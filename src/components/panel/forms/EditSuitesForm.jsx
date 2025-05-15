@@ -16,38 +16,30 @@ import { FaCircleMinus, FaCirclePlus } from "react-icons/fa6";
 
 //Actions & Options
 import { editSuite } from "@/src/components/panel/forms/actions/editSuite";
+import dateToObjIsoString from "@/lib/dateObjToIsoString";
 
 export default function EditSuitesForm({ suite }) {
-	// Format the date object to insert it into the form.
-	const formatDate = (date) => {
-        const date_to_format = new Date(date);
-        const month = '' + (date_to_format.getMonth() + 1).toString().padStart(2, '0');
-        const day = '' + date_to_format.getDate().toString().padStart(2, '0');
-        const year = date_to_format.getFullYear();
-
-        return [year, month, day].join('-');
-    };
-
-	// console.log(suite)
+	const [suiteState, setSuiteState] = useState(suite?.mov ? true : false);
+	const [editorContent, setEditorContent] = useState("");
 	const [formState, formStateAction] = useActionState(editSuite, {
 		errors: {},
 	});
 
+	console.log(suite);
+
 	const [formValues, setFormValues] = useState({
 		title: suite.title,
+		type: suite.type,
 		mov: suite.mov ? JSON.parse(suite.mov) : ["", ""],
-		created: formatDate(suite.created),
-		rev: suite.rev ? formatDate(suite.rev) : "",
+		created: dateToObjIsoString(suite.created),
+		rev: suite.rev ? dateToObjIsoString(suite.rev) : "",
 		_length: suite.timeLength || "",
 		edition: suite.edition || "",
 		youtube_l: suite.ytLinks ? JSON.parse(suite.ytLinks) : [""],
 		description: "",
 	});
 
-	const [suiteState, setSuiteState] = useState(suite?.mov ? true : false);
-	const [editorContent, setEditorContent] = useState("");
-
-	//Mov Fields Handler
+	//Mov Fields Handler.
 	const handleMovFields = (code) => {
 		if (code === "add" && formValues.mov.length < 12) {
 			setFormValues((prevData) => ({
@@ -63,14 +55,14 @@ export default function EditSuitesForm({ suite }) {
 		}
 	};
 
-	//Handle Change in the value field
+	//Handle Change in the Mov fields values.
 	const handleMovChange = (index, value) => {
-        const newMov = [...formValues.mov];
-        newMov[index] = value;
-        setFormValues({ ...formValues, mov: newMov });
-    };
+		const newMov = [...formValues.mov];
+		newMov[index] = value;
+		setFormValues({ ...formValues, mov: newMov });
+	};
 
-	//Youtube Link Fields Handler
+	//Youtube Link Fields Handler.
 	const handleYTLFields = (code) => {
 		if (code === "add" && formValues.youtube_l.length < 4) {
 			setFormValues((prevData) => ({
@@ -86,6 +78,14 @@ export default function EditSuitesForm({ suite }) {
 		}
 	};
 
+	//Handle Change in the YTLink fields values.
+	const handleYTChange = (index, value) => {
+		const newYTL = [...formValues.youtube_l];
+		newYTL[index] = value;
+		setFormValues({ ...formValues, youtube_l: newYTL });
+	};
+
+	//Handle the rest of the form except the text editor.
 	const handleInputChange = (event) => {
 		const { name, value } = event.target;
 		setFormValues((prevData) => ({
@@ -94,6 +94,7 @@ export default function EditSuitesForm({ suite }) {
 		}));
 	};
 
+	//Format date string and append the description(Text editor) to the formData before submit.
 	const handleSubmit = async (formData) => {
 		if (formData.get("created") !== "")
 			formData.set(
@@ -104,15 +105,15 @@ export default function EditSuitesForm({ suite }) {
 			formData.set("rev", new Date(formData.get("rev")).toISOString());
 		formData.append("description", editorContent);
 
-		const result = await formStateAction(formData);
-
-		return result;
+		formStateAction(formData);
 	};
 
 	return (
 		<>
 			<div className="h-[96vh] text-stone-900 pb-10 overflow-y-auto w-full">
-				<h2 className="text-2xl font-bold text-center">Editar {suite.title}</h2>
+				<h2 className="text-2xl font-bold text-center">
+					Editar {suite.title}
+				</h2>
 
 				<form
 					action={handleSubmit}
@@ -134,6 +135,8 @@ export default function EditSuitesForm({ suite }) {
 									name="type"
 									id="guitarra"
 									value="guitarra"
+									checked={formValues.type === "guitarra"}
+									onChange={handleInputChange}
 									required
 								/>
 							</div>
@@ -147,6 +150,8 @@ export default function EditSuitesForm({ suite }) {
 									name="type"
 									id="coral"
 									value="coral"
+									checked={formValues.type === "coral"}
+									onChange={handleInputChange}
 								/>
 							</div>
 
@@ -159,6 +164,8 @@ export default function EditSuitesForm({ suite }) {
 									name="type"
 									id="camara"
 									value="camara"
+									checked={formValues.type === "camara"}
+									onChange={handleInputChange}
 								/>
 							</div>
 
@@ -174,6 +181,10 @@ export default function EditSuitesForm({ suite }) {
 									name="type"
 									id="orquesta-cuerdas"
 									value="orquesta-cuerdas"
+									checked={
+										formValues.type === "orquesta-cuerdas"
+									}
+									onChange={handleInputChange}
 								/>
 							</div>
 
@@ -189,6 +200,10 @@ export default function EditSuitesForm({ suite }) {
 									name="type"
 									id="orquesta-sinfonica"
 									value="orquesta-sinfonica"
+									checked={
+										formValues.type === "orquesta-sinfonica"
+									}
+									onChange={handleInputChange}
 								/>
 							</div>
 
@@ -201,6 +216,8 @@ export default function EditSuitesForm({ suite }) {
 									name="type"
 									id="piano"
 									value="piano"
+									checked={formValues.type == "piano"}
+									onChange={handleInputChange}
 								/>
 							</div>
 						</div>
@@ -307,13 +324,13 @@ export default function EditSuitesForm({ suite }) {
 									type="date"
 									id="created"
 									name="created"
-									value={formValues.created}
-									onChange={handleInputChange}
 									className={`field ${
 										formState.errors?.created
 											? "border-rose-600"
 											: null
 									}`}
+									value={formValues.created}
+									onChange={handleInputChange}
 								/>
 							</div>
 							<HintFeedBack
@@ -338,6 +355,8 @@ export default function EditSuitesForm({ suite }) {
 											? "border-rose-600"
 											: null
 									}`}
+									value={formValues.rev}
+									onChange={handleInputChange}
 								/>
 							</div>
 							<HintFeedBack
@@ -366,6 +385,8 @@ export default function EditSuitesForm({ suite }) {
 											? "border-rose-600"
 											: null
 									}`}
+									value={formValues._length}
+									onChange={handleInputChange}
 								/>
 							</div>
 							<HintFeedBack
@@ -394,6 +415,8 @@ export default function EditSuitesForm({ suite }) {
 											? "border-rose-600"
 											: null
 									}`}
+									value={formValues.edition}
+									onChange={handleInputChange}
 								/>
 							</div>
 							<HintFeedBack
@@ -424,6 +447,11 @@ export default function EditSuitesForm({ suite }) {
 									key={index}
 									_index={index}
 									formState={formState}
+									editValue={
+										"https://www.youtube.com/watch?v=" +
+										formValues.youtube_l[index]
+									}
+									onYTChange={handleYTChange}
 								/>
 							))}
 						</div>
