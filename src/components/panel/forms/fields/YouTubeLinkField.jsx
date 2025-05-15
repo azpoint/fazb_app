@@ -1,7 +1,10 @@
 'use client'
 import HintFeedBack from "@/src/components/panel/forms/controls/HintFeedback";
 
-export default function YoutubeLinkField({ _index, formState }) {
+export default function YoutubeLinkField({ _index, formState, editValue, onYTChange }) {
+	const handleChange = (event) => {
+        onYTChange(_index, event.target.value); // Call parent's handler
+    };
 	return (
 		<div>
 			<div className="flex">
@@ -16,6 +19,8 @@ export default function YoutubeLinkField({ _index, formState }) {
 					className={`field ${
 						formState.errors?.youtube_l && formState.errors?.youtube_l[_index] ? "border-rose-600" : null
 					}`}
+					value={editValue}
+					onChange={handleChange}
 				/>
 			</div>
 			<div className="flex justify-end gap-x-2">

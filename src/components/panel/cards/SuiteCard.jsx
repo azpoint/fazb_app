@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import appPaths from "@/src/appPaths";
 
 //Componets
 import { FaCheckCircle, FaCircle } from "react-icons/fa";
@@ -14,6 +15,7 @@ export default function SuiteCard({
 	publishedAt,
 	lastUpdateAt,
 	published,
+	slug
 }) {
 	const imageCard = image || "/assets/Oraquesta-70s-fazb.jpg";
 
@@ -42,7 +44,7 @@ export default function SuiteCard({
 						)}
 					</div>
 				</Link>
-				<Link href={""}>
+				<Link href={appPaths.editSuite(slug)}>
 					<div
 						className="absolute flex justify-end right-2 mt-2"
 						title="Editar Obra"
