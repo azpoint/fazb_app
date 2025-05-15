@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@tailwind utilities;
 /* This must be at the app route level */
 
 :root {

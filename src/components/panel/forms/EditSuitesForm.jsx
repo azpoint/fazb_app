@@ -531,9 +531,11 @@ export default function EditSuitesForm({ suite }) {
 							</label>
 
 							<div className="mt-8">
-								<Suspense
+								{suite ?(
+									<Suspense
 									fallback={<div>Loading editor...</div>}
 								>
+									
 									<MDXEditorWrapper
 										onChange={(movArray) =>
 											setEditorContent(movArray)
@@ -541,6 +543,10 @@ export default function EditSuitesForm({ suite }) {
 										prevMarkdown={suite.notes}
 									/>
 								</Suspense>
+								) : (
+									<div>Loading Suite Data ...</div>
+								)}
+								
 							</div>
 						</div>
 

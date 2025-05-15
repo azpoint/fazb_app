@@ -5,6 +5,7 @@ import appPaths from "@/src/appPaths";
 //Componets
 import { FaCheckCircle, FaCircle } from "react-icons/fa";
 import { MdEditDocument } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
 
 export default function SuiteCard({
 	image,
@@ -50,6 +51,14 @@ export default function SuiteCard({
 						title="Editar Obra"
 					>
 						<MdEditDocument className="w-8 h-8 text-slate-200 cursor-pointer hover:text-sky-600" />
+					</div>
+				</Link>
+				<Link href={appPaths.editSuite(slug)}>
+					<div
+						className="absolute flex justify-end left-2 bottom-0 mb-2"
+						title="Eliminar Obra"
+					>
+						<MdDelete className="w-8 h-8 text-slate-200 cursor-pointer hover:text-red-500" />
 					</div>
 				</Link>
 			</div>
