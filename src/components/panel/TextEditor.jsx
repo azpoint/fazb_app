@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import { useState, useEffect } from "react";
 
 //Styles
-import "@mdxeditor/editor/style.css"; //Styles for the editor UI
+import "@mdxeditor/editor/style.css"; //Styles for the UI text editor 
 import "@/src/styles/components/inEditor-styles.css"; //Essential styles for the editor to work properly
 
 // Dynamically import the editor to avoid SSR issues
@@ -39,7 +39,7 @@ export default function MDXEditorWrapper({ onChange, prevMarkdown }) {
 	const [markdown, setMarkdown] = useState(prevMarkdown || "Escribe aquí las anotaciones de la obra.");
 
 	useEffect(() => {
-		setMarkdown(prevMarkdown || "Escribe aquí las anotaciones de la obra.");
+		setMarkdown(prevMarkdown);
 	}, [prevMarkdown]);
 
 	return (
@@ -82,7 +82,8 @@ export default function MDXEditorWrapper({ onChange, prevMarkdown }) {
 				]}
 				onChange={(newMarkdown) => {
 					setMarkdown(newMarkdown);
-					if (onChange) onChange(newMarkdown);
+					onChange(newMarkdown);
+					// if (onChange) onChange(newMarkdown);
 				}}
 			/>
 		</div>
