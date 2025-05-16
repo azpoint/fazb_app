@@ -26,13 +26,8 @@ import { createSuite } from "@/src/components/panel/forms/actions/createSuite";
 // );
 
 export default function NewSuitesForm() {
-	const [suiteState, setSuiteState] = useState(false);
-	const [editorContent, setEditorContent] = useState("");
-	const [formState, formStateAction] = useActionState(createSuite, {
-		errors: {},
-	});
-
 	const [formValues, setFormValues] = useState({
+		type: "",
 		title: "",
 		mov: ["", ""],
 		created: "",
@@ -41,7 +36,17 @@ export default function NewSuitesForm() {
 		edition: "",
 		youtube_l: [""],
 		description: "",
+		isSuite: false,
 	});
+
+	const [editorContent, setEditorContent] = useState("");
+	const [formState, formStateAction] = useActionState(createSuite, {
+		errors: {},
+	});
+
+	useEffect(() => {
+		console.log("render!", formValues.isSuite);
+	}, [formState.errors]);
 
 	//Mov Fields Handler
 	const handleMovFields = (code) => {
@@ -136,6 +141,8 @@ export default function NewSuitesForm() {
 									name="type"
 									id="guitarra"
 									value="guitarra"
+									checked={formValues.type === "guitarra"}
+									onChange={handleInputChange}
 									required
 								/>
 							</div>
@@ -149,6 +156,8 @@ export default function NewSuitesForm() {
 									name="type"
 									id="coral"
 									value="coral"
+									checked={formValues.type === "coral"}
+									onChange={handleInputChange}
 								/>
 							</div>
 
@@ -161,6 +170,8 @@ export default function NewSuitesForm() {
 									name="type"
 									id="camara"
 									value="camara"
+									checked={formValues.type === "camara"}
+									onChange={handleInputChange}
 								/>
 							</div>
 
@@ -176,6 +187,10 @@ export default function NewSuitesForm() {
 									name="type"
 									id="orquesta-cuerdas"
 									value="orquesta-cuerdas"
+									checked={
+										formValues.type === "orquesta-cuerdas"
+									}
+									onChange={handleInputChange}
 								/>
 							</div>
 
@@ -191,6 +206,10 @@ export default function NewSuitesForm() {
 									name="type"
 									id="orquesta-sinfonica"
 									value="orquesta-sinfonica"
+									checked={
+										formValues.type === "orquesta-sinfonica"
+									}
+									onChange={handleInputChange}
 								/>
 							</div>
 
@@ -203,6 +222,8 @@ export default function NewSuitesForm() {
 									name="type"
 									id="piano"
 									value="piano"
+									checked={formValues.type == "piano"}
+									onChange={handleInputChange}
 								/>
 							</div>
 						</div>
@@ -216,10 +237,15 @@ export default function NewSuitesForm() {
 							<div className="relative align-">
 								<input
 									type="checkbox"
-									name=""
+									name="isSuite"
 									id="suite"
-									checked={suiteState}
-									onChange={() => setSuiteState(!suiteState)}
+									checked={formValues.isSuite}
+									onChange={() => {
+										setFormValues((prevData) => ({
+											...prevData,
+											isSuite: !formValues.isSuite,
+										}));
+									}}
 									className="appearance-none w-6 h-6 border-[3px] border-sky-900 rounded-sm bg-slate-100 checked:bg-sky-700 checked:border-0"
 								/>
 								<svg
@@ -271,7 +297,7 @@ export default function NewSuitesForm() {
 						</div>
 
 						<div className="mt-4 space-y-2">
-							{suiteState ? (
+							{formValues.isSuite ? (
 								<div className="flex justify-end mt-8 gap-x-4">
 									<div className="font-semibold">
 										Cantidad de Movimientos
@@ -287,7 +313,7 @@ export default function NewSuitesForm() {
 									/>
 								</div>
 							) : null}
-							{suiteState
+							{formValues.isSuite
 								? formValues.mov.map((_, index) => (
 										<MovField
 											key={index}
@@ -335,6 +361,8 @@ export default function NewSuitesForm() {
 									type="date"
 									id="rev"
 									name="rev"
+									value={formValues.rev}
+									onChange={handleInputChange}
 									className={`field ${
 										formState.errors?.rev
 											? "border-rose-600"
@@ -368,6 +396,8 @@ export default function NewSuitesForm() {
 											? "border-rose-600"
 											: null
 									}`}
+									value={formValues._length}
+									onChange={handleInputChange}
 								/>
 							</div>
 							<HintFeedBack
@@ -390,6 +420,8 @@ export default function NewSuitesForm() {
 									type="text"
 									id="edition"
 									name="edition"
+									value={formValues.edition}
+									onChange={handleInputChange}
 									placeholder="Introduce Editor"
 									className={`field ${
 										formState.errors?.edition
