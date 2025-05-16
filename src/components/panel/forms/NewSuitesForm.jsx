@@ -1,6 +1,6 @@
 "use client";
 //Dependencies
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useActionState } from "react";
 import { Suspense } from "react";
 
@@ -38,15 +38,18 @@ export default function NewSuitesForm() {
 		description: "",
 		isSuite: false,
 	});
-
+	
+	const checkRef = useRef(false);
 	const [editorContent, setEditorContent] = useState("");
 	const [formState, formStateAction] = useActionState(createSuite, {
 		errors: {},
 	});
 
 	useEffect(() => {
-		console.log("render!", formValues.isSuite);
-	}, [formState.errors]);
+		checkRef.current = formValues.isSuite
+		console.log(checkRef.current, formValues.isSuite)
+	},[formState.errors])
+
 
 	//Mov Fields Handler
 	const handleMovFields = (code) => {
@@ -110,6 +113,7 @@ export default function NewSuitesForm() {
 		if (formData.get("rev") !== "")
 			formData.set("rev", new Date(formData.get("rev")).toISOString());
 		formData.append("description", editorContent);
+
 
 		formStateAction(formData);
 	};
@@ -236,6 +240,7 @@ export default function NewSuitesForm() {
 							Esta obra es una suite
 							<div className="relative align-">
 								<input
+									ref={checkRef}
 									type="checkbox"
 									name="isSuite"
 									id="suite"
