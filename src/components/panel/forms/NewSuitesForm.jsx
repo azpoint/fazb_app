@@ -26,6 +26,8 @@ import { createSuite } from "@/src/components/panel/forms/actions/createSuite";
 // );
 
 export default function NewSuitesForm() {
+	const [suiteState, setSuiteState] = useState(false);
+	const [editorContent, setEditorContent] = useState("");
 	const [formState, formStateAction] = useActionState(createSuite, {
 		errors: {},
 	});
@@ -40,9 +42,6 @@ export default function NewSuitesForm() {
 		youtube_l: [""],
 		description: "",
 	});
-
-	const [suiteState, setSuiteState] = useState(false);
-	const [editorContent, setEditorContent] = useState("");
 
 	//Mov Fields Handler
 	const handleMovFields = (code) => {
@@ -59,6 +58,12 @@ export default function NewSuitesForm() {
 			}));
 		}
 	};
+	//Handle Change in the Mov fields values.
+	const handleMovChange = (index, value) => {
+		const newMov = [...formValues.mov];
+		newMov[index] = value;
+		setFormValues({ ...formValues, mov: newMov });
+	};
 
 	//Youtube Link Fields Handler
 	const handleYTLFields = (code) => {
@@ -74,6 +79,13 @@ export default function NewSuitesForm() {
 				youtube_l: prevData.youtube_l.slice(0, -1),
 			}));
 		}
+	};
+
+	//Handle Change in the YTLink fields values.
+	const handleYTChange = (index, value) => {
+		const newYTL = [...formValues.youtube_l];
+		newYTL[index] = value;
+		setFormValues({ ...formValues, youtube_l: newYTL });
 	};
 
 	const handleInputChange = (event) => {
@@ -94,9 +106,7 @@ export default function NewSuitesForm() {
 			formData.set("rev", new Date(formData.get("rev")).toISOString());
 		formData.append("description", editorContent);
 
-		const result = await formStateAction(formData);
-
-		return result;
+		formStateAction(formData);
 	};
 
 	return (
@@ -283,6 +293,8 @@ export default function NewSuitesForm() {
 											key={index}
 											_index={index}
 											formState={formState}
+											editValue={formValues.mov[index]}
+											onMovChange={handleMovChange}
 										/>
 									))
 								: null}
@@ -414,6 +426,8 @@ export default function NewSuitesForm() {
 									key={index}
 									_index={index}
 									formState={formState}
+									editValue={formValues.youtube_l[index]}
+									onYTChange={handleYTChange}
 								/>
 							))}
 						</div>
@@ -500,6 +514,7 @@ export default function NewSuitesForm() {
 										onChange={(markdown) =>
 											setEditorContent(markdown)
 										}
+										prevMarkdown={editorContent}
 									/>
 								</Suspense>
 							</div>

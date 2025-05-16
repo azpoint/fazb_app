@@ -44,7 +44,7 @@ export default async function Suites() {
 						/>
 					))
 				) : (
-					<div className="col-span-full flex justify-center bg-amber-700">
+					<div className="col-span-full flex justify-center">
 						<Image
 							src={`/desert_plant.gif`}
 							width={800}
