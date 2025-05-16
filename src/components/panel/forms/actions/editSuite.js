@@ -20,7 +20,6 @@ import slugifyOptions from "@/lib/setup-options/slugify-options";
 //DB
 import prisma from "@/lib/prisma";
 
-
 //-------- Definitions -------
 //Convert a callback-based function into a promise-based function
 const writeFileAsync = util.promisify(fs.writeFile);
@@ -270,7 +269,8 @@ export async function editSuite(_formState, formData) {
 	});
 
 	try {
-		let returnData = await prisma.suite.create({
+		let returnData = await prisma.suite.update({
+			where: { slug },
 			data: {
 				author: { connect: { user_id: user.user_id } },
 				type: formData.get("type"),
@@ -322,10 +322,8 @@ export async function editSuite(_formState, formData) {
 				},
 			};
 		}
-	}
-
-	finally {
-		await prisma.$disconnect() 
+	} finally {
+		await prisma.$disconnect();
 	}
 
 	// Update static pages on the server at the path in production mode.
@@ -333,4 +331,3 @@ export async function editSuite(_formState, formData) {
 	redirect(appPaths.mainPanel());
 	// return { errors };
 }
-

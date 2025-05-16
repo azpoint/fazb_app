@@ -35,7 +35,9 @@ export default function EditSuitesForm({ suite }) {
 		rev: suite.rev ? dateToObjIsoString(suite.rev) : "",
 		_length: suite.timeLength || "",
 		edition: suite.edition || "",
-		youtube_l: suite.ytLinks ? JSON.parse(suite.ytLinks) : [""],
+		youtube_l: suite.ytLinks ? JSON.parse(suite.ytLinks).map(ytl => 
+			"https://www.youtube.com/watch?v=" + ytl
+		) : [""],
 		description: "",
 	});
 
@@ -447,10 +449,7 @@ export default function EditSuitesForm({ suite }) {
 									key={index}
 									_index={index}
 									formState={formState}
-									editValue={
-										"https://www.youtube.com/watch?v=" +
-										formValues.youtube_l[index]
-									}
+									editValue={formValues.youtube_l[index]}
 									onYTChange={handleYTChange}
 								/>
 							))}
@@ -531,22 +530,20 @@ export default function EditSuitesForm({ suite }) {
 							</label>
 
 							<div className="mt-8">
-								{suite ?(
+								{suite ? (
 									<Suspense
-									fallback={<div>Loading editor...</div>}
-								>
-									
-									<MDXEditorWrapper
-										onChange={(markdown) =>
-											setEditorContent(markdown)
-										}
-										prevMarkdown={suite.notes}
-									/>
-								</Suspense>
+										fallback={<div>Loading editor...</div>}
+									>
+										<MDXEditorWrapper
+											onChange={(markdown) =>
+												setEditorContent(markdown)
+											}
+											prevMarkdown={suite.notes}
+										/>
+									</Suspense>
 								) : (
 									<div>Loading Suite Data ...</div>
 								)}
-								
 							</div>
 						</div>
 
