@@ -537,8 +537,8 @@ export default function EditSuitesForm({ suite }) {
 								>
 									
 									<MDXEditorWrapper
-										onChange={(movArray) =>
-											setEditorContent(movArray)
+										onChange={(markdown) =>
+											setEditorContent(markdown)
 										}
 										prevMarkdown={suite.notes}
 									/>

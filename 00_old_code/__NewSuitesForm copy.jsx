@@ -1,6 +1,6 @@
 "use client";
 //Dependencies
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useActionState } from "react";
 import { Suspense } from "react";
 
@@ -26,8 +26,11 @@ import { createSuite } from "@/src/components/panel/forms/actions/createSuite";
 // );
 
 export default function NewSuitesForm() {
+	const [formState, formStateAction] = useActionState(createSuite, {
+		errors: {},
+	});
+
 	const [formValues, setFormValues] = useState({
-		type: "",
 		title: "",
 		mov: ["", ""],
 		created: "",
@@ -36,20 +39,10 @@ export default function NewSuitesForm() {
 		edition: "",
 		youtube_l: [""],
 		description: "",
-		isSuite: false,
 	});
-	
-	const checkRef = useRef(false);
+
+	const [suiteState, setSuiteState] = useState(false);
 	const [editorContent, setEditorContent] = useState("");
-	const [formState, formStateAction] = useActionState(createSuite, {
-		errors: {},
-	});
-
-	useEffect(() => {
-		checkRef.current = formValues.isSuite
-		console.log(checkRef.current, formValues.isSuite)
-	},[formState.errors])
-
 
 	//Mov Fields Handler
 	const handleMovFields = (code) => {
@@ -66,12 +59,6 @@ export default function NewSuitesForm() {
 			}));
 		}
 	};
-	//Handle Change in the Mov fields values.
-	const handleMovChange = (index, value) => {
-		const newMov = [...formValues.mov];
-		newMov[index] = value;
-		setFormValues({ ...formValues, mov: newMov });
-	};
 
 	//Youtube Link Fields Handler
 	const handleYTLFields = (code) => {
@@ -87,13 +74,6 @@ export default function NewSuitesForm() {
 				youtube_l: prevData.youtube_l.slice(0, -1),
 			}));
 		}
-	};
-
-	//Handle Change in the YTLink fields values.
-	const handleYTChange = (index, value) => {
-		const newYTL = [...formValues.youtube_l];
-		newYTL[index] = value;
-		setFormValues({ ...formValues, youtube_l: newYTL });
 	};
 
 	const handleInputChange = (event) => {
@@ -114,8 +94,9 @@ export default function NewSuitesForm() {
 			formData.set("rev", new Date(formData.get("rev")).toISOString());
 		formData.append("description", editorContent);
 
+		const result = await formStateAction(formData);
 
-		formStateAction(formData);
+		return result;
 	};
 
 	return (
@@ -145,8 +126,6 @@ export default function NewSuitesForm() {
 									name="type"
 									id="guitarra"
 									value="guitarra"
-									checked={formValues.type === "guitarra"}
-									onChange={handleInputChange}
 									required
 								/>
 							</div>
@@ -160,8 +139,6 @@ export default function NewSuitesForm() {
 									name="type"
 									id="coral"
 									value="coral"
-									checked={formValues.type === "coral"}
-									onChange={handleInputChange}
 								/>
 							</div>
 
@@ -174,8 +151,6 @@ export default function NewSuitesForm() {
 									name="type"
 									id="camara"
 									value="camara"
-									checked={formValues.type === "camara"}
-									onChange={handleInputChange}
 								/>
 							</div>
 
@@ -191,10 +166,6 @@ export default function NewSuitesForm() {
 									name="type"
 									id="orquesta-cuerdas"
 									value="orquesta-cuerdas"
-									checked={
-										formValues.type === "orquesta-cuerdas"
-									}
-									onChange={handleInputChange}
 								/>
 							</div>
 
@@ -210,10 +181,6 @@ export default function NewSuitesForm() {
 									name="type"
 									id="orquesta-sinfonica"
 									value="orquesta-sinfonica"
-									checked={
-										formValues.type === "orquesta-sinfonica"
-									}
-									onChange={handleInputChange}
 								/>
 							</div>
 
@@ -226,8 +193,6 @@ export default function NewSuitesForm() {
 									name="type"
 									id="piano"
 									value="piano"
-									checked={formValues.type == "piano"}
-									onChange={handleInputChange}
 								/>
 							</div>
 						</div>
@@ -240,17 +205,11 @@ export default function NewSuitesForm() {
 							Esta obra es una suite
 							<div className="relative align-">
 								<input
-									ref={checkRef}
 									type="checkbox"
-									name="isSuite"
+									name=""
 									id="suite"
-									checked={formValues.isSuite}
-									onChange={() => {
-										setFormValues((prevData) => ({
-											...prevData,
-											isSuite: !formValues.isSuite,
-										}));
-									}}
+									checked={suiteState}
+									onChange={() => setSuiteState(!suiteState)}
 									className="appearance-none w-6 h-6 border-[3px] border-sky-900 rounded-sm bg-slate-100 checked:bg-sky-700 checked:border-0"
 								/>
 								<svg
@@ -302,7 +261,7 @@ export default function NewSuitesForm() {
 						</div>
 
 						<div className="mt-4 space-y-2">
-							{formValues.isSuite ? (
+							{suiteState ? (
 								<div className="flex justify-end mt-8 gap-x-4">
 									<div className="font-semibold">
 										Cantidad de Movimientos
@@ -318,14 +277,12 @@ export default function NewSuitesForm() {
 									/>
 								</div>
 							) : null}
-							{formValues.isSuite
+							{suiteState
 								? formValues.mov.map((_, index) => (
 										<MovField
 											key={index}
 											_index={index}
 											formState={formState}
-											editValue={formValues.mov[index]}
-											onMovChange={handleMovChange}
 										/>
 									))
 								: null}
@@ -366,8 +323,6 @@ export default function NewSuitesForm() {
 									type="date"
 									id="rev"
 									name="rev"
-									value={formValues.rev}
-									onChange={handleInputChange}
 									className={`field ${
 										formState.errors?.rev
 											? "border-rose-600"
@@ -401,8 +356,6 @@ export default function NewSuitesForm() {
 											? "border-rose-600"
 											: null
 									}`}
-									value={formValues._length}
-									onChange={handleInputChange}
 								/>
 							</div>
 							<HintFeedBack
@@ -425,8 +378,6 @@ export default function NewSuitesForm() {
 									type="text"
 									id="edition"
 									name="edition"
-									value={formValues.edition}
-									onChange={handleInputChange}
 									placeholder="Introduce Editor"
 									className={`field ${
 										formState.errors?.edition
@@ -463,8 +414,6 @@ export default function NewSuitesForm() {
 									key={index}
 									_index={index}
 									formState={formState}
-									editValue={formValues.youtube_l[index]}
-									onYTChange={handleYTChange}
 								/>
 							))}
 						</div>
@@ -551,7 +500,6 @@ export default function NewSuitesForm() {
 										onChange={(markdown) =>
 											setEditorContent(markdown)
 										}
-										prevMarkdown={editorContent}
 									/>
 								</Suspense>
 							</div>
