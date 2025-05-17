@@ -93,7 +93,7 @@ export default function SuiteCard({
 				<div className="w-full pb-2 font-semibold flex items-center">
 					<span
 						className={`mx-auto 
-							${published ? "text-green-500" : "text-red-500"}
+							${published ? "text-green-500" : "text-rose-700"}
 						`}
 					>
 						En linea: {published ? "Si" : "No"}
