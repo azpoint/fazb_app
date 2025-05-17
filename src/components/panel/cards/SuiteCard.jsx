@@ -16,7 +16,8 @@ export default function SuiteCard({
 	publishedAt,
 	lastUpdateAt,
 	published,
-	slug
+	slug,
+	suite_id
 }) {
 	const imageCard = image || "/assets/Oraquesta-70s-fazb.jpg";
 

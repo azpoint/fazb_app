@@ -554,7 +554,7 @@ export default function EditSuitesForm({ suite }) {
 								</div>
 							) : null}
 
-							<FormButton>Agregar Obra</FormButton>
+							<FormButton>Actualizar Obra</FormButton>
 						</div>
 					</div>
 				</form>
