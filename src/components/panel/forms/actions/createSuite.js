@@ -20,12 +20,12 @@ import slugifyOptions from "@/lib/setup-options/slugify-options";
 //DB
 import prisma from "@/lib/prisma";
 
-
 //-------- Definitions -------
 //Convert a callback-based function into a promise-based function
 const writeFileAsync = util.promisify(fs.writeFile);
 
 export async function createSuite(_formState, formData) {
+
 	//--------- Form Validator ---------
 	const zodResult = createSuiteZodSchema.safeParse({
 		title: formData.get("title"),
@@ -45,7 +45,7 @@ export async function createSuite(_formState, formData) {
 	//------- Images Validator --------
 	const imageFiles = formData.getAll("images");
 
-	if (imageFiles[0].size !== 0 || imageFiles[0].name !== "undefined") {
+	if (imageFiles[0]?.size > 0) {
 		const imageVal = imageFiles.every((file) => {
 			return file.type === "image/jpeg" || file.type === "image/png";
 		});
@@ -62,7 +62,7 @@ export async function createSuite(_formState, formData) {
 	//------- Audios Validator --------
 	const audioFiles = formData.getAll("audios");
 
-	if (audioFiles[0].size !== 0 || audioFiles[0].name !== "undefined") {
+	if (audioFiles[0]?.size > 0) {
 		const audioVal = audioFiles.every((file) => {
 			return file.type === "audio/mpeg";
 		});
@@ -79,7 +79,7 @@ export async function createSuite(_formState, formData) {
 	//-------- Mov list Validator -------
 	let movs = [];
 	const movList = formData.getAll("mov");
-	let movErrorList = new Array(movList.lenght);
+	let movErrorList = new Array(movList.length);
 
 	movList.forEach((mov, index) => {
 		if (!mov || [...mov].length < 4 || [...mov].length > 80) {
@@ -130,8 +130,15 @@ export async function createSuite(_formState, formData) {
 	}
 
 	//-------- Image File Handler --------
-	let title = formData.get("title");
+	let suite_id = uuidv4();
 	let imagePaths = [];
+
+	//User load
+	const user = await prisma.user.findFirst({
+		where: {
+			OR: [{ user_id: 1 }, { email: "franzapata2@gmail.com" }],
+		},
+	});
 
 	if (imageFiles.length !== 0) {
 		try {
@@ -139,7 +146,7 @@ export async function createSuite(_formState, formData) {
 			const imageFilePath = path.join(
 				"public",
 				"/suites",
-				title,
+				suite_id,
 				"/images"
 			);
 
@@ -147,11 +154,6 @@ export async function createSuite(_formState, formData) {
 			if (!fs.existsSync(path.resolve(imageFilePath))) {
 				fs.mkdirSync(path.resolve(imageFilePath), { recursive: true });
 			}
-			//Empty directory to avoid redundant files
-			fse.emptyDirSync(path.resolve(imageFilePath), (error) => {
-				if (error)
-					throw new Error("Error liberando directorio de imagenes");
-			});
 
 			const writePromises = imageFiles.map(async (file) => {
 				let fileData = {
@@ -163,17 +165,17 @@ export async function createSuite(_formState, formData) {
 					const bytes = await file.arrayBuffer();
 					const buffer = Buffer.from(bytes);
 
-					const imageName = `Francisco Zapata Bello-${title}-${uuidv4().slice(
+					const imageName = `${suite_id.slice(
 						0,
 						8
-					)}.${file.type === "image/jpeg" ? "jpg" : "png"}`;
+					)} - ${user.name} ${user.surname} - ${title}.${file.type === "image/jpeg" ? "jpg" : "png"}`;
 
 					await writeFileAsync(
 						`${path.resolve(imageFilePath)}/${imageName}`,
 						buffer
 					);
 
-					fileData.filePath = `/suites/${title}/images/${imageName}`;
+					fileData.filePath = `/suites/${suite_id}/images/${imageName}`;
 					fileData.fileDescription = file.name;
 					imagePaths.push(fileData);
 				}
@@ -181,7 +183,7 @@ export async function createSuite(_formState, formData) {
 
 			await Promise.all(writePromises);
 
-			//TODO:Redirect must be outside of the try catch because redirect is handled like an error
+			// Redirect must be outside of the try catch because redirect is handled like an error
 			// redirect('/panel')
 		} catch (error) {
 			if (error instanceof Error) {
@@ -206,7 +208,7 @@ export async function createSuite(_formState, formData) {
 			const audioFilePath = path.join(
 				"public",
 				"/suites",
-				title,
+				suite_id,
 				"/audios"
 			);
 
@@ -214,11 +216,6 @@ export async function createSuite(_formState, formData) {
 			if (!fs.existsSync(path.resolve(audioFilePath))) {
 				fs.mkdirSync(path.resolve(audioFilePath), { recursive: true });
 			}
-			//Empty directory to avoid redundant files
-			fse.emptyDirSync(path.resolve(audioFilePath), (error) => {
-				if (error)
-					throw new Error("Error liberando directorio de audio");
-			});
 
 			const writePromises = audioFiles.map(async (file) => {
 				let fileData = {
@@ -229,15 +226,15 @@ export async function createSuite(_formState, formData) {
 				if (file.type === "audio/mpeg") {
 					const bytes = await file.arrayBuffer();
 					const buffer = Buffer.from(bytes);
-					const audioName = `Francisco Zapata Bello-${title}-${uuidv4().slice(
+					const audioName = `${suite_id.slice(
 						0,
 						8
-					)}.mp3`;
+					)} - ${user.name} ${user.surname} - ${title}.mp3`;
 					await writeFileAsync(
 						`${path.resolve(audioFilePath)}/${audioName}`,
 						buffer
 					);
-					fileData.filePath = `/suites/${title}/audios/${audioName}`;
+					fileData.filePath = `/suites/${suite_id}/audios/${audioName}`;
 					fileData.fileDescription = file.name;
 					audioPaths.push(fileData);
 				}
@@ -260,22 +257,14 @@ export async function createSuite(_formState, formData) {
 	}
 
 	//------- DDBB Create -------
-	let slug = slugify(formData.get("title"), slugifyOptions);
-
-	//User load
-	const user = await prisma.user.findFirst({
-		where: {
-			OR: [{ user_id: 1 }, { email: "franzapata2@gmail.com" }],
-		},
-	});
-
 	try {
 		let returnData = await prisma.suite.create({
 			data: {
+				suite_id: suite_id,
 				author: { connect: { user_id: user.user_id } },
 				type: formData.get("type"),
 				title: formData.get("title"),
-				slug: slug,
+				slug: slugify(formData.get("title"), slugifyOptions),
 				mov: movs.length === 0 ? null : JSON.stringify(movs),
 				created: formData.get("created"),
 				rev: formData.get("rev") === "" ? null : formData.get("rev"),
@@ -322,10 +311,8 @@ export async function createSuite(_formState, formData) {
 				},
 			};
 		}
-	}
-
-	finally {
-		await prisma.$disconnect() 
+	} finally {
+		await prisma.$disconnect();
 	}
 
 	// Update static pages on the server at the path in production mode.
@@ -333,19 +320,3 @@ export async function createSuite(_formState, formData) {
 	redirect(appPaths.mainPanel());
 	// return { errors };
 }
-
-// //Delete previous files if exists
-// fs.readdir(path.resolve(imageFilePath), (error, files) => {
-// 	if (error) throw new Error("Error leyendo directorio");
-// 	console.log(files);
-// 	if (files.length !== 0) {
-// 		files.forEach((file) => {
-// 			const filePath = path.join(path.resolve(imageFilePath), file);
-
-// 			fs.unlink(filePath, (unlinkError) => {
-// 				if (unlinkError) throw new Error("Error eliminando un archivo");
-// 				console.log("Archivos anteriores eliminados correctamente");
-// 			});
-// 		});
-// 	}
-// });

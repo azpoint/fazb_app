@@ -40,7 +40,6 @@ export default async function Suites() {
 							publishedAt={suite.createdAt?.toLocaleDateString()}
 							lastUpdateAt={suite.updatedAt?.toLocaleDateString()}
 							published={suite.published}
-							slug={suite.slug}
 							suite_id={suite.suite_id}
 						/>
 					))

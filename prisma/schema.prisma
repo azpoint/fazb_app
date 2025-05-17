@@ -15,7 +15,7 @@ datasource db {
 }
 
 model Suite {
-  suite_id   String    @id @default(uuid())
+  suite_id   String    @id
   author     User      @relation(fields: [author_id], references: [user_id])
   author_id  Int
   createdAt  DateTime  @default(now())

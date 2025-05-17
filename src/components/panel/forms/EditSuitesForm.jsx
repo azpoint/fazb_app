@@ -25,7 +25,7 @@ export default function EditSuitesForm({ suite }) {
 		errors: {},
 	});
 
-	console.log(suite);
+	// console.log(suite);
 
 	const [formValues, setFormValues] = useState({
 		title: suite.title,
@@ -106,6 +106,7 @@ export default function EditSuitesForm({ suite }) {
 		if (formData.get("rev") !== "")
 			formData.set("rev", new Date(formData.get("rev")).toISOString());
 		formData.append("description", editorContent);
+		formData.append("suite_id", suite.suite_id)
 
 		formStateAction(formData);
 	};

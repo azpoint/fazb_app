@@ -96,6 +96,7 @@ export default function NewSuitesForm() {
 		setFormValues({ ...formValues, youtube_l: newYTL });
 	};
 
+	//Handle rest of input fields
 	const handleInputChange = (event) => {
 		const { name, value } = event.target;
 		setFormValues((prevData) => ({
@@ -104,6 +105,7 @@ export default function NewSuitesForm() {
 		}));
 	};
 
+	//Handles Submit
 	const handleSubmit = async (formData) => {
 		if (formData.get("created") !== "")
 			formData.set(
@@ -113,7 +115,6 @@ export default function NewSuitesForm() {
 		if (formData.get("rev") !== "")
 			formData.set("rev", new Date(formData.get("rev")).toISOString());
 		formData.append("description", editorContent);
-
 
 		formStateAction(formData);
 	};

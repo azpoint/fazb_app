@@ -78,7 +78,7 @@ export async function editSuite(_formState, formData) {
 	//-------- Mov list Validator -------
 	let movs = [];
 	const movList = formData.getAll("mov");
-	let movErrorList = new Array(movList.lenght);
+	let movErrorList = new Array(movList.length);
 
 	movList.forEach((mov, index) => {
 		if (!mov || [...mov].length < 4 || [...mov].length > 80) {
@@ -269,8 +269,9 @@ export async function editSuite(_formState, formData) {
 	});
 
 	try {
+		
 		let returnData = await prisma.suite.update({
-			where: { slug },
+			where: { suite_id: formData.get("suite_id") },
 			data: {
 				author: { connect: { user_id: user.user_id } },
 				type: formData.get("type"),
