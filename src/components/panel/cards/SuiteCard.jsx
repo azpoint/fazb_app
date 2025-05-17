@@ -3,7 +3,7 @@ import Link from "next/link";
 import appPaths from "@/src/appPaths";
 
 //Componets
-import { FaCheckCircle, FaCircle } from "react-icons/fa";
+import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import { MdEditDocument } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 
@@ -17,7 +17,7 @@ export default function SuiteCard({
 	lastUpdateAt,
 	published,
 	slug,
-	suite_id
+	suite_id,
 }) {
 	const imageCard = image || "/assets/Oraquesta-70s-fazb.jpg";
 
@@ -34,38 +34,38 @@ export default function SuiteCard({
 						// height={200}
 					/>
 				</Link>
+			</div>
+			<div className="flex justify-evenly w-full my-5">
+				<Link href={appPaths.editSuite(slug)}>
+					<div className="relative" title="Editar Obra">
+						<MdEditDocument className="w-8 h-8 text-sky-700 cursor-pointer hover:text-sky-500 hover:scale-125 transition-all duration-300" />
+					</div>
+				</Link>
+
 				<Link href={""}>
 					<div
-						className="absolute flex justify-start left-2 mt-2 hover:scale-125 transition-all duration-300"
+						className="relative hover:scale-125 transition-all duration-300"
 						title="Poner/Quitar en linea"
 					>
 						{published ? (
-							<FaCheckCircle className="w-8 h-8 text-green-500 ml-auto" />
+							<FaCheckCircle className="w-8 h-8 text-emerald-700 ml-auto" />
 						) : (
-							<FaCircle className="w-8 h-8 text-red-500 ml-auto" />
+							<FaTimesCircle className="w-8 h-8 text-rose-700 ml-auto" />
 						)}
 					</div>
 				</Link>
+
 				<Link href={appPaths.editSuite(slug)}>
-					<div
-						className="absolute flex justify-end right-2 mt-2"
-						title="Editar Obra"
-					>
-						<MdEditDocument className="w-8 h-8 text-slate-200 cursor-pointer hover:text-sky-600" />
-					</div>
-				</Link>
-				<Link href={appPaths.editSuite(slug)}>
-					<div
-						className="absolute flex justify-end left-2 bottom-0 mb-2"
-						title="Eliminar Obra"
-					>
-						<MdDelete className="w-8 h-8 text-slate-200 cursor-pointer hover:text-red-500" />
+					<div className="relative" title="Eliminar Obra">
+						<MdDelete className="w-8 h-8 text-sky-700 cursor-pointer hover:text-rose-700 hover:scale-125 transition-all duration-300" />
 					</div>
 				</Link>
 			</div>
 
-			<div className="p-4 text-sky-800 hover:text-sky-600">
-				<h4 className="text-center text-2xl font-bold">{title}</h4>
+			<div className="pb-2 text-sky-800 hover:text-sky-600">
+				<Link href={appPaths.editSuite(slug)}>
+					<h4 className="text-center text-2xl font-bold">{title}</h4>
+				</Link>
 			</div>
 
 			<div>
@@ -90,11 +90,11 @@ export default function SuiteCard({
 					</p>
 				</div>
 
-				<div className="w-full pt-0 pb-2 px-4 font-semibold flex items-center">
+				<div className="w-full pb-2 font-semibold flex items-center">
 					<span
-						className={
-							published ? "text-green-500" : "text-red-500"
-						}
+						className={`mx-auto 
+							${published ? "text-green-500" : "text-red-500"}
+						`}
 					>
 						En linea: {published ? "Si" : "No"}
 					</span>
