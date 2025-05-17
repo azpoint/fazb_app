@@ -492,6 +492,8 @@ export default function EditSuitesForm({ suite }) {
 
 						//Image Gallery
 
+						<div>Gallery start here</div>
+
 
 						//Audio Input
 						<div className="space-y-2 my-8">
