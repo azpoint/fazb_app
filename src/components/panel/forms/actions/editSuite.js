@@ -44,7 +44,7 @@ export async function editSuite(_formState, formData) {
 	//------- Images Validator --------
 	const imageFiles = formData.getAll("images");
 
-	if (imageFiles[0].size !== 0 || imageFiles[0].name !== "undefined") {
+	if (imageFiles[0]?.size > 0) {
 		const imageVal = imageFiles.every((file) => {
 			return file.type === "image/jpeg" || file.type === "image/png";
 		});
@@ -61,7 +61,7 @@ export async function editSuite(_formState, formData) {
 	//------- Audios Validator --------
 	const audioFiles = formData.getAll("audios");
 
-	if (audioFiles[0].size !== 0 || audioFiles[0].name !== "undefined") {
+	if (audioFiles[0]?.size > 0) {
 		const audioVal = audioFiles.every((file) => {
 			return file.type === "audio/mpeg";
 		});
@@ -129,58 +129,76 @@ export async function editSuite(_formState, formData) {
 	}
 
 	//-------- Image File Handler --------
-	let title = formData.get("title");
 	let imagePaths = [];
 
+	//User load
+	const user = await prisma.user.findFirst({
+		where: {
+			OR: [{ user_id: 1 }, { email: "franzapata2@gmail.com" }],
+		},
+	});
+
+	//Find Suite
+	const suite_id = formData.get("suite_id");
+	const suite = await prisma.suite.findUnique({ where: { suite_id } });
+
+	//Check input files
 	if (imageFiles.length !== 0) {
 		try {
 			//File directory path
 			const imageFilePath = path.join(
 				"public",
 				"/suites",
-				title,
+				suite_id,
 				"/images"
 			);
 
-			//Check if directory exist and creates it if not
-			if (!fs.existsSync(path.resolve(imageFilePath))) {
-				fs.mkdirSync(path.resolve(imageFilePath), { recursive: true });
-			}
 			//Empty directory to avoid redundant files
-			fse.emptyDirSync(path.resolve(imageFilePath), (error) => {
-				if (error)
-					throw new Error("Error liberando directorio de imagenes");
-			});
+			// fse.emptyDirSync(path.resolve(imageFilePath), (error) => {
+			// 	if (error)
+			// 		throw new Error("Error liberando directorio de imagenes");
+			// });
 
-			const writePromises = imageFiles.map(async (file) => {
-				let fileData = {
-					filePath: "",
-					fileDescription: "",
-				};
+			//Check if directory exist and creates it if not
+			// fs.mkdirSync(path.resolve(imageFilePath), { recursive: true });
 
-				if (file.type === "image/jpeg" || file.type === "image/png") {
-					const bytes = await file.arrayBuffer();
-					const buffer = Buffer.from(bytes);
+			// Check if directory exist and perform file handling
+			if (fs.existsSync(path.resolve(imageFilePath))) {
+				const writePromises = imageFiles.map(async (file) => {
+					let fileData = {
+						filePath: "",
+						fileDescription: "",
+					};
 
-					const imageName = `Francisco Zapata Bello-${title}-${uuidv4().slice(
-						0,
-						8
-					)}.${file.type === "image/jpeg" ? "jpg" : "png"}`;
+					if (
+						file.type === "image/jpeg" ||
+						file.type === "image/png"
+					) {
+						const bytes = await file.arrayBuffer();
+						const buffer = Buffer.from(bytes);
 
-					await writeFileAsync(
-						`${path.resolve(imageFilePath)}/${imageName}`,
-						buffer
-					);
+						const imageName = `${suite.suite_id.slice(
+							0,
+							8
+						)} - ${user.name} ${user.surname} - ${suite.title}.${file.type === "image/jpeg" ? "jpg" : "png"}`;
 
-					fileData.filePath = `/suites/${title}/images/${imageName}`;
-					fileData.fileDescription = file.name;
-					imagePaths.push(fileData);
-				}
-			});
+						await writeFileAsync(
+							`${path.resolve(imageFilePath)}/${imageName}`,
+							buffer
+						);
 
-			await Promise.all(writePromises);
+						fileData.filePath = `/suites/${suite.suite_id}/images/${imageName}`;
+						fileData.fileDescription = file.name;
+						imagePaths.push(fileData);
+					}
+				});
 
-			//TODO:Redirect must be outside of the try catch because redirect is handled like an error
+				await Promise.all(writePromises);
+			} else {
+				throw new Error("Directorio de la suite inexistente");
+			}
+
+			// Redirect must be outside of the try catch because redirect is handled like an error
 			// redirect('/panel')
 		} catch (error) {
 			if (error instanceof Error) {
@@ -205,44 +223,48 @@ export async function editSuite(_formState, formData) {
 			const audioFilePath = path.join(
 				"public",
 				"/suites",
-				title,
+				suite_id,
 				"/audios"
 			);
 
 			//Check if directory exist and creates it if not
-			if (!fs.existsSync(path.resolve(audioFilePath))) {
-				fs.mkdirSync(path.resolve(audioFilePath), { recursive: true });
+			// fs.mkdirSync(path.resolve(audioFilePath), { recursive: true });
+			// //Empty directory to avoid redundant files
+			// fse.emptyDirSync(path.resolve(audioFilePath), (error) => {
+			// 	if (error)
+			// 		throw new Error("Error liberando directorio de audio");
+			// });
+
+			//Check if directory exist and creates it if not
+			if (fs.existsSync(path.resolve(audioFilePath))) {
+				const writePromises = audioFiles.map(async (file) => {
+					let fileData = {
+						filePath: "",
+						fileDescription: "",
+					};
+
+					if (file.type === "audio/mpeg") {
+						const bytes = await file.arrayBuffer();
+						const buffer = Buffer.from(bytes);
+
+						const audioName = `${suite.suite_id.slice(
+							0,
+							8
+						)} - ${user.name} ${user.surname} - ${suite.title}.mp3`;
+						await writeFileAsync(
+							`${path.resolve(audioFilePath)}/${audioName}`,
+							buffer
+						);
+
+						fileData.filePath = `/suites/${suite.title}/audios/${audioName}`;
+						fileData.fileDescription = file.name;
+						audioPaths.push(fileData);
+					}
+				});
+				await Promise.all(writePromises);
+			} else {
+				throw new Error("Directorio de la suite inexistente");
 			}
-			//Empty directory to avoid redundant files
-			fse.emptyDirSync(path.resolve(audioFilePath), (error) => {
-				if (error)
-					throw new Error("Error liberando directorio de audio");
-			});
-
-			const writePromises = audioFiles.map(async (file) => {
-				let fileData = {
-					filePath: "",
-					fileDescription: "",
-				};
-
-				if (file.type === "audio/mpeg") {
-					const bytes = await file.arrayBuffer();
-					const buffer = Buffer.from(bytes);
-					const audioName = `Francisco Zapata Bello-${title}-${uuidv4().slice(
-						0,
-						8
-					)}.mp3`;
-					await writeFileAsync(
-						`${path.resolve(audioFilePath)}/${audioName}`,
-						buffer
-					);
-					fileData.filePath = `/suites/${title}/audios/${audioName}`;
-					fileData.fileDescription = file.name;
-					audioPaths.push(fileData);
-				}
-			});
-
-			await Promise.all(writePromises);
 		} catch (error) {
 			if (error instanceof Error) {
 				return {
@@ -258,25 +280,16 @@ export async function editSuite(_formState, formData) {
 		}
 	}
 
-	//------- DDBB Create -------
-	let slug = slugify(formData.get("title"), slugifyOptions);
-
-	//User load
-	const user = await prisma.user.findFirst({
-		where: {
-			OR: [{ user_id: 1 }, { email: "franzapata2@gmail.com" }],
-		},
-	});
+	//------- DDBB Edit -------
 
 	try {
-		
 		let returnData = await prisma.suite.update({
-			where: { suite_id: formData.get("suite_id") },
+			where: { suite_id: suite_id },
 			data: {
 				author: { connect: { user_id: user.user_id } },
 				type: formData.get("type"),
 				title: formData.get("title"),
-				slug: slug,
+				slug: slugify(formData.get("title"), slugifyOptions),
 				mov: movs.length === 0 ? null : JSON.stringify(movs),
 				created: formData.get("created"),
 				rev: formData.get("rev") === "" ? null : formData.get("rev"),

@@ -226,14 +226,17 @@ export async function createSuite(_formState, formData) {
 				if (file.type === "audio/mpeg") {
 					const bytes = await file.arrayBuffer();
 					const buffer = Buffer.from(bytes);
+					
 					const audioName = `${suite_id.slice(
 						0,
 						8
 					)} - ${user.name} ${user.surname} - ${title}.mp3`;
+
 					await writeFileAsync(
 						`${path.resolve(audioFilePath)}/${audioName}`,
 						buffer
 					);
+
 					fileData.filePath = `/suites/${suite_id}/audios/${audioName}`;
 					fileData.fileDescription = file.name;
 					audioPaths.push(fileData);
