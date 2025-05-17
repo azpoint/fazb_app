@@ -457,6 +457,7 @@ export default function EditSuitesForm({ suite }) {
 						</div>
 
 						{/* -------- File Input -------- */}
+						//Image Input
 						<div className="space-y-2 my-8">
 							<div className="grid grid-cols-2 items-center">
 								<label
@@ -489,6 +490,10 @@ export default function EditSuitesForm({ suite }) {
 							/>
 						</div>
 
+						//Image Gallery
+
+
+						//Audio Input
 						<div className="space-y-2 my-8">
 							<div className="grid grid-cols-2 items-center">
 								<label
