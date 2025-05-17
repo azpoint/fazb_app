@@ -61,7 +61,7 @@ export default function SuiteCard({
 				</Link>
 			</div>
 
-			<div className="pb-2 text-sky-800 hover:text-sky-600">
+			<div className="p-2 text-sky-800 hover:text-sky-600">
 				<Link href={""}>
 					<h4 className="text-center text-2xl font-bold">{title}</h4>
 				</Link>

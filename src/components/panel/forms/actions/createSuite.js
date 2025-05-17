@@ -165,10 +165,10 @@ export async function createSuite(_formState, formData) {
 					const bytes = await file.arrayBuffer();
 					const buffer = Buffer.from(bytes);
 
-					const imageName = `${suite_id.slice(
+					const imageName = `${uuidv4().slice(
 						0,
 						8
-					)} - ${user.name} ${user.surname} - ${title}.${file.type === "image/jpeg" ? "jpg" : "png"}`;
+					)} - ${user.name} ${user.surname} - ${formData.get("title")}.${file.type === "image/jpeg" ? "jpg" : "png"}`;
 
 					await writeFileAsync(
 						`${path.resolve(imageFilePath)}/${imageName}`,
@@ -226,11 +226,11 @@ export async function createSuite(_formState, formData) {
 				if (file.type === "audio/mpeg") {
 					const bytes = await file.arrayBuffer();
 					const buffer = Buffer.from(bytes);
-					
-					const audioName = `${suite_id.slice(
+
+					const audioName = `${uuidv4().slice(
 						0,
 						8
-					)} - ${user.name} ${user.surname} - ${title}.mp3`;
+					)} - ${user.name} ${user.surname} - ${formData.get("title")}.mp3`;
 
 					await writeFileAsync(
 						`${path.resolve(audioFilePath)}/${audioName}`,

@@ -36,7 +36,7 @@ import {
 } from "@mdxeditor/editor";
 
 export default function MDXEditorWrapper({ onChange, prevMarkdown }) {
-	prevMarkdown ? prevMarkdown : prevMarkdown="Escribe aquí las anotaciones de la obra."
+	prevMarkdown ? prevMarkdown : prevMarkdown = "Escribe aquí las anotaciones de la obra."
 	const [markdown, setMarkdown] = useState(prevMarkdown);
 
 	useEffect(() => {
