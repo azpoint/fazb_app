@@ -36,7 +36,7 @@ export default function SuiteCard({
 				</Link>
 			</div>
 			<div className="flex justify-evenly w-full my-5">
-				<Link href={appPaths.editSuite(slug)}>
+				<Link href={appPaths.editSuite(suite_id)}>
 					<div className="relative" title="Editar Obra">
 						<MdEditDocument className="w-8 h-8 text-sky-700 cursor-pointer hover:text-sky-500 hover:scale-125 transition-all duration-300" />
 					</div>
@@ -55,7 +55,7 @@ export default function SuiteCard({
 					</div>
 				</Link>
 
-				<Link href={appPaths.editSuite(slug)}>
+				<Link href={""}>
 					<div className="relative" title="Eliminar Obra">
 						<MdDelete className="w-8 h-8 text-sky-700 cursor-pointer hover:text-rose-700 hover:scale-125 transition-all duration-300" />
 					</div>
@@ -63,7 +63,7 @@ export default function SuiteCard({
 			</div>
 
 			<div className="pb-2 text-sky-800 hover:text-sky-600">
-				<Link href={appPaths.editSuite(slug)}>
+				<Link href={""}>
 					<h4 className="text-center text-2xl font-bold">{title}</h4>
 				</Link>
 			</div>
