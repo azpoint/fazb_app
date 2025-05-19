@@ -13,6 +13,7 @@ import FormButton from "@/src/components/panel/forms/controls/FormButton";
 import YoutubeLinkField from "@/src/components/panel/forms/fields/YouTubeLinkField";
 import MovField from "@/src/components/panel/forms/fields/MovementField";
 import { FaCircleMinus, FaCirclePlus } from "react-icons/fa6";
+import ImageCard from "@/src/components/panel/cards/ImageCard";
 
 //Actions & Options
 import { editSuite } from "@/src/components/panel/forms/actions/editSuite";
@@ -35,10 +36,13 @@ export default function EditSuitesForm({ suite }) {
 		rev: suite.rev ? dateToObjIsoString(suite.rev) : "",
 		_length: suite.timeLength || "",
 		edition: suite.edition || "",
-		youtube_l: suite.ytLinks ? JSON.parse(suite.ytLinks).map(ytl => 
-			"https://www.youtube.com/watch?v=" + ytl
-		) : [""],
+		youtube_l: suite.ytLinks
+			? JSON.parse(suite.ytLinks).map(
+					(ytl) => "https://www.youtube.com/watch?v=" + ytl
+				)
+			: [""],
 		description: "",
+		images: JSON.parse(suite.images).map((image) => image.filePath),
 	});
 
 	//Mov Fields Handler.
@@ -106,7 +110,7 @@ export default function EditSuitesForm({ suite }) {
 		if (formData.get("rev") !== "")
 			formData.set("rev", new Date(formData.get("rev")).toISOString());
 		formData.append("description", editorContent);
-		formData.append("suite_id", suite.suite_id)
+		formData.append("suite_id", suite.suite_id);
 
 		formStateAction(formData);
 	};
@@ -127,7 +131,6 @@ export default function EditSuitesForm({ suite }) {
 						<h3 className="text-xl text-left font-semibold">
 							*Tipo de Obra
 						</h3>
-
 						<div className="mt-4 border-b-2 border-slate-300">
 							<div className="flex justify-between odd:bg-slate-300 py-2 px-2 rounded-md">
 								<label htmlFor="guitarra" className="w-full">
@@ -224,7 +227,6 @@ export default function EditSuitesForm({ suite }) {
 								/>
 							</div>
 						</div>
-
 						{/* -------- Data Fields -------- */}
 						<label
 							htmlFor="suite"
@@ -255,7 +257,6 @@ export default function EditSuitesForm({ suite }) {
 								</svg>
 							</div>
 						</label>
-
 						<div className="mt-4">
 							<div className="flex">
 								<label
@@ -287,7 +288,6 @@ export default function EditSuitesForm({ suite }) {
 								hintStyle="text-sky-600 text-right"
 							/>
 						</div>
-
 						<div className="mt-4 space-y-2">
 							{suiteState ? (
 								<div className="flex justify-end mt-8 gap-x-4">
@@ -317,7 +317,6 @@ export default function EditSuitesForm({ suite }) {
 									))
 								: null}
 						</div>
-
 						<div className="mt-8">
 							<div className="flex">
 								<label htmlFor="rev" className="w-1/6 text-xl">
@@ -343,7 +342,6 @@ export default function EditSuitesForm({ suite }) {
 								hintStyle="text-sky-600 text-right"
 							/>
 						</div>
-
 						<div className="mt-4">
 							<div className="flex">
 								<label htmlFor="rev" className="w-1/6 text-xl">
@@ -369,7 +367,6 @@ export default function EditSuitesForm({ suite }) {
 								hintStyle="text-sky-600 text-right"
 							/>
 						</div>
-
 						<div className="mt-4">
 							<div className="flex">
 								<label
@@ -399,7 +396,6 @@ export default function EditSuitesForm({ suite }) {
 								hintStyle="text-sky-600 text-right"
 							/>
 						</div>
-
 						<div className="mt-4">
 							<div className="flex">
 								<label
@@ -429,7 +425,6 @@ export default function EditSuitesForm({ suite }) {
 								hintStyle="text-sky-600 text-right"
 							/>
 						</div>
-
 						<div className="space-y-2 my-8">
 							<div className="flex justify-end mt-2 gap-x-4">
 								<div className="font-semibold">
@@ -455,7 +450,6 @@ export default function EditSuitesForm({ suite }) {
 								/>
 							))}
 						</div>
-
 						{/* -------- File Input -------- */}
 						//Image Input
 						<div className="space-y-2 my-8">
@@ -489,12 +483,18 @@ export default function EditSuitesForm({ suite }) {
 								hintStyle="text-sky-600 text-right"
 							/>
 						</div>
-
 						//Image Gallery
-
-						<div>Gallery start here</div>
-
-
+						<div className="container mx-auto px-4 py-8">
+							<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">
+								{
+									formValues.images.map((image, index) => (
+										<ImageCard
+										key={"card" + index}
+										image={image} />
+									))
+								}
+							</div>
+						</div>
 						//Audio Input
 						<div className="space-y-2 my-8">
 							<div className="grid grid-cols-2 items-center">
@@ -527,7 +527,6 @@ export default function EditSuitesForm({ suite }) {
 								hintStyle="text-sky-600 text-right"
 							/>
 						</div>
-
 						{/* -------- Text Input -------- */}
 						<div className="flex flex-col mt-4">
 							<label
@@ -554,7 +553,6 @@ export default function EditSuitesForm({ suite }) {
 								)}
 							</div>
 						</div>
-
 						<div>
 							{formState.errors._form ? (
 								<div className="p-2 mt-4 bg-red-200 border border-red-400 rounded">

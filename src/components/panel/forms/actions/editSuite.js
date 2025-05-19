@@ -19,6 +19,7 @@ import slugifyOptions from "@/lib/setup-options/slugify-options";
 
 //DB
 import prisma from "@/lib/prisma";
+import Suites from "@/app/panel/(suites)/page";
 
 //-------- Definitions -------
 //Convert a callback-based function into a promise-based function
@@ -128,6 +129,17 @@ export async function editSuite(_formState, formData) {
 		};
 	}
 
+	//Find Suite
+	const suite_id = formData.get("suite_id");
+	const suite = await prisma.suite.findUnique({ where: { suite_id } });
+
+	//-------- Images Loader
+	const originalImages = Suites.map((suite) => {
+		const image = JSON.parse(suite.images)?.[0]?.filePath;
+		const imageDescription = JSON.parse(suite.images)?.[0]?.fileDescription;
+		return image ? { image, imageDescription } : null;
+	});
+
 	//-------- Image File Handler --------
 	let imagePaths = [];
 
@@ -137,10 +149,6 @@ export async function editSuite(_formState, formData) {
 			OR: [{ user_id: 1 }, { email: "franzapata2@gmail.com" }],
 		},
 	});
-
-	//Find Suite
-	const suite_id = formData.get("suite_id");
-	const suite = await prisma.suite.findUnique({ where: { suite_id } });
 
 	//Check input files
 	if (imageFiles.length !== 0) {
