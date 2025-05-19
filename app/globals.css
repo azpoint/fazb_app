@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@tailwind utilities;
+/* @tailwind utilities; */
 /* This must be at the app route level */
 
 :root {
@@ -7,7 +7,7 @@
 	--foreground: #171717;
 }
 
-@theme inline {
+@theme {
 }
 
 @media (prefers-color-scheme: light) {
@@ -27,8 +27,6 @@ body {
 	a {
 		@apply text-sky-800 font-medium no-underline hover:underline hover:text-sky-500;
 	}
-
-
 }
 
 @layer components {
