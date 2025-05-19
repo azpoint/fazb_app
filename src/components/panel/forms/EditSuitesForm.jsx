@@ -1,6 +1,6 @@
 "use client";
 //Dependencies
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useActionState } from "react";
 import { Suspense } from "react";
 
@@ -20,13 +20,14 @@ import { editSuite } from "@/src/components/panel/forms/actions/editSuite";
 import dateToObjIsoString from "@/lib/dateObjToIsoString";
 
 export default function EditSuitesForm({ suite }) {
+	const originalImagesArray = useRef(
+		JSON.parse(suite.images).map((image) => image.filePath)
+	);
 	const [suiteState, setSuiteState] = useState(suite?.mov ? true : false);
 	const [editorContent, setEditorContent] = useState("");
 	const [formState, formStateAction] = useActionState(editSuite, {
 		errors: {},
 	});
-
-	// console.log(suite);
 
 	const [formValues, setFormValues] = useState({
 		title: suite.title,
@@ -42,8 +43,10 @@ export default function EditSuitesForm({ suite }) {
 				)
 			: [""],
 		description: "",
-		images: JSON.parse(suite.images).map((image) => image.filePath),
+		images_to_delete : originalImagesArray.current,
 	});
+
+	useEffect(() => {}, [formValues.images]);
 
 	//Mov Fields Handler.
 	const handleMovFields = (code) => {
@@ -100,6 +103,22 @@ export default function EditSuitesForm({ suite }) {
 		}));
 	};
 
+	//Handle image card.
+
+	const handleImageCard = (e) => {
+		const clickedIndex = e.currentTarget.id;
+		const imagesArrayToEdit = [...formValues.images_to_delete];
+
+		if (imagesArrayToEdit[clickedIndex] === "del") {
+			imagesArrayToEdit[clickedIndex] =
+				originalImagesArray.current[clickedIndex];
+		} else {
+			imagesArrayToEdit[clickedIndex] = "del";
+		}
+
+		setFormValues({ ...formValues, images_to_delete: imagesArrayToEdit });
+	};
+
 	//Format date string and append the description(Text editor) to the formData before submit.
 	const handleSubmit = async (formData) => {
 		if (formData.get("created") !== "")
@@ -111,7 +130,8 @@ export default function EditSuitesForm({ suite }) {
 			formData.set("rev", new Date(formData.get("rev")).toISOString());
 		formData.append("description", editorContent);
 		formData.append("suite_id", suite.suite_id);
-
+		formData.append('images_to_delete', formValues.images_to_delete)
+		console.log(formValues.images_to_delete)
 		formStateAction(formData);
 	};
 
@@ -486,13 +506,22 @@ export default function EditSuitesForm({ suite }) {
 						//Image Gallery
 						<div className="container mx-auto px-4 py-8">
 							<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">
-								{formValues.images.map((image, index) => (
-									<ImageCard
-										key={"card" + index}
-										image={image}
-										id={index}
-									/>
-								))}
+								{originalImagesArray.current.map(
+									(image, index) => (
+										<ImageCard
+											key={"card" + index}
+											image={image}
+											id={index}
+											handleImageCard={handleImageCard}
+											visibility={
+												formValues.images_to_delete[index] ===
+												"del"
+													? ""
+													: "hidden"
+											}
+										/>
+									)
+								)}
 							</div>
 						</div>
 						//Audio Input

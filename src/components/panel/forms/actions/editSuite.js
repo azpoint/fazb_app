@@ -19,7 +19,6 @@ import slugifyOptions from "@/lib/setup-options/slugify-options";
 
 //DB
 import prisma from "@/lib/prisma";
-import Suites from "@/app/panel/(suites)/page";
 
 //-------- Definitions -------
 //Convert a callback-based function into a promise-based function
@@ -134,11 +133,9 @@ export async function editSuite(_formState, formData) {
 	const suite = await prisma.suite.findUnique({ where: { suite_id } });
 
 	//-------- Images Loader
-	const originalImages = Suites.map((suite) => {
-		const image = JSON.parse(suite.images)?.[0]?.filePath;
-		const imageDescription = JSON.parse(suite.images)?.[0]?.fileDescription;
-		return image ? { image, imageDescription } : null;
-	});
+
+	// console.log(JSON.parse(suite.images))
+	console.log(formData.get('images_to_delete'))
 
 	//-------- Image File Handler --------
 	let imagePaths = [];
@@ -291,38 +288,38 @@ export async function editSuite(_formState, formData) {
 	//------- DDBB Edit -------
 
 	try {
-		let returnData = await prisma.suite.update({
-			where: { suite_id: suite_id },
-			data: {
-				author: { connect: { user_id: user.user_id } },
-				type: formData.get("type"),
-				title: formData.get("title"),
-				slug: slugify(formData.get("title"), slugifyOptions),
-				mov: movs.length === 0 ? null : JSON.stringify(movs),
-				created: formData.get("created"),
-				rev: formData.get("rev") === "" ? null : formData.get("rev"),
-				timeLength:
-					formData.get("_length") === ""
-						? null
-						: formData.get("_length"),
-				edition:
-					formData.get("edition") === ""
-						? null
-						: formData.get("edition"),
-				notes:
-					formData.get("description") === ""
-						? null
-						: formData.get("description"),
-				images:
-					imagePaths.length === 0 ? null : JSON.stringify(imagePaths),
-				audios:
-					audioPaths.length === 0 ? null : JSON.stringify(audioPaths),
-				ytLinks: ytIds.length === 0 ? null : JSON.stringify(ytIds),
-			},
-		});
+		// let returnData = await prisma.suite.update({
+		// 	where: { suite_id: suite_id },
+		// 	data: {
+		// 		author: { connect: { user_id: user.user_id } },
+		// 		type: formData.get("type"),
+		// 		title: formData.get("title"),
+		// 		slug: slugify(formData.get("title"), slugifyOptions),
+		// 		mov: movs.length === 0 ? null : JSON.stringify(movs),
+		// 		created: formData.get("created"),
+		// 		rev: formData.get("rev") === "" ? null : formData.get("rev"),
+		// 		timeLength:
+		// 			formData.get("_length") === ""
+		// 				? null
+		// 				: formData.get("_length"),
+		// 		edition:
+		// 			formData.get("edition") === ""
+		// 				? null
+		// 				: formData.get("edition"),
+		// 		notes:
+		// 			formData.get("description") === ""
+		// 				? null
+		// 				: formData.get("description"),
+		// 		images:
+		// 			imagePaths.length === 0 ? null : JSON.stringify(imagePaths),
+		// 		audios:
+		// 			audioPaths.length === 0 ? null : JSON.stringify(audioPaths),
+		// 		ytLinks: ytIds.length === 0 ? null : JSON.stringify(ytIds),
+		// 	},
+		// });
 
 		//Redirect must be outside of the try catch because redirect is handled like an error
-		console.log(returnData);
+		// console.log(returnData);
 	} catch (error) {
 		if (error instanceof Error) {
 			if (error.code === "P2002") {
