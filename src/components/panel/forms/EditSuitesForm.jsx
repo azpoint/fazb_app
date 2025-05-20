@@ -46,7 +46,7 @@ export default function EditSuitesForm({ suite }) {
 		images_to_delete: originalImagesArray.current,
 	});
 
-	useEffect(() => {}, [formValues.images]);
+	// useEffect(() => {}, [formValues.images]);
 
 	//Mov Fields Handler.
 	const handleMovFields = (code) => {
@@ -130,8 +130,16 @@ export default function EditSuitesForm({ suite }) {
 			formData.set("rev", new Date(formData.get("rev")).toISOString());
 		formData.append("description", editorContent);
 		formData.append("suite_id", suite.suite_id);
-		formData.append("images_to_delete", formValues.images_to_delete);
-		console.log(formValues.images_to_delete);
+
+		let imagesToDelete = formValues.images_to_delete.map((image, index) => {
+			if(image === 'del')
+				return originalImagesArray.current[index]
+			else
+				return null
+		}).filter(fileName => fileName !== null)
+
+		formData.append("images_to_delete", JSON.stringify(imagesToDelete));
+		console.log(formData.get("images_to_delete"));
 		formStateAction(formData);
 	};
 
@@ -144,7 +152,7 @@ export default function EditSuitesForm({ suite }) {
 
 				<form
 					action={handleSubmit}
-					className="pt-4 px-2 text-xl flex flex-wrap flex-col lg:flex-row"
+					className="mt-8 px-2 text-xl flex flex-wrap flex-col lg:flex-row"
 				>
 					<div className="mx-auto xl:w-3/5">
 						{/* -------- Suite Type -------- */}

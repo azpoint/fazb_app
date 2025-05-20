@@ -2,7 +2,6 @@ import Image from "next/image";
 import { FaTimesCircle } from "react-icons/fa";
 
 function ImageCard({ image, id, handleImageCard, visibility }) {
-    // console.log(opac)
 	return (
 		<div
 			className="relative aspect-[2/1.5] hover:scale-105 transition-all duration-300 rounded-lg overflow-hidden shadow-lg hover:cursor-pointer"

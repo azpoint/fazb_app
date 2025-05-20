@@ -127,7 +127,7 @@ export default function NewSuitesForm() {
 					// action={createCompositionAction}
 					// action={formStateAction}
 					action={handleSubmit}
-					className="pt-4 px-2 text-xl flex flex-wrap flex-col lg:flex-row"
+					className="mt-8 px-2 text-xl flex flex-wrap flex-col lg:flex-row"
 				>
 					<div className="mx-auto xl:w-3/5">
 						{/* -------- Suite Type -------- */}
