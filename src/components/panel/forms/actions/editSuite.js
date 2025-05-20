@@ -158,15 +158,6 @@ export async function editSuite(_formState, formData) {
 				"/images"
 			);
 
-			//Empty directory to avoid redundant files
-			// fse.emptyDirSync(path.resolve(imageFilePath), (error) => {
-			// 	if (error)
-			// 		throw new Error("Error liberando directorio de imagenes");
-			// });
-
-			//Check if directory exist and creates it if not
-			// fs.mkdirSync(path.resolve(imageFilePath), { recursive: true });
-
 			// Check if directory exist and perform file handling
 			if (fs.existsSync(path.resolve(imageFilePath))) {
 				const writePromises = imageFiles.map(async (file) => {
