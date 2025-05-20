@@ -8,13 +8,10 @@ function ImageCard({ image, id, handleImageCard, visibility }) {
 			id={id}
 			onClick={handleImageCard}
 		>
-			<Image src={image} alt="" fill={true} sizes="1x"/>;
+			<Image src={image} alt="" fill={true} sizes="1x" />;
 			<div
 				className={`absolute top-0 w-full h-full bg-red-500/60 ${visibility}`}
 			/>
-			<div className="absolute top-0 right-2 text-4xl font-bold text-red-600">
-				{id}
-			</div>
 		</div>
 	);
 }
