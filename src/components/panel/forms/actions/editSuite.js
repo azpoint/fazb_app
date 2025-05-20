@@ -27,10 +27,8 @@ const writeFileAsync = util.promisify(fs.writeFile);
 
 export async function editSuite(_formState, formData) {
 	//User load
-	const user = await prisma.user.findFirst({
-		where: {
-			OR: [{ user_id: 1 }, { email: "franzapata2@gmail.com" }],
-		},
+	const user = await prisma.user.findUnique({
+		where: { email: "franzapata2@gmail.com" },
 	});
 
 	//Find Suite
@@ -140,14 +138,14 @@ export async function editSuite(_formState, formData) {
 		};
 	}
 
-	//-------- Images Process -------
-	let imagePaths = [];
-
-	//File directory path
+	//-------- File Operations -------
+	// --- Image File Handling ---
 	const imageFilePath = path.join("public", "suites", suite_id, "images");
 
+	let imagePaths = [];
 	let serverFileList = [];
 
+	// Delete files marked for deletion from client
 	try {
 		const dirents = await fsp.readdir(imageFilePath, {
 			withFileTypes: true,
@@ -188,23 +186,25 @@ export async function editSuite(_formState, formData) {
 		throw new Error(`Error al leer el directorio: ${error.message}`);
 	}
 
-	let fileListFromDB = JSON.parse(suite.images);
+	let fileListFromDB = JSON.parse(suite.images) ?? [""];
 
-	fileListFromDB = fileListFromDB.map((item) =>
-		item.filePath.split("/").slice(4).join("")
-	);
+	if (fileListFromDB[0] !== "") {
+		let imageFileListFromDB = fileListFromDB.map((item) =>
+			item.filePath.split("/").slice(4).join("")
+		);
 
-	fileListFromDB.forEach((item) => {
-		let fileData = {
-			filePath: "",
-			fileDescription: "",
-		};
-		if (currentServerFileList.indexOf(item) !== -1) {
-			fileData.filePath = `/suites/${suite.suite_id}/images/${item}`;
-			fileData.fileDescription = item;
-			imagePaths.push(fileData);
-		}
-	});
+		imageFileListFromDB.forEach((item, index) => {
+			let fileData = {
+				filePath: "",
+				fileDescription: "",
+			};
+			if (currentServerFileList.indexOf(item) !== -1) {
+				fileData.filePath = `/suites/${suite.suite_id}/images/${item}`;
+				fileData.fileDescription = fileListFromDB[index];
+				imagePaths.push(fileData);
+			}
+		});
+	}
 
 	//-------- Image File Handler --------
 
@@ -246,9 +246,6 @@ export async function editSuite(_formState, formData) {
 			} else {
 				throw new Error("Directorio de la suite inexistente");
 			}
-
-			// Redirect must be outside of the try catch because redirect is handled like an error
-			// redirect('/panel')
 		} catch (error) {
 			if (error instanceof Error) {
 				return {
@@ -265,6 +262,8 @@ export async function editSuite(_formState, formData) {
 	}
 
 	//-------- Audio file server handler --------
+	const audioFilePath = path.join("public", "suites", suite_id, "audios");
+
 	let audioPaths = [];
 
 	if (audioFiles.length !== 0) {
@@ -376,8 +375,6 @@ export async function editSuite(_formState, formData) {
 				},
 			};
 		}
-	} finally {
-		await prisma.$disconnect();
 	}
 
 	// Update static pages on the server at the path in production mode.

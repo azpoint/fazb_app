@@ -1,8 +1,9 @@
 "use client";
 //Dependencies
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { useActionState } from "react";
 import { Suspense } from "react";
+import Image from "next/image";
 
 //Text Editor
 import MDXEditorWrapper from "@/src/components/panel/TextEditor";
@@ -21,7 +22,9 @@ import dateToObjIsoString from "@/lib/dateObjToIsoString";
 
 export default function EditSuitesForm({ suite }) {
 	const originalImagesArray = useRef(
-		JSON.parse(suite.images).map((image) => image.filePath)
+		suite.images
+			? JSON.parse(suite.images).map((image) => image.filePath)
+			: [""]
 	);
 	const [suiteState, setSuiteState] = useState(suite?.mov ? true : false);
 	const [editorContent, setEditorContent] = useState("");
@@ -45,8 +48,6 @@ export default function EditSuitesForm({ suite }) {
 		description: "",
 		images_to_delete: originalImagesArray.current,
 	});
-
-	// useEffect(() => {}, [formValues.images]);
 
 	//Mov Fields Handler.
 	const handleMovFields = (code) => {
@@ -489,21 +490,37 @@ export default function EditSuitesForm({ suite }) {
 
 						<div className="container mx-auto px-4 py-8">
 							<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">
-								{originalImagesArray.current.map(
-									(image, index) => (
-										<ImageCard
-											key={"card" + index}
-											image={image}
-											id={index}
-											handleImageCard={handleImageCard}
-											visibility={
-												formValues.images_to_delete[
-													index
-												] === "del"
-													? ""
-													: "hidden"
-											}
-										/>
+								{originalImagesArray.current[0] == "" ? (
+									<>
+										<div className="col-span-full flex justify-center">
+											<Image
+												src={`/desert_plant.gif`}
+												width={800}
+												height={600}
+												alt="Empty space"
+												className=""
+											/>
+										</div>
+									</>
+								) : (
+									originalImagesArray.current.map(
+										(image, index) => (
+											<ImageCard
+												key={"card" + index}
+												image={image}
+												id={index}
+												handleImageCard={
+													handleImageCard
+												}
+												visibility={
+													formValues.images_to_delete[
+														index
+													] === "del"
+														? ""
+														: "hidden"
+												}
+											/>
+										)
 									)
 								)}
 							</div>

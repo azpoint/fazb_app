@@ -4,7 +4,7 @@ import { FaTimesCircle } from "react-icons/fa";
 function ImageCard({ image, id, handleImageCard, visibility }) {
 	return (
 		<div
-			className="relative aspect-[2/1.5] hover:scale-105 transition-all duration-300 rounded-lg overflow-hidden shadow-lg hover:cursor-pointer"
+			className="relative aspect-[2/1.5] hover:scale-105 transition-all duration-300 rounded-lg overflow-hidden shadow-lg hover:cursor-pointer hover:brightness-125"
 			id={id}
 			onClick={handleImageCard}
 		>
