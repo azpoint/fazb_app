@@ -38,7 +38,7 @@ export default function NewSuitesForm() {
 		description: "",
 		isSuite: false,
 	});
-	
+
 	const checkRef = useRef(false);
 	const [editorContent, setEditorContent] = useState("");
 	const [formState, formStateAction] = useActionState(createSuite, {
@@ -46,10 +46,9 @@ export default function NewSuitesForm() {
 	});
 
 	useEffect(() => {
-		checkRef.current = formValues.isSuite
-		console.log(checkRef.current, formValues.isSuite)
-	},[formState.errors])
-
+		checkRef.current = formValues.isSuite;
+		console.log(checkRef.current, formValues.isSuite);
+	}, [formState.errors]);
 
 	//Mov Fields Handler
 	const handleMovFields = (code) => {
@@ -136,7 +135,7 @@ export default function NewSuitesForm() {
 							*Tipo de Obra
 						</h3>
 
-						<div className="mt-4 border-b-2 border-slate-300">
+						<div className="mt-4 border-b-2 border-slate-300 pb-2">
 							<div className="flex justify-between odd:bg-slate-300 py-2 px-2 rounded-md">
 								<label htmlFor="guitarra" className="w-full">
 									Guitarra
@@ -236,7 +235,7 @@ export default function NewSuitesForm() {
 						{/* -------- Data Fields -------- */}
 						<label
 							htmlFor="suite"
-							className="inline-flex items-start gap-4 mt-4 font-semibold"
+							className="inline-flex items-start gap-4 mt-8 font-semibold"
 						>
 							Esta obra es una suite
 							<div className="relative align-">
@@ -444,7 +443,7 @@ export default function NewSuitesForm() {
 							/>
 						</div>
 
-						<div className="space-y-2 my-8">
+						<div className="space-y-2 my-8 border-b-2 border-slate-300 pb-10">
 							<div className="flex justify-end mt-2 gap-x-4">
 								<div className="font-semibold">
 									Cantidad de links de YouTube
@@ -471,7 +470,7 @@ export default function NewSuitesForm() {
 						</div>
 
 						{/* -------- File Input -------- */}
-						<div className="space-y-2 my-8">
+						<div className="space-y-2 my-8 border-b-2 border-slate-300 pb-10">
 							<div className="grid grid-cols-2 items-center">
 								<label
 									htmlFor="images"
@@ -503,7 +502,7 @@ export default function NewSuitesForm() {
 							/>
 						</div>
 
-						<div className="space-y-2 my-8">
+						<div className="space-y-2 my-8 border-b-2 border-slate-300 pb-10">
 							<div className="grid grid-cols-2 items-center">
 								<label
 									htmlFor="audios"
@@ -540,9 +539,11 @@ export default function NewSuitesForm() {
 							<label
 								htmlFor="description"
 								className="font-semibold"
-							>
+							></label>
+
+							<h3 className="text-2xl font-bold text-center">
 								Descripción y/o anotaciones
-							</label>
+							</h3>
 
 							<div className="mt-8">
 								<Suspense

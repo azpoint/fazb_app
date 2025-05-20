@@ -7,9 +7,6 @@
 	--foreground: #171717;
 }
 
-@theme {
-}
-
 @media (prefers-color-scheme: light) {
 	:root {
 		--background: oklch(97% 0.001 106.424);

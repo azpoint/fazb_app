@@ -43,7 +43,7 @@ export default function EditSuitesForm({ suite }) {
 				)
 			: [""],
 		description: "",
-		images_to_delete : originalImagesArray.current,
+		images_to_delete: originalImagesArray.current,
 	});
 
 	useEffect(() => {}, [formValues.images]);
@@ -130,8 +130,8 @@ export default function EditSuitesForm({ suite }) {
 			formData.set("rev", new Date(formData.get("rev")).toISOString());
 		formData.append("description", editorContent);
 		formData.append("suite_id", suite.suite_id);
-		formData.append('images_to_delete', formValues.images_to_delete)
-		console.log(formValues.images_to_delete)
+		formData.append("images_to_delete", formValues.images_to_delete);
+		console.log(formValues.images_to_delete);
 		formStateAction(formData);
 	};
 
@@ -151,7 +151,7 @@ export default function EditSuitesForm({ suite }) {
 						<h3 className="text-xl text-left font-semibold">
 							*Tipo de Obra
 						</h3>
-						<div className="mt-4 border-b-2 border-slate-300">
+						<div className="mt-4 border-b-2 border-slate-300 pb-2">
 							<div className="flex justify-between odd:bg-slate-300 py-2 px-2 rounded-md">
 								<label htmlFor="guitarra" className="w-full">
 									Guitarra
@@ -250,10 +250,10 @@ export default function EditSuitesForm({ suite }) {
 						{/* -------- Data Fields -------- */}
 						<label
 							htmlFor="suite"
-							className="inline-flex items-start gap-4 mt-4 font-semibold"
+							className="inline-flex items-start gap-4 mt-8 font-semibold"
 						>
 							Esta obra es una suite
-							<div className="relative align-">
+							<div className="relative">
 								<input
 									type="checkbox"
 									name=""
@@ -445,7 +445,7 @@ export default function EditSuitesForm({ suite }) {
 								hintStyle="text-sky-600 text-right"
 							/>
 						</div>
-						<div className="space-y-2 my-8">
+						<div className="space-y-2 my-8 border-b-2 border-slate-300 pb-10">
 							<div className="flex justify-end mt-2 gap-x-4">
 								<div className="font-semibold">
 									Cantidad de links de YouTube
@@ -471,7 +471,7 @@ export default function EditSuitesForm({ suite }) {
 							))}
 						</div>
 						{/* -------- File Input -------- */}
-						//Image Input
+						{/* Image Input */}
 						<div className="space-y-2 my-8">
 							<div className="grid grid-cols-2 items-center">
 								<label
@@ -503,8 +503,13 @@ export default function EditSuitesForm({ suite }) {
 								hintStyle="text-sky-600 text-right"
 							/>
 						</div>
-						//Image Gallery
-						<div className="container mx-auto px-4 py-8">
+						{/* Image Gallery */}
+
+						<h3 className="text-2xl font-bold text-center text-stone-900">
+							Editar Galería
+						</h3>
+
+						<div className="container mx-auto px-4 py-8 border-b-2 border-slate-300 pb-10">
 							<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">
 								{originalImagesArray.current.map(
 									(image, index) => (
@@ -514,8 +519,9 @@ export default function EditSuitesForm({ suite }) {
 											id={index}
 											handleImageCard={handleImageCard}
 											visibility={
-												formValues.images_to_delete[index] ===
-												"del"
+												formValues.images_to_delete[
+													index
+												] === "del"
 													? ""
 													: "hidden"
 											}
@@ -524,8 +530,8 @@ export default function EditSuitesForm({ suite }) {
 								)}
 							</div>
 						</div>
-						//Audio Input
-						<div className="space-y-2 my-8">
+						{/* Audio Input */}
+						<div className="space-y-2 my-8 border-b-2 border-slate-300 pb-10">
 							<div className="grid grid-cols-2 items-center">
 								<label
 									htmlFor="audios"
@@ -561,9 +567,11 @@ export default function EditSuitesForm({ suite }) {
 							<label
 								htmlFor="description"
 								className="font-semibold"
-							>
+							></label>
+
+							<h3 className="text-2xl font-bold text-center">
 								Descripción y/o anotaciones
-							</label>
+							</h3>
 
 							<div className="mt-8">
 								{suite ? (
