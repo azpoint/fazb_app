@@ -142,7 +142,6 @@ export async function editSuite(_formState, formData) {
 
 	//-------- Images Process -------
 	let imagePaths = [];
-	console.log(JSON.parse(formData.get("images_to_delete")));
 
 	//File directory path
 	const imageFilePath = path.join("public", "suites", suite_id, "images");
@@ -174,9 +173,38 @@ export async function editSuite(_formState, formData) {
 			}
 		);
 		await Promise.allSettled(deletionPromises);
-	} else {
-		console.log("No se encontraron archivos que eliminar");
 	}
+
+	//Handle the DB Info
+	let currentServerFileList = [];
+	try {
+		const dirents = await fsp.readdir(imageFilePath, {
+			withFileTypes: true,
+		});
+		currentServerFileList = dirents
+			.filter((dirent) => dirent.isFile())
+			.map((dirent) => dirent.name);
+	} catch (error) {
+		throw new Error(`Error al leer el directorio: ${error.message}`);
+	}
+
+	let fileListFromDB = JSON.parse(suite.images);
+
+	fileListFromDB = fileListFromDB.map((item) =>
+		item.filePath.split("/").slice(4).join("")
+	);
+
+	fileListFromDB.forEach((item) => {
+		let fileData = {
+			filePath: "",
+			fileDescription: "",
+		};
+		if (currentServerFileList.indexOf(item) !== -1) {
+			fileData.filePath = `/suites/${suite.suite_id}/images/${item}`;
+			fileData.fileDescription = item;
+			imagePaths.push(fileData);
+		}
+	});
 
 	//-------- Image File Handler --------
 
@@ -296,37 +324,37 @@ export async function editSuite(_formState, formData) {
 	//------- DDBB Edit -------
 
 	try {
-		// let returnData = await prisma.suite.update({
-		// 	where: { suite_id: suite_id },
-		// 	data: {
-		// 		author: { connect: { user_id: user.user_id } },
-		// 		type: formData.get("type"),
-		// 		title: formData.get("title"),
-		// 		slug: slugify(formData.get("title"), slugifyOptions),
-		// 		mov: movs.length === 0 ? null : JSON.stringify(movs),
-		// 		created: formData.get("created"),
-		// 		rev: formData.get("rev") === "" ? null : formData.get("rev"),
-		// 		timeLength:
-		// 			formData.get("_length") === ""
-		// 				? null
-		// 				: formData.get("_length"),
-		// 		edition:
-		// 			formData.get("edition") === ""
-		// 				? null
-		// 				: formData.get("edition"),
-		// 		notes:
-		// 			formData.get("description") === ""
-		// 				? null
-		// 				: formData.get("description"),
-		// 		images:
-		// 			imagePaths.length === 0 ? null : JSON.stringify(imagePaths),
-		// 		audios:
-		// 			audioPaths.length === 0 ? null : JSON.stringify(audioPaths),
-		// 		ytLinks: ytIds.length === 0 ? null : JSON.stringify(ytIds),
-		// 	},
-		// });
-		//Redirect must be outside of the try catch because redirect is handled like an error
-		// console.log(returnData);
+		let returnData = await prisma.suite.update({
+			where: { suite_id: suite_id },
+			data: {
+				author: { connect: { user_id: user.user_id } },
+				type: formData.get("type"),
+				title: formData.get("title"),
+				slug: slugify(formData.get("title"), slugifyOptions),
+				mov: movs.length === 0 ? null : JSON.stringify(movs),
+				created: formData.get("created"),
+				rev: formData.get("rev") === "" ? null : formData.get("rev"),
+				timeLength:
+					formData.get("_length") === ""
+						? null
+						: formData.get("_length"),
+				edition:
+					formData.get("edition") === ""
+						? null
+						: formData.get("edition"),
+				notes:
+					formData.get("description") === ""
+						? null
+						: formData.get("description"),
+				images:
+					imagePaths.length === 0 ? null : JSON.stringify(imagePaths),
+				audios:
+					audioPaths.length === 0 ? null : JSON.stringify(audioPaths),
+				ytLinks: ytIds.length === 0 ? null : JSON.stringify(ytIds),
+			},
+		});
+		// Redirect must be outside of the try catch because redirect is handled like an error
+		console.log(returnData);
 	} catch (error) {
 		if (error instanceof Error) {
 			if (error.code === "P2002") {
@@ -354,7 +382,6 @@ export async function editSuite(_formState, formData) {
 
 	// Update static pages on the server at the path in production mode.
 	revalidatePath("/suites");
-	revalidatePath(`/panel/edit-suite/${suite_id}`);
 	redirect(appPaths.mainPanel());
 	// return { errors };
 }

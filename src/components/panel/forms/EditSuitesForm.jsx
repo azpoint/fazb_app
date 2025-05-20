@@ -131,12 +131,12 @@ export default function EditSuitesForm({ suite }) {
 		formData.append("description", editorContent);
 		formData.append("suite_id", suite.suite_id);
 
-		let imagesToDelete = formValues.images_to_delete.map((image, index) => {
-			if(image === 'del')
-				return originalImagesArray.current[index]
-			else
-				return null
-		}).filter(fileName => fileName !== null)
+		let imagesToDelete = formValues.images_to_delete
+			.map((image, index) => {
+				if (image === "del") return originalImagesArray.current[index];
+				else return null;
+			})
+			.filter((fileName) => fileName !== null);
 
 		formData.append("images_to_delete", JSON.stringify(imagesToDelete));
 		console.log(formData.get("images_to_delete"));
@@ -478,9 +478,40 @@ export default function EditSuitesForm({ suite }) {
 								/>
 							))}
 						</div>
+
 						{/* -------- File Input -------- */}
+
+						{/* Image Gallery */}
+
+						<h3 className="text-2xl font-bold text-center text-stone-900">
+							Editar Galería
+						</h3>
+
+						<div className="container mx-auto px-4 py-8">
+							<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">
+								{originalImagesArray.current.map(
+									(image, index) => (
+										<ImageCard
+											key={"card" + index}
+											image={image}
+											id={index}
+											handleImageCard={handleImageCard}
+											visibility={
+												formValues.images_to_delete[
+													index
+												] === "del"
+													? ""
+													: "hidden"
+											}
+										/>
+									)
+								)}
+							</div>
+						</div>
+
 						{/* Image Input */}
-						<div className="space-y-2 my-8">
+
+						<div className="space-y-2 my-8 border-b-2 border-slate-300 pb-10">
 							<div className="grid grid-cols-2 items-center">
 								<label
 									htmlFor="images"
@@ -510,33 +541,6 @@ export default function EditSuitesForm({ suite }) {
 								hint="Sólo imagenes JPG ó PNG"
 								hintStyle="text-sky-600 text-right"
 							/>
-						</div>
-						{/* Image Gallery */}
-
-						<h3 className="text-2xl font-bold text-center text-stone-900">
-							Editar Galería
-						</h3>
-
-						<div className="container mx-auto px-4 py-8 border-b-2 border-slate-300 pb-10">
-							<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">
-								{originalImagesArray.current.map(
-									(image, index) => (
-										<ImageCard
-											key={"card" + index}
-											image={image}
-											id={index}
-											handleImageCard={handleImageCard}
-											visibility={
-												formValues.images_to_delete[
-													index
-												] === "del"
-													? ""
-													: "hidden"
-											}
-										/>
-									)
-								)}
-							</div>
 						</div>
 						{/* Audio Input */}
 						<div className="space-y-2 my-8 border-b-2 border-slate-300 pb-10">
