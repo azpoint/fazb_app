@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { FaTimesCircle } from "react-icons/fa";
 
 function ImageCard({ image, id, handleImageCard, visibility }) {
 	return (

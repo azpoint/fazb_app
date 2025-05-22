@@ -49,7 +49,7 @@ export default async function Suites() {
 							src={`/desert_plant.gif`}
 							width={800}
 							height={600}
-							alt="Empty space"
+							alt="Empty Space"
 							className=""
 						/>
 					</div>
