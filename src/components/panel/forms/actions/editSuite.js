@@ -380,5 +380,4 @@ export async function editSuite(_formState, formData) {
 	revalidatePath("/suites");
 	revalidatePath("/panel");
 	redirect(appPaths.mainPanel());
-	// return { errors };
 }

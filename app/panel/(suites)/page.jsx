@@ -15,7 +15,6 @@ export default async function Suites() {
         return image ? { image, imageDescription } : null;
     });
 
-    // console.log(suites[0])
 
     return (
         <div className="container mx-auto px-4 py-8">
