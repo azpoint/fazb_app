@@ -343,8 +343,7 @@ export async function editSuite(_formState, formData) {
 						: formData.get("edition"),
 				notes:
 					formData.get("description") === ""
-						? null
-						: formData.get("description"),
+						? suite.description : formData.get("description"),
 				images:
 					imagePaths.length === 0 ? null : JSON.stringify(imagePaths),
 				audios:

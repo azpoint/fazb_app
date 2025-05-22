@@ -143,7 +143,6 @@ export default function EditSuitesForm({ suite }) {
             .filter((fileName) => fileName !== null);
 
         formData.append("images_to_delete", JSON.stringify(imagesToDelete));
-        console.log(formData.get("images_to_delete"));
         formStateAction(formData);
     };
 
