@@ -5,43 +5,43 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
-  output   = "../generated/prisma"
+    provider = "prisma-client-js"
+    output   = "../generated/prisma"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
 model Suite {
-  suite_id   String    @id
-  author     User      @relation(fields: [author_id], references: [user_id])
-  author_id  Int
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  type       String
-  title      String    @unique
-  slug       String    @unique
-  mov        String?
-  created    DateTime
-  rev        DateTime?
-  timeLength String?
-  edition    String?
-  notes      String?
-  images     String?
-  audios     String?
-  ytLinks    String?
-  published  Boolean   @default(false)
+    suite_id   String    @id
+    author     User      @relation(fields: [author_id], references: [user_id])
+    author_id  Int
+    createdAt  DateTime  @default(now())
+    updatedAt  DateTime  @updatedAt
+    type       String
+    title      String    @unique
+    slug       String    @unique
+    mov        String?
+    created    DateTime
+    rev        DateTime?
+    timeLength String?
+    edition    String?
+    notes      String?
+    images     String?
+    audios     String?
+    ytLinks    String?
+    published  Boolean   @default(false)
 }
 
 model User {
-  user_id   Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String
-  surname   String
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  suites    Suite[]
+    user_id   Int      @id @default(autoincrement())
+    email     String   @unique
+    name      String
+    surname   String
+    password  String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    suites    Suite[]
 }

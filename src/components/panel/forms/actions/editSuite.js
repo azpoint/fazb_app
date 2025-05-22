@@ -2,6 +2,7 @@
 
 //Modules
 import fs from "fs";
+import fsp from "fs/promises";
 import path from "path";
 import util from "util";
 import fse from "fs-extra";
@@ -25,6 +26,15 @@ import prisma from "@/lib/prisma";
 const writeFileAsync = util.promisify(fs.writeFile);
 
 export async function editSuite(_formState, formData) {
+	//User load
+	const user = await prisma.user.findUnique({
+		where: { email: "franzapata2@gmail.com" },
+	});
+
+	//Find Suite
+	const suite_id = formData.get("suite_id");
+	const suite = await prisma.suite.findUnique({ where: { suite_id } });
+
 	//--------- Form Validator ---------
 	const zodResult = createSuiteZodSchema.safeParse({
 		title: formData.get("title"),
@@ -128,40 +138,79 @@ export async function editSuite(_formState, formData) {
 		};
 	}
 
-	//-------- Image File Handler --------
+	//-------- File Operations -------
+	// --- Image File Handling ---
+	const imageFilePath = path.join("public", "suites", suite_id, "images");
+
 	let imagePaths = [];
+	let serverFileList = [];
 
-	//User load
-	const user = await prisma.user.findFirst({
-		where: {
-			OR: [{ user_id: 1 }, { email: "franzapata2@gmail.com" }],
-		},
-	});
+	// Delete files marked for deletion from client
+	try {
+		const dirents = await fsp.readdir(imageFilePath, {
+			withFileTypes: true,
+		});
+		serverFileList = dirents
+			.filter((dirent) => dirent.isFile())
+			.map((dirent) => dirent.name);
+	} catch (error) {
+		throw new Error(`Error al leer el directorio: ${error.message}`);
+	}
 
-	//Find Suite
-	const suite_id = formData.get("suite_id");
-	const suite = await prisma.suite.findUnique({ where: { suite_id } });
+	if (serverFileList.length > 0) {
+		const fileListToDeleteFromClient = JSON.parse(
+			formData.get("images_to_delete")
+		);
+		const deletionPromises = fileListToDeleteFromClient.map(
+			async (fileName) => {
+				try {
+					await fsp.unlink(path.join("public", fileName));
+				} catch (error) {
+					throw new Error(`Error eliminando archivo de imagen`);
+				}
+			}
+		);
+		await Promise.allSettled(deletionPromises);
+	}
+
+	//Handle the DB Info
+	let currentServerFileList = [];
+	try {
+		const dirents = await fsp.readdir(imageFilePath, {
+			withFileTypes: true,
+		});
+		currentServerFileList = dirents
+			.filter((dirent) => dirent.isFile())
+			.map((dirent) => dirent.name);
+	} catch (error) {
+		throw new Error(`Error al leer el directorio: ${error.message}`);
+	}
+
+	let fileListFromDB = JSON.parse(suite.images) ?? [""];
+
+	if (fileListFromDB[0] !== "") {
+		let imageFileListFromDB = fileListFromDB.map((item) =>
+			item.filePath.split("/").slice(4).join("")
+		);
+
+		imageFileListFromDB.forEach((item, index) => {
+			let fileData = {
+				filePath: "",
+				fileDescription: "",
+			};
+			if (currentServerFileList.indexOf(item) !== -1) {
+				fileData.filePath = `/suites/${suite.suite_id}/images/${item}`;
+				fileData.fileDescription = fileListFromDB[index];
+				imagePaths.push(fileData);
+			}
+		});
+	}
+
+	//-------- Image File Handler --------
 
 	//Check input files
 	if (imageFiles.length !== 0) {
 		try {
-			//File directory path
-			const imageFilePath = path.join(
-				"public",
-				"/suites",
-				suite_id,
-				"/images"
-			);
-
-			//Empty directory to avoid redundant files
-			// fse.emptyDirSync(path.resolve(imageFilePath), (error) => {
-			// 	if (error)
-			// 		throw new Error("Error liberando directorio de imagenes");
-			// });
-
-			//Check if directory exist and creates it if not
-			// fs.mkdirSync(path.resolve(imageFilePath), { recursive: true });
-
 			// Check if directory exist and perform file handling
 			if (fs.existsSync(path.resolve(imageFilePath))) {
 				const writePromises = imageFiles.map(async (file) => {
@@ -197,9 +246,6 @@ export async function editSuite(_formState, formData) {
 			} else {
 				throw new Error("Directorio de la suite inexistente");
 			}
-
-			// Redirect must be outside of the try catch because redirect is handled like an error
-			// redirect('/panel')
 		} catch (error) {
 			if (error instanceof Error) {
 				return {
@@ -216,6 +262,8 @@ export async function editSuite(_formState, formData) {
 	}
 
 	//-------- Audio file server handler --------
+	const audioFilePath = path.join("public", "suites", suite_id, "audios");
+
 	let audioPaths = [];
 
 	if (audioFiles.length !== 0) {
@@ -226,14 +274,6 @@ export async function editSuite(_formState, formData) {
 				suite_id,
 				"/audios"
 			);
-
-			//Check if directory exist and creates it if not
-			// fs.mkdirSync(path.resolve(audioFilePath), { recursive: true });
-			// //Empty directory to avoid redundant files
-			// fse.emptyDirSync(path.resolve(audioFilePath), (error) => {
-			// 	if (error)
-			// 		throw new Error("Error liberando directorio de audio");
-			// });
 
 			//Check if directory exist and creates it if not
 			if (fs.existsSync(path.resolve(audioFilePath))) {
@@ -303,8 +343,7 @@ export async function editSuite(_formState, formData) {
 						: formData.get("edition"),
 				notes:
 					formData.get("description") === ""
-						? null
-						: formData.get("description"),
+						? suite.description : formData.get("description"),
 				images:
 					imagePaths.length === 0 ? null : JSON.stringify(imagePaths),
 				audios:
@@ -312,8 +351,7 @@ export async function editSuite(_formState, formData) {
 				ytLinks: ytIds.length === 0 ? null : JSON.stringify(ytIds),
 			},
 		});
-
-		//Redirect must be outside of the try catch because redirect is handled like an error
+		// Redirect must be outside of the try catch because redirect is handled like an error
 		console.log(returnData);
 	} catch (error) {
 		if (error instanceof Error) {
@@ -336,12 +374,11 @@ export async function editSuite(_formState, formData) {
 				},
 			};
 		}
-	} finally {
-		await prisma.$disconnect();
 	}
 
 	// Update static pages on the server at the path in production mode.
-	// revalidatePath('/suites')
+	revalidatePath("/suites");
+	revalidatePath("/panel");
 	redirect(appPaths.mainPanel());
 	// return { errors };
 }

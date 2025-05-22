@@ -292,7 +292,6 @@ export async function createSuite(_formState, formData) {
 		});
 
 		//Redirect must be outside of the try catch because redirect is handled like an error
-		console.log(returnData);
 	} catch (error) {
 		if (error instanceof Error) {
 			if (error.code === "P2002") {
@@ -319,7 +318,8 @@ export async function createSuite(_formState, formData) {
 	}
 
 	// Update static pages on the server at the path in production mode.
-	// revalidatePath('/suites')
+	revalidatePath('/suites')
+	revalidatePath('/panel')
 	redirect(appPaths.mainPanel());
 	// return { errors };
 }

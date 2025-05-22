@@ -3,7 +3,6 @@ import prisma from "@/lib/prisma";
 
 export default async function EditSuitePage({ params }) {
 	const { slug } = await params;
-	console.log(slug)
 	const suite = await prisma.suite.findUnique({
 		where: { suite_id: slug },
 	});

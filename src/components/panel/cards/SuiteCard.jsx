@@ -3,7 +3,7 @@ import Link from "next/link";
 import appPaths from "@/src/appPaths";
 
 //Componets
-import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
+import { FaCircle } from "react-icons/fa";
 import { MdEditDocument } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 
@@ -47,9 +47,9 @@ export default function SuiteCard({
 						title="Poner/Quitar en linea"
 					>
 						{published ? (
-							<FaCheckCircle className="w-8 h-8 text-emerald-700 ml-auto" />
+							<FaCircle className="w-8 h-8 text-emerald-700 ml-auto" />
 						) : (
-							<FaTimesCircle className="w-8 h-8 text-rose-700 ml-auto" />
+							<FaCircle className="w-8 h-8 text-rose-700 ml-auto" />
 						)}
 					</div>
 				</Link>
