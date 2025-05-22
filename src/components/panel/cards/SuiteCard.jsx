@@ -29,8 +29,6 @@ export default function SuiteCard({
 						alt={imageDescription || "Suite Text"}
 						fill={true}
 						className="object-cover object-center hover:brightness-125"
-						// width={200}
-						// height={200}
 					/>
 				</Link>
 			</div>
@@ -54,7 +52,7 @@ export default function SuiteCard({
 					</div>
 				</Link>
 
-				<Link href={""}>
+				<Link href={appPaths.deleteSuite(suite_id)}>
 					<div className="relative" title="Eliminar Obra">
 						<MdDelete className="w-8 h-8 text-sky-700 cursor-pointer hover:text-rose-700 hover:scale-125 transition-all duration-300" />
 					</div>

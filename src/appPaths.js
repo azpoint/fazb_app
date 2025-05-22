@@ -10,6 +10,9 @@ const appPaths = {
 	},
 	editSuite(slug) {
 		return `/panel/edit-suite/${slug}`;
+	},
+	deleteSuite(suite_id) {
+		return `/panel/delete-suite/${suite_id}`
 	}
 
 };
