@@ -26,7 +26,6 @@ export default function EditSuitesForm({ suite }) {
             ? JSON.parse(suite.images).map((image) => image.filePath)
             : [""]
     );
-    const [editorContent, setEditorContent] = useState("");
     const [formState, formStateAction] = useActionState(editSuite, {
         errors: {},
     });
@@ -48,6 +47,7 @@ export default function EditSuitesForm({ suite }) {
         description: "",
         images_to_delete: originalImagesArray.current,
     });
+    const [editorContent, setEditorContent] = useState("");
 
     //Mov Fields Handler.
     const handleMovFields = (code) => {
