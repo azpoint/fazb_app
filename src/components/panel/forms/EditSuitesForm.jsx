@@ -32,6 +32,13 @@ export default function EditSuitesForm({ suite }) {
             ? JSON.parse(suite.audios).map((audio) => audio.filePath)
             : [""]
     );
+
+    const originalAudiosDescriptionArray = useRef(
+        suite.audios
+            ? JSON.parse(suite.audios).map((audio) => audio.fileDescription)
+            : [""]
+    );
+
     const [formState, formStateAction] = useActionState(editSuite, {
         errors: {},
     });
@@ -531,7 +538,7 @@ export default function EditSuitesForm({ suite }) {
                                                 width={800}
                                                 height={600}
                                                 alt="Empty space"
-												unoptimized
+                                                unoptimized
                                             />
                                         </div>
                                     </>
@@ -609,7 +616,7 @@ export default function EditSuitesForm({ suite }) {
                                                 width={800}
                                                 height={600}
                                                 alt="Empty space"
-												unoptimized
+                                                unoptimized
                                             />
                                         </div>
                                     </>
@@ -619,6 +626,10 @@ export default function EditSuitesForm({ suite }) {
                                             <AudioCard
                                                 key={"audio_card" + index}
                                                 audio={audio}
+                                                description={
+                                                    originalAudiosDescriptionArray
+                                                        .current[index]
+                                                }
                                                 id={index}
                                                 handleAudioCard={
                                                     handleAudioCard

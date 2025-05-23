@@ -16,7 +16,7 @@
 
 body {
 	background: var(--background);
-	color: var(--foreground);
+	color: oklch(14.1% 0.005 285.823);
 	font-family: openSans, dancingScript, sans-serif;
 }
 
