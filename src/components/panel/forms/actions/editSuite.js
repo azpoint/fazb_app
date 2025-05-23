@@ -139,13 +139,13 @@ export async function editSuite(_formState, formData) {
 	}
 
 	//-------- File Operations -------
-	// --- Image File Handling ---
+	// -------- Image File Handling --------
 	const imageFilePath = path.join("public", "suites", suite_id, "images");
 
 	let imagePaths = [];
 	let serverFileList = [];
 
-	// Delete files marked for deletion from client
+	// Get photo filenames from directory
 	try {
 		const dirents = await fsp.readdir(imageFilePath, {
 			withFileTypes: true,
@@ -154,9 +154,12 @@ export async function editSuite(_formState, formData) {
 			.filter((dirent) => dirent.isFile())
 			.map((dirent) => dirent.name);
 	} catch (error) {
-		throw new Error(`Error al leer el directorio: ${error.message}`);
+		throw new Error(
+			`Error al leer el directorio de fotos: ${error.message}`
+		);
 	}
 
+	//Delete photo promises
 	if (serverFileList.length > 0) {
 		const fileListToDeleteFromClient = JSON.parse(
 			formData.get("images_to_delete")
@@ -173,17 +176,19 @@ export async function editSuite(_formState, formData) {
 		await Promise.allSettled(deletionPromises);
 	}
 
-	//Handle the DB Info
+	//Sync server photo files with DB registered files
 	let currentServerFileList = [];
+
 	try {
 		const dirents = await fsp.readdir(imageFilePath, {
 			withFileTypes: true,
 		});
+
 		currentServerFileList = dirents
 			.filter((dirent) => dirent.isFile())
 			.map((dirent) => dirent.name);
 	} catch (error) {
-		throw new Error(`Error al leer el directorio: ${error.message}`);
+		throw new Error(`Error al leer el directorio fotos: ${error.message}`);
 	}
 
 	let fileListFromDB = JSON.parse(suite.images) ?? [""];
@@ -198,15 +203,13 @@ export async function editSuite(_formState, formData) {
 				filePath: "",
 				fileDescription: "",
 			};
-			if (currentServerFileList.indexOf(item) !== -1) {
+			if (currentServerFileList.includes(item)) {
 				fileData.filePath = `/suites/${suite.suite_id}/images/${item}`;
 				fileData.fileDescription = fileListFromDB[index];
 				imagePaths.push(fileData);
 			}
 		});
 	}
-
-	//-------- Image File Handler --------
 
 	//Check input files
 	if (imageFiles.length !== 0) {
@@ -229,7 +232,7 @@ export async function editSuite(_formState, formData) {
 						const imageName = `${uuidv4().slice(
 							0,
 							8
-						)} - ${user.name} ${user.surname} - ${suite.title}.${file.type === "image/jpeg" ? "jpg" : "png"}`;
+						)}-${user.name}${user.surname}-${suite.title}.${file.type === "image/jpeg" ? "jpg" : "png"}`;
 
 						await writeFileAsync(
 							`${path.resolve(imageFilePath)}/${imageName}`,
@@ -265,16 +268,79 @@ export async function editSuite(_formState, formData) {
 	const audioFilePath = path.join("public", "suites", suite_id, "audios");
 
 	let audioPaths = [];
+	let serverAudioFileList = [];
+
+	// Get audio filenames from directory
+	try {
+		const dirents = await fsp.readdir(audioFilePath, {
+			withFileTypes: true,
+		});
+		serverAudioFileList = dirents
+			.filter((dirent) => dirent.isFile())
+			.map((dirent) => dirent.name);
+	} catch (error) {
+		throw new Error(
+			`Error al leer el directorio de audio: ${error.message}`
+		);
+	}
+
+	// Delete audio promises
+	if (serverAudioFileList.length > 0) {
+		const fileAudioListToDeleteFromClient = JSON.parse(
+			formData.get("audios_to_delete")
+		);
+
+		const audioDeletionPromises = fileAudioListToDeleteFromClient.map(
+			async (fileName) => {
+				try {
+					await fsp.unlink(path.join("public", fileName));
+				} catch (error) {
+					throw new Error(`Error eliminando archivo de imagen`);
+				}
+			}
+		);
+		await Promise.allSettled(audioDeletionPromises);
+	}
+
+	//Sync server audio files with DB registered files
+	let currentAudioServerFileList = [];
+
+	try {
+		const dirents = await fsp.readdir(audioFilePath, {
+			withFileTypes: true,
+		});
+
+		currentAudioServerFileList = dirents
+			.filter((dirent) => dirent.isFile())
+			.map((dirent) => dirent.name);
+	} catch (error) {
+		throw new Error(
+			`Error al leer el directorio de audio: ${error.message}`
+		);
+	}
+
+	let audioFileListFromDB = JSON.parse(suite.audios) ?? [""];
+
+	if (audioFileListFromDB[0] !== "") {
+		audioFileListFromDB = audioFileListFromDB.map((item) =>
+			item.filePath.split("/").slice(4).join("")
+		);
+
+		audioFileListFromDB.forEach((item, index) => {
+			let fileData = {
+				filePath: "",
+				fileDescription: "",
+			};
+			if (currentAudioServerFileList.includes(item)) {
+				fileData.filePath = `/suites/${suite.suite_id}/audios/${item}`;
+				fileData.fileDescription = audioFileListFromDB[index].fileDescription;
+				audioPaths.push(fileData);
+			}
+		});
+	}
 
 	if (audioFiles.length !== 0) {
 		try {
-			const audioFilePath = path.join(
-				"public",
-				"/suites",
-				suite_id,
-				"/audios"
-			);
-
 			//Check if directory exist and creates it if not
 			if (fs.existsSync(path.resolve(audioFilePath))) {
 				const writePromises = audioFiles.map(async (file) => {
@@ -290,13 +356,14 @@ export async function editSuite(_formState, formData) {
 						const audioName = `${uuidv4().slice(
 							0,
 							8
-						)} - ${user.name} ${user.surname} - ${suite.title}.mp3`;
+						)}-${user.name}${user.surname}-${slugify(file.name.slice(0, -4), slugifyOptions)}.mp3`
+
 						await writeFileAsync(
 							`${path.resolve(audioFilePath)}/${audioName}`,
 							buffer
 						);
 
-						fileData.filePath = `/suites/${suite.title}/audios/${audioName}`;
+						fileData.filePath = `/suites/${suite.suite_id}/audios/${audioName}`;
 						fileData.fileDescription = file.name;
 						audioPaths.push(fileData);
 					}
@@ -343,7 +410,8 @@ export async function editSuite(_formState, formData) {
 						: formData.get("edition"),
 				notes:
 					formData.get("description") === ""
-						? suite.description : formData.get("description"),
+						? suite.description
+						: formData.get("description"),
 				images:
 					imagePaths.length === 0 ? null : JSON.stringify(imagePaths),
 				audios:
@@ -352,7 +420,6 @@ export async function editSuite(_formState, formData) {
 			},
 		});
 		// Redirect must be outside of the try catch because redirect is handled like an error
-		console.log(returnData);
 	} catch (error) {
 		if (error instanceof Error) {
 			if (error.code === "P2002") {
