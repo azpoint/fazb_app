@@ -27,10 +27,14 @@ export default function SuiteCard({
     async function handlePublishedStatus() {
         "use server";
 
-        await prisma.suite.update({
-            where: { suite_id },
-            data: { published: !published },
-        });
+        try {
+            await prisma.suite.update({
+                where: { suite_id },
+                data: { published: !published },
+            });
+        } catch (error) {
+            throw new Error("Hubo un problema poniendo la obra en linea");
+        }
 
         revalidatePath("/panel");
     }
@@ -84,11 +88,7 @@ export default function SuiteCard({
                     </div>
                 </Link>
 
-                <Link
-                    // href={appPaths.deleteSuite(suite_id)}
-                    href={""}
-                    onClick={handleDeleteSuite}
-                >
+                <Link href={""} onClick={handleDeleteSuite}>
                     <div className="relative" title="Eliminar Obra">
                         <MdDelete className="w-8 h-8 text-sky-700 cursor-pointer hover:text-rose-700 hover:scale-125 transition-all duration-300" />
                     </div>

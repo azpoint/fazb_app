@@ -168,7 +168,7 @@ export async function createSuite(_formState, formData) {
 					const imageName = `${uuidv4().slice(
 						0,
 						8
-					)}-${user.name}${user.surname}-${formData.get("title")}.${file.type === "image/jpeg" ? "jpg" : "png"}`;
+					)}-${user.name}_${user.surname}-${formData.get("title")}.${file.type === "image/jpeg" ? "jpg" : "png"}`;
 
 					await writeFileAsync(
 						`${path.resolve(imageFilePath)}/${imageName}`,
@@ -230,7 +230,7 @@ export async function createSuite(_formState, formData) {
 					const audioName = `${uuidv4().slice(
 						0,
 						8
-					)}-${user.name}${user.surname}-${slugify(file.name.slice(0, -4), slugifyOptions)}.mp3`;
+					)}-${user.name}_${user.surname}-${slugify(file.name.slice(0, -4), slugifyOptions)}.mp3`;
 
 					await writeFileAsync(
 						`${path.resolve(audioFilePath)}/${audioName}`,
