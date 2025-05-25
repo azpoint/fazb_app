@@ -333,7 +333,7 @@ export async function editSuite(_formState, formData) {
 			};
 			if (currentAudioServerFileList.includes(item)) {
 				fileData.filePath = `/suites/${suite.suite_id}/audios/${item}`;
-				fileData.fileDescription = audioFileListFromDB[index].fileDescription;
+				fileData.fileDescription = JSON.parse(suite.audios)[index].fileDescription;
 				audioPaths.push(fileData);
 			}
 		});
@@ -390,7 +390,7 @@ export async function editSuite(_formState, formData) {
 	//------- DDBB Edit -------
 
 	try {
-		let returnData = await prisma.suite.update({
+		await prisma.suite.update({
 			where: { suite_id: suite_id },
 			data: {
 				author: { connect: { user_id: user.user_id } },
