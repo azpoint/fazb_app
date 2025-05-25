@@ -15,6 +15,7 @@ import YoutubeLinkField from "@/src/components/panel/forms/fields/YouTubeLinkFie
 import MovField from "@/src/components/panel/forms/fields/MovementField";
 import { FaCircleMinus, FaCirclePlus } from "react-icons/fa6";
 import ImageCard from "@/src/components/panel/cards/ImageCard";
+import AudioCard from "@/src/components/panel/cards/AudioCard";
 
 //Actions & Options
 import { editSuite } from "@/src/components/panel/forms/actions/editSuite";
@@ -26,6 +27,18 @@ export default function EditSuitesForm({ suite }) {
             ? JSON.parse(suite.images).map((image) => image.filePath)
             : [""]
     );
+    const originalAudiosArray = useRef(
+        suite.audios
+            ? JSON.parse(suite.audios).map((audio) => audio.filePath)
+            : [""]
+    );
+
+    const originalAudiosDescriptionArray = useRef(
+        suite.audios
+            ? JSON.parse(suite.audios).map((audio) => audio.fileDescription)
+            : [""]
+    );
+
     const [formState, formStateAction] = useActionState(editSuite, {
         errors: {},
     });
@@ -46,6 +59,7 @@ export default function EditSuitesForm({ suite }) {
             : [""],
         description: "",
         images_to_delete: originalImagesArray.current,
+        audios_to_delete: originalAudiosArray.current,
     });
     const [editorContent, setEditorContent] = useState("");
 
@@ -105,8 +119,7 @@ export default function EditSuitesForm({ suite }) {
         }));
     };
 
-    //Handle image card.
-
+    //Handle Image card
     const handleImageCard = (e) => {
         const clickedIndex = e.currentTarget.id;
         const imagesArrayToEdit = [...formValues.images_to_delete];
@@ -119,6 +132,21 @@ export default function EditSuitesForm({ suite }) {
         }
 
         setFormValues({ ...formValues, images_to_delete: imagesArrayToEdit });
+    };
+
+    //Handle Audio Card
+    const handleAudioCard = (e) => {
+        const clickedIndex = e.currentTarget.id;
+        const audiosArrayToEdit = [...formValues.audios_to_delete];
+
+        if (audiosArrayToEdit[clickedIndex] === "del") {
+            audiosArrayToEdit[clickedIndex] =
+                originalAudiosArray.current[clickedIndex];
+        } else {
+            audiosArrayToEdit[clickedIndex] = "del";
+        }
+
+        setFormValues({ ...formValues, audios_to_delete: audiosArrayToEdit });
     };
 
     //Format date string and append the description(Text editor) to the formData before submit.
@@ -143,6 +171,16 @@ export default function EditSuitesForm({ suite }) {
             .filter((fileName) => fileName !== null);
 
         formData.append("images_to_delete", JSON.stringify(imagesToDelete));
+
+        let audiosToDelete = formValues.audios_to_delete
+            .map((audio, index) => {
+                if (audio === "del") return originalAudiosArray.current[index];
+                else return null;
+            })
+            .filter((fileName) => fileName !== null);
+
+        formData.append("audios_to_delete", JSON.stringify(audiosToDelete));
+
         formStateAction(formData);
     };
 
@@ -500,7 +538,7 @@ export default function EditSuitesForm({ suite }) {
                                                 width={800}
                                                 height={600}
                                                 alt="Empty space"
-                                                className=""
+                                                unoptimized
                                             />
                                         </div>
                                     </>
@@ -560,6 +598,54 @@ export default function EditSuitesForm({ suite }) {
                                 hint="Sólo imagenes JPG ó PNG"
                                 hintStyle="text-sky-600 text-right"
                             />
+                        </div>
+
+                        {/* Audio Gallery */}
+
+                        <h3 className="text-2xl font-bold text-center text-stone-900">
+                            Editar Galería de Audio
+                        </h3>
+
+                        <div className="container mx-auto px-4 py-8">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">
+                                {originalAudiosArray.current[0] == "" ? (
+                                    <>
+                                        <div className="col-span-full flex justify-center">
+                                            <Image
+                                                src={`/desert_plant.gif`}
+                                                width={800}
+                                                height={600}
+                                                alt="Empty space"
+                                                unoptimized
+                                            />
+                                        </div>
+                                    </>
+                                ) : (
+                                    originalAudiosArray.current.map(
+                                        (audio, index) => (
+                                            <AudioCard
+                                                key={"audio_card" + index}
+                                                audio={audio}
+                                                description={
+                                                    originalAudiosDescriptionArray
+                                                        .current[index]
+                                                }
+                                                id={index}
+                                                handleAudioCard={
+                                                    handleAudioCard
+                                                }
+                                                visibility={
+                                                    formValues.audios_to_delete[
+                                                        index
+                                                    ] === "del"
+                                                        ? ""
+                                                        : "hidden"
+                                                }
+                                            />
+                                        )
+                                    )
+                                )}
+                            </div>
                         </div>
                         {/* Audio Input */}
                         <div className="space-y-2 my-8 border-b-2 border-slate-300 pb-10">

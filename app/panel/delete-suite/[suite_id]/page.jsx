@@ -13,7 +13,7 @@ export default async function DeleteSuitePage({ params }) {
 
     const suiteFilePath = path.join("public", "suites", suite.suite_id);
 
-    console.log(chalk.redBright.inverse(suiteFilePath));
+    // console.log(chalk.redBright.inverse(suiteFilePath));
 
     try {
         rm(suiteFilePath, { recursive: true, force: true });
