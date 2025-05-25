@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import appPaths from "@/src/appPaths";
 import { revalidatePath } from "next/cache";
+import { rm } from "fs/promises";
+import path from "path";
 
 //Componets
 import { FaCircle } from "react-icons/fa";
@@ -24,11 +26,29 @@ export default function SuiteCard({
 
     async function handlePublishedStatus() {
         "use server";
+
         await prisma.suite.update({
             where: { suite_id },
             data: { published: !published },
         });
 
+        revalidatePath("/panel");
+    }
+
+    async function handleDeleteSuite() {
+        "use server";
+
+        const suiteFilePath = path.join("public", "suites", suite_id);
+
+        try {
+            rm(suiteFilePath, { recursive: true, force: true });
+
+            await prisma.suite.delete({
+                where: { suite_id },
+            });
+        } catch (error) {
+            throw new Error("Hubo un problema eliminando la obra");
+        }
         revalidatePath("/panel");
     }
 
@@ -64,7 +84,11 @@ export default function SuiteCard({
                     </div>
                 </Link>
 
-                <Link href={appPaths.deleteSuite(suite_id)}>
+                <Link
+                    // href={appPaths.deleteSuite(suite_id)}
+                    href={""}
+                    onClick={handleDeleteSuite}
+                >
                     <div className="relative" title="Eliminar Obra">
                         <MdDelete className="w-8 h-8 text-sky-700 cursor-pointer hover:text-rose-700 hover:scale-125 transition-all duration-300" />
                     </div>
