@@ -1,45 +1,47 @@
 @import "tailwindcss";
-/* @tailwind utilities; */
 /* This must be at the app route level */
 
 :root {
-	--background: oklch(97% 0.001 106.424);
-	--foreground: #171717;
+    --background: oklch(97% 0.001 106.424);
+    --foreground: #171717;
 }
 
 @media (prefers-color-scheme: light) {
-	:root {
-		--background: oklch(97% 0.001 106.424);
-		--foreground: #fffcf5;
-	}
+    :root {
+        --background: oklch(97% 0.001 106.424);
+        --foreground: #fffcf5;
+    }
 }
 
 body {
-	background: var(--background);
-	color: oklch(14.1% 0.005 285.823);
-	font-family: openSans, dancingScript, sans-serif;
+    background: var(--background);
+    color: oklch(14.1% 0.005 285.823);
+    font-family: openSans, dancingScript, sans-serif;
 }
 
 @layer base {
-	a {
-		@apply text-sky-800 font-medium no-underline hover:underline hover:text-sky-500;
-	}
+    a {
+        @apply text-sky-800 font-medium no-underline hover:underline hover:text-sky-500;
+    }
+    h2 {
+        @apply text-sky-900 text-4xl text-center md:text-6xl font-bold underline;
+    }
 }
 
 @layer components {
-	.mobileLink {
-		@apply no-underline text-2xl w-full text-center py-2 border-t border-slate-400 hover:underline;
-	}
+    .mobileLink {
+        @apply no-underline text-2xl w-full text-center py-2 border-t border-slate-400 hover:underline;
+    }
 
-	.desktopLink {
-		@apply no-underline text-2xl w-full text-center px-4 py-1 border-slate-400 hover:rounded-md;
-	}
+    .desktopLink {
+        @apply no-underline text-2xl w-full text-center px-4 py-1 border-slate-400 hover:rounded-md;
+    }
 
-	.desktopSubMenu {
-		@apply no-underline text-2xl font-normal;
-	}
+    .desktopSubMenu {
+        @apply no-underline text-2xl font-normal;
+    }
 
-	.field {
-		@apply w-5/6 rounded-md px-2 py-1 text-xl focus:border-sky-800 border-2 border-solid outline-none bg-stone-100;
-	}
+    .field {
+        @apply w-5/6 rounded-md px-2 py-1 text-xl focus:border-sky-800 border-2 border-solid outline-none bg-stone-100;
+    }
 }
