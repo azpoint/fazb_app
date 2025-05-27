@@ -1,15 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import appPaths from "@/src/appPaths";
-import { revalidatePath } from "next/cache";
-import { rm } from "fs/promises";
-import path from "path";
 
 //Componets
-import { FaCircle } from "react-icons/fa";
-import { MdEditDocument } from "react-icons/md";
-import { MdDelete } from "react-icons/md";
-import prisma from "@/lib/prisma";
 
 export default function SuiteCardWeb({
     image,
@@ -17,10 +9,6 @@ export default function SuiteCardWeb({
     title,
     createdAt,
     revAt,
-    publishedAt,
-    lastUpdateAt,
-    published,
-    suite_id,
 	type
 }) {
     const imageCard = image || "/assets/Oraquesta-70s-fazb.jpg";

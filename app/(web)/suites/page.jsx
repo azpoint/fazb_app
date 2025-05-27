@@ -39,9 +39,6 @@ export default async function SuitesPage() {
                                 revAt={suite.rev?.toLocaleDateString("es-ES", {
                                     year: "numeric",
                                 })}
-                                publishedAt={suite.createdAt?.toLocaleDateString()}
-                                lastUpdateAt={suite.updatedAt?.toLocaleDateString()}
-                                published={suite.published}
                                 suite_id={suite.suite_id}
 								type={suite.type}
                             />
