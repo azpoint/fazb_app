@@ -6,7 +6,7 @@ import Image from "next/image";
 
 export default async function Suites() {
     const suites = await prisma.suite.findMany({
-        orderBy: { updatedAt: "desc" },
+        orderBy: { created: "asc" },
     });
 
     const firstImages = suites.map((suite) => {
