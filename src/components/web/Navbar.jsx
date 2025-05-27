@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 //Styles
 import "@/src/styles/components/navbar.css";
@@ -11,6 +12,9 @@ export default function Navbar() {
     const [burgerOpen, setBurgerOpen] = useState(false);
     const [obrasOpen, setObrasOpen] = useState(false);
     const [scrollPosition, setScrollPosition] = useState(false);
+    const pathname = usePathname();
+
+    console.log(pathname);
 
     const handleBurger = () => {
         let mobileMenu = document.getElementById("mobile-menu");
@@ -21,8 +25,13 @@ export default function Navbar() {
 
     useEffect(() => {
         const handleScroll = () => {
-            if (window.scrollY >= 150) setScrollPosition(true);
-            if (window.scrollY < 150) setScrollPosition(false);
+            if (pathname !== "/") {
+                setScrollPosition(true);
+            } else if (window.scrollY >= 150 && pathname === "/") {
+                setScrollPosition(true);
+            } else if (window.scrollY < 150 && pathname === "/") {
+                setScrollPosition(false);
+            }
         };
 
         window.addEventListener("scroll", handleScroll);
@@ -40,7 +49,7 @@ export default function Navbar() {
                         ? "bg-slate-100"
                         : "bg-transparent"
                 } h-20 flex items-center z-10 sm:h-24 transition-all duration-300`}
-				onMouseLeave={() => setObrasOpen(false)}
+                onMouseLeave={() => setObrasOpen(false)}
             >
                 <div className="flex justify-between items-center max-w-screen-xl w-full mx-auto px-8">
                     {" "}
@@ -84,8 +93,8 @@ export default function Navbar() {
                                 burgerOpen
                                     ? "text-txMid"
                                     : scrollPosition
-                                        ? "text-stone-900"
-                                        : "text-stone-100"
+                                      ? "text-stone-900"
+                                      : "text-stone-100"
                             } transition-all duration-300`}
                         >
                             <path
