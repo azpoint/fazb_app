@@ -106,7 +106,7 @@ export default function Navbar() {
                     <div id="desktop-menu" className="hidden lg:block text-2xl">
                         <ul className="flex gap-1 items-center">
                             <Link
-                                href=""
+                                href="/suites"
                                 className={`desktopLink ${
                                     scrollPosition
                                         ? "text-stone-900"
