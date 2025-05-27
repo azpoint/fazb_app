@@ -9,12 +9,12 @@ import { usePathname } from "next/navigation";
 import "@/src/styles/components/navbar.css";
 
 export default function Navbar() {
+	const pathname = usePathname();
+    const [scrollPosition, setScrollPosition] = useState(
+        pathname !== "/" ? true : false
+    );
     const [burgerOpen, setBurgerOpen] = useState(false);
     const [obrasOpen, setObrasOpen] = useState(false);
-    const [scrollPosition, setScrollPosition] = useState(false);
-    const pathname = usePathname();
-
-    console.log(pathname);
 
     const handleBurger = () => {
         let mobileMenu = document.getElementById("mobile-menu");
@@ -25,9 +25,7 @@ export default function Navbar() {
 
     useEffect(() => {
         const handleScroll = () => {
-            if (pathname !== "/") {
-                setScrollPosition(true);
-            } else if (window.scrollY >= 150 && pathname === "/") {
+            if (window.scrollY >= 150 && pathname === "/") {
                 setScrollPosition(true);
             } else if (window.scrollY < 150 && pathname === "/") {
                 setScrollPosition(false);
