@@ -37,6 +37,7 @@ export default function SuiteCard({
         }
 
         revalidatePath("/panel");
+        revalidatePath("/suites");
     }
 
     async function handleDeleteSuite() {
@@ -54,6 +55,7 @@ export default function SuiteCard({
             throw new Error("Hubo un problema eliminando la obra");
         }
         revalidatePath("/panel");
+        revalidatePath("/suites");
     }
 
     return (
