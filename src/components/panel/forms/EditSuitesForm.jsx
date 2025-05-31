@@ -188,7 +188,7 @@ export default function EditSuitesForm({ suite }) {
     return (
         <>
             <div className="h-[96vh] text-stone-900 pb-10 overflow-y-auto w-full">
-                <h2 className="text-2xl font-bold text-center">
+                <h2 className="text-4xl font-bold text-center text-sky-800">
                     Editar {suite.title}
                 </h2>
 
@@ -582,7 +582,7 @@ export default function EditSuitesForm({ suite }) {
                                     id="images"
                                     name="images"
                                     className={`w-5/6 outline-none justify-self-end ${
-                                        formState.errors?.images
+                                        formState?.errors?.images
                                             ? "border-rose-600"
                                             : null
                                     } file:mr-4 file:py-2 file:px-6

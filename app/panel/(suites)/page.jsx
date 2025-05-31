@@ -17,8 +17,8 @@ export default async function Suites() {
 
 
     return (
-        <div className="container mx-auto px-4 py-8">
-            <div className="text-[60px] font-bold text-center text-sky-800">
+        <div className="container mx-auto px-4 py-8 h-screen overflow-y-auto">
+            <div className="text-6xl font-bold text-center text-sky-800">
                 Obras/Suites
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">

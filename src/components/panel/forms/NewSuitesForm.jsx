@@ -116,7 +116,7 @@ export default function NewSuitesForm() {
     return (
         <>
             <div className="h-[96vh] text-stone-900 pb-10 overflow-y-auto w-full">
-                <h2 className="text-2xl font-bold text-center">Agregar Obra</h2>
+                <h2 className="text-4xl font-bold text-center text-sky-800">Agregar Obra</h2>
 
                 <form
                     // action={createCompositionAction}
@@ -539,10 +539,9 @@ export default function NewSuitesForm() {
                                     fallback={<div>Loading editor...</div>}
                                 >
                                     <MDXEditorWrapper
-                                        onChange={(markdown) =>
+                                        setEditorContent={(markdown) =>
                                             setEditorContent(markdown)
                                         }
-                                        prevMarkdown={editorContent}
                                     />
                                 </Suspense>
                             </div>

@@ -261,7 +261,7 @@ export async function createSuite(_formState, formData) {
 
 	//------- DDBB Create -------
 	try {
-		let returnData = await prisma.suite.create({
+		await prisma.suite.create({
 			data: {
 				suite_id: suite_id,
 				author: { connect: { user_id: user.user_id } },

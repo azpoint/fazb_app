@@ -9,13 +9,19 @@ export default async function SuitePage({ params }) {
         where: { slug },
     });
 
-    const HTML =  marked.parse((suite.notes ? suite.notes : ""))
+    const HTML = marked.parse(suite.notes ? suite.notes : "");
 
     return (
         <>
             <div className="w-full h-24" />
+            <h1 className="mt-8 text-sky-900 text-4xl text-center md:text-6xl font-bold">
+                {suite.title}
+            </h1>
 
-            <article dangerouslySetInnerHTML={{__html: HTML}} className="prose prose-slate"></article>
+            <article
+                dangerouslySetInnerHTML={{ __html: HTML }}
+                className="prose prose-slate"
+            ></article>
         </>
     );
 }
