@@ -11,14 +11,14 @@ export default function SuiteCardWeb({
     createdAt,
     revAt,
 	type,
-	suite_id
+	slug
 }) {
     const imageCard = image || "/assets/Oraquesta-70s-fazb.jpg";
 
     return (
         <div className="bg-slate-200 rounded-xl overflow-hidden shadow-sky-950/50 shadow-xl hover:scale-102 transition-all duration-300">
             <div className="relative aspect-[2/1.5]">
-                <Link href={appPaths.suite(suite_id)}>
+                <Link href={appPaths.suite(slug)}>
                     <Image
                         src={imageCard}
                         alt={imageDescription || "Suite Text"}
@@ -29,7 +29,7 @@ export default function SuiteCardWeb({
             </div>
 
             <div className="p-2 text-sky-800 hover:text-sky-600">
-                <Link href={appPaths.suite(suite_id)}>
+                <Link href={appPaths.suite(slug)}>
                     <h4 className="text-center text-2xl font-bold">{title}</h4>
                 </Link>
             </div>

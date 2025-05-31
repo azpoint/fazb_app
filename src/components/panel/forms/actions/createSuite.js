@@ -130,7 +130,7 @@ export async function createSuite(_formState, formData) {
 	}
 
 	//-------- Image File Handler --------
-	let suite_id = uuidv4();
+	let suite_id = uuidv4().slice(0, 8);
 	let imagePaths = [];
 
 	//User load

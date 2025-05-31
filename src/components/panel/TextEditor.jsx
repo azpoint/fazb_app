@@ -1,7 +1,5 @@
 "use client";
-
 import dynamic from "next/dynamic";
-import { useState, useEffect } from "react";
 
 //Styles
 import "@mdxeditor/editor/style.css"; //Styles for the UI text editor 
@@ -49,7 +47,7 @@ export default function MDXEditorWrapper({ setEditorContent, prevMarkdown }) {
 			<MDXEditor
 				markdown={prevMarkdown}
 				plugins={[
-					headingsPlugin(),
+					headingsPlugin({ allowedHeadingLevels: [2, 3, 4] }),
 					quotePlugin(),
 					listsPlugin(),
 					thematicBreakPlugin(),

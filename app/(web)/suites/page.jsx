@@ -40,7 +40,7 @@ export default async function SuitesPage() {
                                 revAt={suite.rev?.toLocaleDateString("es-ES", {
                                     year: "numeric",
                                 })}
-                                suite_id={suite.suite_id}
+                                slug={suite.slug}
 								type={suite.type}
                             />
                         ))}

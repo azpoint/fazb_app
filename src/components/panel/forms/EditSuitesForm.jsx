@@ -352,7 +352,7 @@ export default function EditSuitesForm({ suite }) {
                                 />
                             </div>
                             <HintFeedBack
-                                error={formState.errors.title?.join(", ")}
+                                error={formState?.errors.title?.join(", ")}
                                 errorStyle="text-rose-600 text-right"
                                 hint="Sólo letras, números, espacios ó guión"
                                 hintStyle="text-sky-600 text-right"
@@ -397,7 +397,7 @@ export default function EditSuitesForm({ suite }) {
                                     id="created"
                                     name="created"
                                     className={`field ${
-                                        formState.errors?.created
+                                        formState?.errors?.created
                                             ? "border-rose-600"
                                             : null
                                     }`}
@@ -406,7 +406,7 @@ export default function EditSuitesForm({ suite }) {
                                 />
                             </div>
                             <HintFeedBack
-                                error={formState.errors.created?.join(", ")}
+                                error={formState?.errors.created?.join(", ")}
                                 errorStyle="text-rose-600 text-right"
                                 hint="Si no sabes el día exacto usa el primero del mes"
                                 hintStyle="text-sky-600 text-right"
@@ -422,7 +422,7 @@ export default function EditSuitesForm({ suite }) {
                                     id="rev"
                                     name="rev"
                                     className={`field ${
-                                        formState.errors?.rev
+                                        formState?.errors?.rev
                                             ? "border-rose-600"
                                             : null
                                     }`}
@@ -431,7 +431,7 @@ export default function EditSuitesForm({ suite }) {
                                 />
                             </div>
                             <HintFeedBack
-                                error={formState.errors.rev?.join(", ")}
+                                error={formState?.errors.rev?.join(", ")}
                                 errorStyle="text-rose-600 text-right"
                                 hint="Si no sabes el día exacto usa el primero del mes"
                                 hintStyle="text-sky-600 text-right"
@@ -451,7 +451,7 @@ export default function EditSuitesForm({ suite }) {
                                     name="_length"
                                     placeholder="Formato Tiempo: H:MM:SS en números"
                                     className={`field ${
-                                        formState.errors?._length
+                                        formState?.errors?._length
                                             ? "border-rose-600"
                                             : null
                                     }`}
@@ -460,7 +460,7 @@ export default function EditSuitesForm({ suite }) {
                                 />
                             </div>
                             <HintFeedBack
-                                error={formState.errors._length?.join(", ")}
+                                error={formState?.errors._length?.join(", ")}
                                 errorStyle="text-rose-600 text-right"
                                 hint="Formato Tiempo: H:MM:SS en números"
                                 hintStyle="text-sky-600 text-right"
@@ -480,7 +480,7 @@ export default function EditSuitesForm({ suite }) {
                                     name="edition"
                                     placeholder="Introduce Editor"
                                     className={`field ${
-                                        formState.errors?.edition
+                                        formState?.errors?.edition
                                             ? "border-rose-600"
                                             : null
                                     }`}
@@ -489,7 +489,7 @@ export default function EditSuitesForm({ suite }) {
                                 />
                             </div>
                             <HintFeedBack
-                                error={formState.errors.edition?.join(", ")}
+                                error={formState?.errors.edition?.join(", ")}
                                 errorStyle="text-rose-600 text-right"
                                 hint="Hasta 50 caracteres"
                                 hintStyle="text-sky-600 text-right"
@@ -697,10 +697,10 @@ export default function EditSuitesForm({ suite }) {
                                         fallback={<div>Loading editor...</div>}
                                     >
                                         <MDXEditorWrapper
+                                            prevMarkdown={suite.notes}
                                             setEditorContent={(markdown) =>
                                                 setEditorContent(markdown)
                                             }
-                                            prevMarkdown={suite.notes}
                                         />
                                     </Suspense>
                                 ) : (

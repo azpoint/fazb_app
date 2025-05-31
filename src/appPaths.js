@@ -11,8 +11,8 @@ const appPaths = {
 	editSuite(slug) {
 		return `/panel/edit-suite/${slug}`;
 	},
-	suite(suite_id) {
-		return `/suites/${suite_id}`
+	suite(slug) {
+		return `/suites/${slug}`
 	}
 
 };
