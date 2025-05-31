@@ -1,6 +1,6 @@
 "use client";
 //Dependencies
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useActionState } from "react";
 import { Suspense } from "react";
 
@@ -43,6 +43,13 @@ export default function NewSuitesForm() {
     const [formState, formStateAction] = useActionState(createSuite, {
         errors: {},
     });
+
+	//Force re-render when formState.errors change to show all states correctly, specially the isSuite and radio buttons
+	useEffect(() => {
+		setFormValues(prev => ({
+			...prev
+		}))
+	},[formState.errors])
 
     //Mov Fields Handler
     const handleMovFields = (code) => {
@@ -116,7 +123,9 @@ export default function NewSuitesForm() {
     return (
         <>
             <div className="h-[96vh] text-stone-900 pb-10 overflow-y-auto w-full">
-                <h2 className="text-4xl font-bold text-center text-sky-800">Agregar Obra</h2>
+                <h2 className="text-4xl font-bold text-center text-sky-800">
+                    Agregar Obra
+                </h2>
 
                 <form
                     // action={createCompositionAction}

@@ -1,6 +1,6 @@
 "use client";
 //Dependencies
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useActionState } from "react";
 import { Suspense } from "react";
 import Image from "next/image";
@@ -63,6 +63,13 @@ export default function EditSuitesForm({ suite }) {
         images_to_delete: originalImagesArray.current,
         audios_to_delete: originalAudiosArray.current,
     });
+
+    //Force re-render when formState.errors change to show all states correctly, specially the isSuite and radio buttons
+    useEffect(() => {
+        setFormValues((prev) => ({
+            ...prev,
+        }));
+    }, [formState.errors]);
 
     //Mov Fields Handler.
     const handleMovFields = (code) => {
