@@ -11,9 +11,6 @@ const appPaths = {
 	editSuite(slug) {
 		return `/panel/edit-suite/${slug}`;
 	},
-	deleteSuite(suite_id) {
-		return `/panel/delete-suite/${suite_id}`
-	},
 	suite(suite_id) {
 		return `/suites/${suite_id}`
 	}

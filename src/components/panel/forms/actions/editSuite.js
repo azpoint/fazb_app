@@ -11,12 +11,12 @@ import fse from "fs-extra";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { v4 as uuidv4 } from "uuid";
+import slugifyOptions from "@/lib/setup-options/slugify-options";
 import slugify from "slugify";
 import appPaths from "@/src/appPaths";
 
 //Actions, Options, Validation Schemas
 import { createSuiteZodSchema } from "@/lib/setup-options/zodSchemas/createSuiteZodSchema";
-import slugifyOptions from "@/lib/setup-options/slugify-options";
 
 //DB
 import prisma from "@/lib/prisma";

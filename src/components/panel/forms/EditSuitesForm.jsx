@@ -43,6 +43,8 @@ export default function EditSuitesForm({ suite }) {
         errors: {},
     });
 
+    const [editorContent, setEditorContent] = useState("");
+
     const [formValues, setFormValues] = useState({
         isSuite: suite?.mov ? true : false,
         title: suite.title,
@@ -61,7 +63,6 @@ export default function EditSuitesForm({ suite }) {
         images_to_delete: originalImagesArray.current,
         audios_to_delete: originalAudiosArray.current,
     });
-    const [editorContent, setEditorContent] = useState("");
 
     //Mov Fields Handler.
     const handleMovFields = (code) => {
@@ -342,7 +343,7 @@ export default function EditSuitesForm({ suite }) {
                                     value={formValues.title}
                                     onChange={handleInputChange}
                                     className={`field ${
-                                        formState.errors?.title
+                                        formState?.errors?.title
                                             ? "border-rose-600"
                                             : null
                                     }`}
@@ -696,7 +697,7 @@ export default function EditSuitesForm({ suite }) {
                                         fallback={<div>Loading editor...</div>}
                                     >
                                         <MDXEditorWrapper
-                                            onChange={(markdown) =>
+                                            setEditorContent={(markdown) =>
                                                 setEditorContent(markdown)
                                             }
                                             prevMarkdown={suite.notes}

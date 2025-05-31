@@ -23,9 +23,6 @@ body {
     a {
         @apply text-sky-800 font-medium no-underline hover:underline hover:text-sky-500;
     }
-    h2 {
-        @apply text-sky-900 text-4xl text-center md:text-6xl font-bold underline;
-    }
 }
 
 @layer components {

@@ -35,13 +35,8 @@ import {
 	linkPlugin,
 } from "@mdxeditor/editor";
 
-export default function MDXEditorWrapper({ onChange, prevMarkdown }) {
+export default function MDXEditorWrapper({ setEditorContent, prevMarkdown }) {
 	prevMarkdown ? prevMarkdown : prevMarkdown = "Escribe aquí las anotaciones de la obra."
-	const [markdown, setMarkdown] = useState(prevMarkdown);
-
-	useEffect(() => {
-		setMarkdown(prevMarkdown);
-	}, [prevMarkdown]);
 
 	return (
 		<div
@@ -52,7 +47,7 @@ export default function MDXEditorWrapper({ onChange, prevMarkdown }) {
 			}}
 		>
 			<MDXEditor
-				markdown={markdown}
+				markdown={prevMarkdown}
 				plugins={[
 					headingsPlugin(),
 					quotePlugin(),
@@ -82,9 +77,7 @@ export default function MDXEditorWrapper({ onChange, prevMarkdown }) {
 					}),
 				]}
 				onChange={(newMarkdown) => {
-					setMarkdown(newMarkdown);
-					onChange(newMarkdown);
-					// if (onChange) onChange(newMarkdown);
+					if(setEditorContent) setEditorContent(newMarkdown)	
 				}}
 			/>
 		</div>
