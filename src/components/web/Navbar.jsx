@@ -24,15 +24,12 @@ export default function Navbar() {
     };
 
     useEffect(() => {
-        // This function checks and sets the scroll position state
         const updateScrollPosition = () => {
-            // If we are on the homepage ("/")
             if (pathname === "/") {
                 // If scrolled down past 150px, set scrollPosition to true
                 if (window.scrollY >= 150) {
                     setScrollPosition(true);
                 } else {
-                    // Otherwise, set scrollPosition to false (transparent background)
                     setScrollPosition(false);
                 }
             } else {
@@ -41,17 +38,15 @@ export default function Navbar() {
             }
         };
 
-        // 1. Run once immediately when component mounts or pathname changes
+        // Run once immediately when component mounts or pathname changes
         updateScrollPosition();
 
-        // 2. Add scroll event listener for continuous updates on the homepage
         window.addEventListener("scroll", updateScrollPosition);
 
-        // 3. Cleanup function to remove event listener
         return () => {
             window.removeEventListener("scroll", updateScrollPosition);
         };
-    }, [pathname]); // Add pathname to the dependency array
+    }, [pathname]); 
 
     return (
         <>

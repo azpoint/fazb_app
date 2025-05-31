@@ -20,7 +20,7 @@ export default async function SuitesPage() {
     return (
         <>
             <div className="w-full h-24" />
-            {/* <AnimatedBanner /> */}
+            <AnimatedBanner />
             <h2 className="mt-8 text-sky-900 text-4xl text-center md:text-6xl font-bold underline">Obras</h2>
             <div className="container mx-auto mt-8">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
