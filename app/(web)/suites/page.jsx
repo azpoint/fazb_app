@@ -4,6 +4,7 @@ import prisma from "@/lib/prisma";
 import AnimatedBanner from "@/src/components/web/AnimatedBanner";
 import SuiteCardWeb from "@/src/components/panel/cards/SuiteCardWeb";
 
+
 export default async function SuitesPage() {
     const suites = await prisma.suite.findMany({
 		where: { published: true},

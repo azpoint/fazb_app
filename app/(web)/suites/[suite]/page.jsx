@@ -1,3 +1,5 @@
+import { marked } from "marked";
+
 export default function SuitePage() {
     return (
         <>

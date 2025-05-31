@@ -13,6 +13,9 @@ const appPaths = {
 	},
 	deleteSuite(suite_id) {
 		return `/panel/delete-suite/${suite_id}`
+	},
+	suite(suite_id) {
+		return `/suites/${suite_id}`
 	}
 
 };
