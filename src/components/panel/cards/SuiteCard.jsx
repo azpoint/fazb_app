@@ -21,6 +21,7 @@ export default function SuiteCard({
     lastUpdateAt,
     published,
     suite_id,
+	slug
 }) {
     const imageCard = image || "/assets/Oraquesta-70s-fazb.jpg";
 
@@ -61,7 +62,7 @@ export default function SuiteCard({
     return (
         <div className="bg-slate-200 rounded-xl overflow-hidden shadow-sky-950/50 shadow-xl hover:scale-102 transition-all duration-300">
             <div className="relative aspect-[2/1.5]">
-                <Link href={""}>
+                <Link href={appPaths.suite(slug)}>
                     <Image
                         src={imageCard}
                         alt={imageDescription || "Suite Text"}

@@ -10,7 +10,7 @@ export default function Footer() {
 					<Link href="/" className="no-underline text-stone-200">
 						&copy; {`${year}`} Francisco Zapata Bello
 					</Link>
-					<Link href="" className="no-underline text-stone-200">Developed by Alejandro Zapata</Link>
+					<Link href="" className="no-underline text-stone-200 italic">Developed by Alejandro Zapata</Link>
 				</div>
 			</footer>
 		</>

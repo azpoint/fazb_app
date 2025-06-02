@@ -194,14 +194,14 @@ export default function EditSuitesForm({ suite }) {
 
     return (
         <>
-            <div className="h-[96vh] text-stone-900 pb-10 overflow-y-auto w-full">
+            <div className="container mx-auto my-12 text-stone-900 ">
                 <h2 className="text-4xl font-bold text-center text-sky-800">
                     Editar {suite.title}
                 </h2>
 
                 <form
                     action={handleSubmit}
-                    className="mt-8 px-2 text-xl flex flex-wrap flex-col lg:flex-row"
+                    className="mt-8 px-12 text-xl flex flex-wrap flex-col lg:flex-row"
                 >
                     <div className="mx-auto xl:w-3/5">
                         {/* -------- Suite Type -------- */}
@@ -601,7 +601,7 @@ export default function EditSuitesForm({ suite }) {
                                 />
                             </div>
                             <HintFeedBack
-                                error={formState.errors.images?.join(", ")}
+                                error={formState?.errors.images?.join(", ")}
                                 errorStyle="text-rose-600 text-right"
                                 hint="Sólo imagenes JPG ó PNG"
                                 hintStyle="text-sky-600 text-right"
@@ -716,7 +716,7 @@ export default function EditSuitesForm({ suite }) {
                                 )}
                             </div>
                         </div>
-                        <div>
+                        <div className="w-full flex flex-row justify-center">
                             {formState.errors._form ? (
                                 <div className="p-2 mt-4 bg-red-200 border border-red-400 rounded">
                                     {formState.errors._form?.join(", ")}

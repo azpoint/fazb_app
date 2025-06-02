@@ -17,7 +17,7 @@ export default async function Suites() {
 
 
     return (
-        <div className="container mx-auto px-4 py-8 h-screen overflow-y-auto">
+        <div className="container mx-auto my-12">
             <div className="text-6xl font-bold text-center text-sky-800">
                 Obras/Suites
             </div>
@@ -42,6 +42,7 @@ export default async function Suites() {
                             lastUpdateAt={suite.updatedAt?.toLocaleDateString()}
                             published={suite.published}
                             suite_id={suite.suite_id}
+							slug={suite.slug}
                         />
                     ))
                 ) : (

@@ -32,7 +32,7 @@ export default function SideNav() {
                 Panel Administrador
             </div>
 
-            <div className="flex flex-col gap-y-4 w-full">
+            <div className="flex flex-col gap-y-4 w-full flex-grow">
                 <Link href={appPaths.mainPanel()} className="no-underline">
                     <div className="bg-slate-700 w-full rounded-full p-4 flex flew-row justify-center text-2xl text-stone-200 hover:bg-slate-500 hover:shadow-md ">
                         {/* <FaPlus className="text-stone-200 text-3xl place-self-start w-1/5" /> */}
@@ -57,7 +57,9 @@ export default function SideNav() {
                         </div>
                     </div>
                 </Link>
+				
             </div>
+			<Link href="" className="no-underline text-stone-200 mb-4 italic">Developed by Alejandro Zapata</Link>
         </div>
     );
 }
