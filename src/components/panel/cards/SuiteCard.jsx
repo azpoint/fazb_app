@@ -99,7 +99,7 @@ export default function SuiteCard({
             </div>
 
             <div className="p-2 text-sky-800 hover:text-sky-600">
-                <Link href={""}>
+                <Link href={appPaths.suite(slug, title)}>
                     <h4 className="text-center text-2xl font-bold">{title}</h4>
                 </Link>
             </div>
