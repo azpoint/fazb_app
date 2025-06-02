@@ -4,7 +4,6 @@ import { marked } from "marked";
 export default async function SuitePage({ params }) {
     const { slug } = await params;
 
-    console.log(slug);
     const suite = await prisma.suite.findUnique({
         where: { slug },
     });
@@ -20,8 +19,9 @@ export default async function SuitePage({ params }) {
 
             <article
                 dangerouslySetInnerHTML={{ __html: HTML }}
-                className="prose prose-slate"
+                className="prose prose-slate prose-xl mx-auto w-full mt-16"
             ></article>
         </>
     );
 }
+

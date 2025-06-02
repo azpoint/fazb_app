@@ -69,7 +69,7 @@ export default function EditSuitesForm({ suite }) {
         setFormValues((prev) => ({
             ...prev,
         }));
-    }, [formState.errors]);
+    }, [formState?.errors]);
 
     //Mov Fields Handler.
     const handleMovFields = (code) => {
@@ -705,9 +705,10 @@ export default function EditSuitesForm({ suite }) {
                                     >
                                         <MDXEditorWrapper
                                             prevMarkdown={suite.notes}
-                                            setEditorContent={(markdown) =>
-                                                setEditorContent(markdown)
-                                            }
+                                            setEditorContent={(markdown) => {
+                                                // if (editorContent)
+                                                    setEditorContent(markdown);
+                                            }}
                                         />
                                     </Suspense>
                                 ) : (

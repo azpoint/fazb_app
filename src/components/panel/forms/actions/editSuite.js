@@ -389,6 +389,8 @@ export async function editSuite(_formState, formData) {
 
 	//------- DDBB Edit -------
 
+	console.log(formData.get("description"))
+
 	try {
 		await prisma.suite.update({
 			where: { suite_id: suite_id },
