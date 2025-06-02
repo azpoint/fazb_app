@@ -4,6 +4,11 @@ import prisma from "@/lib/prisma";
 import AnimatedBanner from "@/src/components/web/AnimatedBanner";
 import SuiteCardWeb from "@/src/components/panel/cards/SuiteCardWeb";
 
+export const metadata = {
+	title: "Obras",
+	description: "Fracisco Zapata Augusto Bello, compositor, director y vida"
+};
+
 
 export default async function SuitesPage() {
     const suites = await prisma.suite.findMany({

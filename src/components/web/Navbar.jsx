@@ -58,7 +58,7 @@ export default function Navbar() {
                 } h-20 flex items-center z-10 sm:h-24 transition-all duration-300`}
                 onMouseLeave={() => setObrasOpen(false)}
             >
-                <div className="flex justify-between items-center max-w-screen-xl w-full mx-auto px-8">
+                <div className="flex justify-between items-center max-w-screen-xl w-full mx-auto px-4 md:px-12">
                     {" "}
                     <Link
                         href="/"

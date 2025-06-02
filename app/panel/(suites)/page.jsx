@@ -4,6 +4,11 @@ import prisma from "@/lib/prisma";
 import SuiteCard from "@/src/components/panel/cards/SuiteCard";
 import Image from "next/image";
 
+export const metadata = {
+	title: "Panel",
+	description: "Fracisco Zapata Augusto Bello, compositor, director y vida",
+};
+
 export default async function Suites() {
     const suites = await prisma.suite.findMany({
         orderBy: { created: "asc" },
