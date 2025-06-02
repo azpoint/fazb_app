@@ -11,7 +11,8 @@
 	"dependencies": {
 		"@mdxeditor/editor": "^3.31.0",
 		"@prisma/client": "^6.7.0",
-		"ci": "^2.3.0",
+		"embla-carousel-autoplay": "^8.6.0",
+		"embla-carousel-react": "^8.6.0",
 		"fs-extra": "^11.3.0",
 		"marked": "^15.0.12",
 		"next": "15.3.1",
