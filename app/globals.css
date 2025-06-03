@@ -3,13 +3,13 @@
 /* This must be at the app route level */
 
 :root {
-    --background: oklch(97% 0.001 106.424);
+    --background: oklch(98.4% 0.003 247.858);
     --foreground: #171717;
 }
 
 @media (prefers-color-scheme: light) {
     :root {
-        --background: oklch(97% 0.001 106.424);
+        --background: oklch(98.4% 0.003 247.858);
         --foreground: #fffcf5;
     }
 }
