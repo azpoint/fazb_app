@@ -232,7 +232,7 @@ export async function editSuite(_formState, formData) {
 						const imageName = `${uuidv4().slice(
 							0,
 							8
-						)}-${user.name}${user.surname}-${suite.title}.${file.type === "image/jpeg" ? "jpg" : "png"}`;
+						)}-${user.name}_${user.surname}-${slugify(formData.get("title"), slugifyOptions)}.${file.type === "image/jpeg" ? "jpg" : "png"}`;
 
 						await writeFileAsync(
 							`${path.resolve(imageFilePath)}/${imageName}`,
@@ -240,7 +240,7 @@ export async function editSuite(_formState, formData) {
 						);
 
 						fileData.filePath = `/suites/${suite.suite_id}/images/${imageName}`;
-						fileData.fileDescription = file.name;
+						fileData.fileDescription = file.name.slice(0, -4);
 						imagePaths.push(fileData);
 					}
 				});
@@ -364,7 +364,7 @@ export async function editSuite(_formState, formData) {
 						);
 
 						fileData.filePath = `/suites/${suite.suite_id}/audios/${audioName}`;
-						fileData.fileDescription = file.name;
+						fileData.fileDescription = file.name.slice(0, -4);
 						audioPaths.push(fileData);
 					}
 				});
