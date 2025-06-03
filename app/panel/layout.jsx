@@ -14,7 +14,7 @@ export default function PanelLayout({ children }) {
             <div className="w-full flex-none md:w-72">
                 <SideNav />
             </div>
-            <div className="bg-slate-200 w-full px-12 flex-grow flex flex-col overflow-y-auto">
+            <div className="bg-slate-100 w-full px-12 flex-grow flex flex-col overflow-y-auto">
                 {children}
             </div>
         </body>

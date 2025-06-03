@@ -2,7 +2,7 @@ import prisma from "@/lib/prisma";
 import { marked } from "marked";
 
 //Component
-import { EmblaCarousel } from "@/src/components/web/PhotoGallery";
+import { EmblaCarousel } from "@/src/components/web/EmblaCarousel";
 import { redirect } from "next/navigation";
 import appPaths from "@/src/appPaths";
 

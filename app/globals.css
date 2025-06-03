@@ -15,9 +15,8 @@
 }
 
 body {
-    background: var(--background);
     color: oklch(14.1% 0.005 285.823);
-    font-family: openSans, dancingScript, sans-serif;
+    font-family: var(--font-openSans), var(--font-dancingScript), sans-serif;
 }
 
 @layer base {
