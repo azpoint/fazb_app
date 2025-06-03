@@ -21,7 +21,7 @@ export default function SuiteCard({
     lastUpdateAt,
     published,
     suite_id,
-	slug
+    slug,
 }) {
     const imageCard = image || "/assets/Oraquesta-70s-fazb.jpg";
 
@@ -39,6 +39,7 @@ export default function SuiteCard({
 
         revalidatePath("/panel");
         revalidatePath("/suites");
+        revalidatePath(appPaths.suite(slug, title));
     }
 
     async function handleDeleteSuite() {
@@ -57,12 +58,13 @@ export default function SuiteCard({
         }
         revalidatePath("/panel");
         revalidatePath("/suites");
+        revalidatePath(appPaths.suite(slug, title));
     }
 
     return (
         <div className="bg-slate-200 rounded-xl overflow-hidden shadow-sky-950/50 shadow-xl hover:scale-102 transition-all duration-300">
             <div className="relative aspect-[2/1.5]">
-                <Link href={appPaths.suite(slug, title)}>
+                <Link href={published ? appPaths.suite(slug, title) : ""}>
                     <Image
                         src={imageCard}
                         alt={imageDescription || "Suite Text"}
@@ -99,7 +101,7 @@ export default function SuiteCard({
             </div>
 
             <div className="p-2 text-sky-800 hover:text-sky-600">
-                <Link href={appPaths.suite(slug, title)}>
+                <Link href={published ? appPaths.suite(slug, title) : ""}>
                     <h4 className="text-center text-2xl font-bold">{title}</h4>
                 </Link>
             </div>

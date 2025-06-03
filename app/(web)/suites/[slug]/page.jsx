@@ -3,6 +3,8 @@ import { marked } from "marked";
 
 //Component
 import { EmblaCarousel } from "@/src/components/web/PhotoGallery";
+import { redirect } from "next/navigation";
+import appPaths from "@/src/appPaths";
 
 export async function generateMetadata({ searchParams }) {
     const params = await searchParams;
@@ -18,9 +20,12 @@ export default async function SuitePage({ params }) {
         where: { slug },
     });
 
+	//Redirects if no suite or unpublished
+    if (!suite || suite.published === false) redirect(appPaths.suites());
+
     const HTML = marked.parse(suite.notes ? suite.notes : "");
 
-	const images = JSON.parse(suite.images).map(item => item.filePath)
+    const images = JSON.parse(suite.images).map((item) => item.filePath);
 
     return (
         <>
