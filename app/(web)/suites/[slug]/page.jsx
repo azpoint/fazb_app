@@ -32,6 +32,7 @@ export default async function SuitePage({ params }) {
     const audiosDescription = JSON.parse(suite.audios)?.map(
         (item) => item.fileDescription
     );
+    const ytLinks = JSON.parse(suite.ytLinks);
 
     return (
         <>
@@ -55,6 +56,28 @@ export default async function SuitePage({ params }) {
                               audio={audio}
                               description={audiosDescription[index]}
                           />
+                      ))
+                    : null}
+            </div>
+
+            <div className="my-16 space-y-4 max-w-screen-lg mx-auto">
+                {ytLinks
+                    ? ytLinks.map((video, index) => (
+                          <div
+                              className="w-full aspect-video overflow-hidden rounded-md"
+                              key={`ytVideo-${index}`}
+                          >
+                              <iframe
+                                  loading="lazy"
+                                  className="w-full h-full"
+                                  src={`https://www.youtube.com/embed/${video}`}
+                                  title="YouTube video player"
+                                  frameBorder="0"
+                                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                  referrerPolicy="strict-origin-when-cross-origin"
+                                  allowFullScreen
+                              ></iframe>
+                          </div>
                       ))
                     : null}
             </div>
