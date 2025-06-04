@@ -5,18 +5,17 @@ import fs from "fs";
 import fsp from "fs/promises";
 import path from "path";
 import util from "util";
-import fse from "fs-extra";
 
 //Dependencies
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { v4 as uuidv4 } from "uuid";
+import slugifyOptions from "@/lib/setup-options/slugify-options";
 import slugify from "slugify";
 import appPaths from "@/src/appPaths";
 
 //Actions, Options, Validation Schemas
 import { createSuiteZodSchema } from "@/lib/setup-options/zodSchemas/createSuiteZodSchema";
-import slugifyOptions from "@/lib/setup-options/slugify-options";
 
 //DB
 import prisma from "@/lib/prisma";
@@ -145,7 +144,7 @@ export async function editSuite(_formState, formData) {
 	let imagePaths = [];
 	let serverFileList = [];
 
-	// Get photo filenames from directory
+	// Get photo filenames from server directory
 	try {
 		const dirents = await fsp.readdir(imageFilePath, {
 			withFileTypes: true,
@@ -232,7 +231,7 @@ export async function editSuite(_formState, formData) {
 						const imageName = `${uuidv4().slice(
 							0,
 							8
-						)}-${user.name}${user.surname}-${suite.title}.${file.type === "image/jpeg" ? "jpg" : "png"}`;
+						)}-${user.name}_${user.surname}-${slugify(formData.get("title"), slugifyOptions)}.${file.type === "image/jpeg" ? "jpg" : "png"}`;
 
 						await writeFileAsync(
 							`${path.resolve(imageFilePath)}/${imageName}`,
@@ -240,7 +239,7 @@ export async function editSuite(_formState, formData) {
 						);
 
 						fileData.filePath = `/suites/${suite.suite_id}/images/${imageName}`;
-						fileData.fileDescription = file.name;
+						fileData.fileDescription = file.name.slice(0, -4);
 						imagePaths.push(fileData);
 					}
 				});
@@ -364,7 +363,7 @@ export async function editSuite(_formState, formData) {
 						);
 
 						fileData.filePath = `/suites/${suite.suite_id}/audios/${audioName}`;
-						fileData.fileDescription = file.name;
+						fileData.fileDescription = file.name.slice(0, -4);
 						audioPaths.push(fileData);
 					}
 				});

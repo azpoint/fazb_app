@@ -9,7 +9,7 @@ import { usePathname } from "next/navigation";
 import "@/src/styles/components/navbar.css";
 
 export default function Navbar() {
-	const pathname = usePathname();
+    const pathname = usePathname();
     const [scrollPosition, setScrollPosition] = useState(
         pathname !== "/" ? true : false
     );
@@ -20,24 +20,33 @@ export default function Navbar() {
         let mobileMenu = document.getElementById("mobile-menu");
 
         mobileMenu.classList.toggle("is-open");
-        burgerOpen ? setBurgerOpen(false) : setBurgerOpen(true);
+        setBurgerOpen((prev) => !prev);
     };
 
     useEffect(() => {
-        const handleScroll = () => {
-            if (window.scrollY >= 150 && pathname === "/") {
+        const updateScrollPosition = () => {
+            if (pathname === "/") {
+                // If scrolled down past 150px, set scrollPosition to true
+                if (window.scrollY >= 150) {
+                    setScrollPosition(true);
+                } else {
+                    setScrollPosition(false);
+                }
+            } else {
+                // If NOT on the homepage, scrollPosition should always be true (solid background)
                 setScrollPosition(true);
-            } else if (window.scrollY < 150 && pathname === "/") {
-                setScrollPosition(false);
             }
         };
 
-        window.addEventListener("scroll", handleScroll);
+        // Run once immediately when component mounts or pathname changes
+        updateScrollPosition();
+
+        window.addEventListener("scroll", updateScrollPosition);
 
         return () => {
-            window.removeEventListener("scroll", handleScroll);
+            window.removeEventListener("scroll", updateScrollPosition);
         };
-    }, []);
+    }, [pathname]); 
 
     return (
         <>
@@ -46,10 +55,10 @@ export default function Navbar() {
                     (!scrollPosition && burgerOpen) || scrollPosition
                         ? "bg-slate-100"
                         : "bg-transparent"
-                } h-20 flex items-center z-10 sm:h-24 transition-all duration-300`}
+                } h-20 flex items-center z-40 sm:h-24 transition-all duration-300`}
                 onMouseLeave={() => setObrasOpen(false)}
             >
-                <div className="flex justify-between items-center max-w-screen-xl w-full mx-auto px-8">
+                <div className="flex justify-between items-center max-w-screen-xl w-full mx-auto px-4 md:px-12">
                     {" "}
                     <Link
                         href="/"

@@ -1,28 +1,21 @@
 /* Headings */
-.mdxeditor h1 {
+.mdxeditor h2 {
     font-size: 2rem;
     font-weight: bold;
     margin: 1rem 0;
 }
 
-.mdxeditor h2 {
+.mdxeditor h3 {
     font-size: 1.5rem;
     font-weight: bold;
     margin: 0.75rem 0;
 }
 
-.mdxeditor h3 {
+.mdxeditor h4 {
     font-size: 1.25rem;
     font-weight: bold;
     margin: 0.5rem 0;
 }
-
-.mdxeditor h4 {
-    font-size: 1rem;
-    font-weight: bold;
-    margin: 0.25rem 0;
-}
-
 /* Paragraph */
 .mdxeditor p {
     font-size: 1rem;

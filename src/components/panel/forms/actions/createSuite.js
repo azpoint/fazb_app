@@ -4,7 +4,6 @@
 import fs from "fs";
 import path from "path";
 import util from "util";
-import fse from "fs-extra";
 
 //Dependencies
 import { redirect } from "next/navigation";
@@ -130,7 +129,7 @@ export async function createSuite(_formState, formData) {
 	}
 
 	//-------- Image File Handler --------
-	let suite_id = uuidv4();
+	let suite_id = uuidv4().slice(0, 8);
 	let imagePaths = [];
 
 	//User load
@@ -168,7 +167,7 @@ export async function createSuite(_formState, formData) {
 					const imageName = `${uuidv4().slice(
 						0,
 						8
-					)}-${user.name}_${user.surname}-${formData.get("title")}.${file.type === "image/jpeg" ? "jpg" : "png"}`;
+					)}-${user.name}_${user.surname}-${slugify(formData.get("title"), slugifyOptions)}.${file.type === "image/jpeg" ? "jpg" : "png"}`;
 
 					await writeFileAsync(
 						`${path.resolve(imageFilePath)}/${imageName}`,
@@ -176,7 +175,7 @@ export async function createSuite(_formState, formData) {
 					);
 
 					fileData.filePath = `/suites/${suite_id}/images/${imageName}`;
-					fileData.fileDescription = file.name;
+					fileData.fileDescription = file.name.slice(0, -4);
 					imagePaths.push(fileData);
 				}
 			});
@@ -238,7 +237,7 @@ export async function createSuite(_formState, formData) {
 					);
 
 					fileData.filePath = `/suites/${suite_id}/audios/${audioName}`;
-					fileData.fileDescription = file.name;
+					fileData.fileDescription = file.name.slice(0, -4);
 					audioPaths.push(fileData);
 				}
 			});
@@ -261,7 +260,7 @@ export async function createSuite(_formState, formData) {
 
 	//------- DDBB Create -------
 	try {
-		let returnData = await prisma.suite.create({
+		await prisma.suite.create({
 			data: {
 				suite_id: suite_id,
 				author: { connect: { user_id: user.user_id } },

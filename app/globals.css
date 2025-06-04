@@ -1,30 +1,27 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 /* This must be at the app route level */
 
 :root {
-    --background: oklch(97% 0.001 106.424);
+    --background: oklch(98.4% 0.003 247.858);
     --foreground: #171717;
 }
 
 @media (prefers-color-scheme: light) {
     :root {
-        --background: oklch(97% 0.001 106.424);
+        --background: oklch(98.4% 0.003 247.858);
         --foreground: #fffcf5;
     }
 }
 
 body {
-    background: var(--background);
     color: oklch(14.1% 0.005 285.823);
-    font-family: openSans, dancingScript, sans-serif;
+    font-family: var(--font-openSans), var(--font-dancingScript), sans-serif;
 }
 
 @layer base {
     a {
         @apply text-sky-800 font-medium no-underline hover:underline hover:text-sky-500;
-    }
-    h2 {
-        @apply text-sky-900 text-4xl text-center md:text-6xl font-bold underline;
     }
 }
 

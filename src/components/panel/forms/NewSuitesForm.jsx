@@ -1,6 +1,6 @@
 "use client";
 //Dependencies
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useActionState } from "react";
 import { Suspense } from "react";
 
@@ -43,6 +43,13 @@ export default function NewSuitesForm() {
     const [formState, formStateAction] = useActionState(createSuite, {
         errors: {},
     });
+
+    //Force re-render when formState.errors change to show all states correctly, specially the isSuite and radio buttons
+    useEffect(() => {
+        setFormValues((prev) => ({
+            ...prev,
+        }));
+    }, [formState.errors]);
 
     //Mov Fields Handler
     const handleMovFields = (code) => {
@@ -115,16 +122,18 @@ export default function NewSuitesForm() {
 
     return (
         <>
-            <div className="h-[96vh] text-stone-900 pb-10 overflow-y-auto w-full">
-                <h2 className="text-2xl font-bold text-center">Agregar Obra</h2>
+            <div className="container mx-auto my-12 text-stone-900 ">
+                <h2 className="text-4xl font-bold text-center text-sky-800">
+                    Agregar Obra
+                </h2>
 
                 <form
                     // action={createCompositionAction}
                     // action={formStateAction}
                     action={handleSubmit}
-                    className="mt-8 px-2 text-xl flex flex-wrap flex-col lg:flex-row"
+                    className="mt-8 px-12 text-xl flex flex-wrap flex-col lg:flex-row"
                 >
-                    <div className="mx-auto xl:w-3/5">
+                    <div className="mx-auto xl:w-3/5 ">
                         {/* -------- Suite Type -------- */}
                         <h3 className="text-xl text-left font-semibold">
                             *Tipo de Obra
@@ -518,7 +527,7 @@ export default function NewSuitesForm() {
                             <HintFeedBack
                                 error={formState.errors.audios?.join(", ")}
                                 errorStyle="text-rose-600 text-right"
-                                hint="Sólo archivos mp3"
+                                hint="Sólo archivos mp3 | El nombre del archivo será la descripción del audio"
                                 hintStyle="text-sky-600 text-right"
                             />
                         </div>
@@ -539,24 +548,22 @@ export default function NewSuitesForm() {
                                     fallback={<div>Loading editor...</div>}
                                 >
                                     <MDXEditorWrapper
-                                        onChange={(markdown) =>
+                                        setEditorContent={(markdown) =>
                                             setEditorContent(markdown)
                                         }
-                                        prevMarkdown={editorContent}
                                     />
                                 </Suspense>
                             </div>
                         </div>
 
-                        <div>
+                        <div className="w-full flex flex-row justify-center">
                             {formState.errors._form ? (
                                 <div className="p-2 mt-4 bg-red-200 border border-red-400 rounded">
                                     {formState.errors._form?.join(", ")}
                                 </div>
                             ) : null}
-
-                            <FormButton>Agregar Obra</FormButton>
                         </div>
+                        <FormButton>Agregar Obra</FormButton>
                     </div>
                 </form>
             </div>

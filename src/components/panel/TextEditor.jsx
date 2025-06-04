@@ -1,7 +1,5 @@
 "use client";
-
 import dynamic from "next/dynamic";
-import { useState, useEffect } from "react";
 
 //Styles
 import "@mdxeditor/editor/style.css"; //Styles for the UI text editor 
@@ -35,13 +33,8 @@ import {
 	linkPlugin,
 } from "@mdxeditor/editor";
 
-export default function MDXEditorWrapper({ onChange, prevMarkdown }) {
+export default function MDXEditorWrapper({ setEditorContent, prevMarkdown }) {
 	prevMarkdown ? prevMarkdown : prevMarkdown = "Escribe aquí las anotaciones de la obra."
-	const [markdown, setMarkdown] = useState(prevMarkdown);
-
-	useEffect(() => {
-		setMarkdown(prevMarkdown);
-	}, [prevMarkdown]);
 
 	return (
 		<div
@@ -52,9 +45,9 @@ export default function MDXEditorWrapper({ onChange, prevMarkdown }) {
 			}}
 		>
 			<MDXEditor
-				markdown={markdown}
+				markdown={prevMarkdown}
 				plugins={[
-					headingsPlugin(),
+					headingsPlugin({ allowedHeadingLevels: [2, 3, 4] }),
 					quotePlugin(),
 					listsPlugin(),
 					thematicBreakPlugin(),
@@ -82,9 +75,7 @@ export default function MDXEditorWrapper({ onChange, prevMarkdown }) {
 					}),
 				]}
 				onChange={(newMarkdown) => {
-					setMarkdown(newMarkdown);
-					onChange(newMarkdown);
-					// if (onChange) onChange(newMarkdown);
+					if(setEditorContent) setEditorContent(newMarkdown)	
 				}}
 			/>
 		</div>

@@ -1,6 +1,6 @@
 "use client";
 //Dependencies
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useActionState } from "react";
 import { Suspense } from "react";
 import Image from "next/image";
@@ -43,6 +43,8 @@ export default function EditSuitesForm({ suite }) {
         errors: {},
     });
 
+    const [editorContent, setEditorContent] = useState("");
+
     const [formValues, setFormValues] = useState({
         isSuite: suite?.mov ? true : false,
         title: suite.title,
@@ -61,7 +63,13 @@ export default function EditSuitesForm({ suite }) {
         images_to_delete: originalImagesArray.current,
         audios_to_delete: originalAudiosArray.current,
     });
-    const [editorContent, setEditorContent] = useState("");
+
+    //Force re-render when formState.errors change to re-sync states
+    useEffect(() => {
+        setFormValues((prev) => ({
+            ...prev,
+        }));
+    }, [formState?.errors]);
 
     //Mov Fields Handler.
     const handleMovFields = (code) => {
@@ -186,14 +194,14 @@ export default function EditSuitesForm({ suite }) {
 
     return (
         <>
-            <div className="h-[96vh] text-stone-900 pb-10 overflow-y-auto w-full">
-                <h2 className="text-2xl font-bold text-center">
+            <div className="container mx-auto my-12 text-stone-900 ">
+                <h2 className="text-4xl font-bold text-center text-sky-800">
                     Editar {suite.title}
                 </h2>
 
                 <form
                     action={handleSubmit}
-                    className="mt-8 px-2 text-xl flex flex-wrap flex-col lg:flex-row"
+                    className="mt-8 px-12 text-xl flex flex-wrap flex-col lg:flex-row"
                 >
                     <div className="mx-auto xl:w-3/5">
                         {/* -------- Suite Type -------- */}
@@ -342,7 +350,7 @@ export default function EditSuitesForm({ suite }) {
                                     value={formValues.title}
                                     onChange={handleInputChange}
                                     className={`field ${
-                                        formState.errors?.title
+                                        formState?.errors?.title
                                             ? "border-rose-600"
                                             : null
                                     }`}
@@ -351,7 +359,7 @@ export default function EditSuitesForm({ suite }) {
                                 />
                             </div>
                             <HintFeedBack
-                                error={formState.errors.title?.join(", ")}
+                                error={formState?.errors.title?.join(", ")}
                                 errorStyle="text-rose-600 text-right"
                                 hint="Sólo letras, números, espacios ó guión"
                                 hintStyle="text-sky-600 text-right"
@@ -396,7 +404,7 @@ export default function EditSuitesForm({ suite }) {
                                     id="created"
                                     name="created"
                                     className={`field ${
-                                        formState.errors?.created
+                                        formState?.errors?.created
                                             ? "border-rose-600"
                                             : null
                                     }`}
@@ -405,7 +413,7 @@ export default function EditSuitesForm({ suite }) {
                                 />
                             </div>
                             <HintFeedBack
-                                error={formState.errors.created?.join(", ")}
+                                error={formState?.errors.created?.join(", ")}
                                 errorStyle="text-rose-600 text-right"
                                 hint="Si no sabes el día exacto usa el primero del mes"
                                 hintStyle="text-sky-600 text-right"
@@ -421,7 +429,7 @@ export default function EditSuitesForm({ suite }) {
                                     id="rev"
                                     name="rev"
                                     className={`field ${
-                                        formState.errors?.rev
+                                        formState?.errors?.rev
                                             ? "border-rose-600"
                                             : null
                                     }`}
@@ -430,7 +438,7 @@ export default function EditSuitesForm({ suite }) {
                                 />
                             </div>
                             <HintFeedBack
-                                error={formState.errors.rev?.join(", ")}
+                                error={formState?.errors.rev?.join(", ")}
                                 errorStyle="text-rose-600 text-right"
                                 hint="Si no sabes el día exacto usa el primero del mes"
                                 hintStyle="text-sky-600 text-right"
@@ -450,7 +458,7 @@ export default function EditSuitesForm({ suite }) {
                                     name="_length"
                                     placeholder="Formato Tiempo: H:MM:SS en números"
                                     className={`field ${
-                                        formState.errors?._length
+                                        formState?.errors?._length
                                             ? "border-rose-600"
                                             : null
                                     }`}
@@ -459,7 +467,7 @@ export default function EditSuitesForm({ suite }) {
                                 />
                             </div>
                             <HintFeedBack
-                                error={formState.errors._length?.join(", ")}
+                                error={formState?.errors._length?.join(", ")}
                                 errorStyle="text-rose-600 text-right"
                                 hint="Formato Tiempo: H:MM:SS en números"
                                 hintStyle="text-sky-600 text-right"
@@ -479,7 +487,7 @@ export default function EditSuitesForm({ suite }) {
                                     name="edition"
                                     placeholder="Introduce Editor"
                                     className={`field ${
-                                        formState.errors?.edition
+                                        formState?.errors?.edition
                                             ? "border-rose-600"
                                             : null
                                     }`}
@@ -488,7 +496,7 @@ export default function EditSuitesForm({ suite }) {
                                 />
                             </div>
                             <HintFeedBack
-                                error={formState.errors.edition?.join(", ")}
+                                error={formState?.errors.edition?.join(", ")}
                                 errorStyle="text-rose-600 text-right"
                                 hint="Hasta 50 caracteres"
                                 hintStyle="text-sky-600 text-right"
@@ -581,7 +589,7 @@ export default function EditSuitesForm({ suite }) {
                                     id="images"
                                     name="images"
                                     className={`w-5/6 outline-none justify-self-end ${
-                                        formState.errors?.images
+                                        formState?.errors?.images
                                             ? "border-rose-600"
                                             : null
                                     } file:mr-4 file:py-2 file:px-6
@@ -593,7 +601,7 @@ export default function EditSuitesForm({ suite }) {
                                 />
                             </div>
                             <HintFeedBack
-                                error={formState.errors.images?.join(", ")}
+                                error={formState?.errors.images?.join(", ")}
                                 errorStyle="text-rose-600 text-right"
                                 hint="Sólo imagenes JPG ó PNG"
                                 hintStyle="text-sky-600 text-right"
@@ -675,7 +683,7 @@ export default function EditSuitesForm({ suite }) {
                             <HintFeedBack
                                 error={formState.errors.audios?.join(", ")}
                                 errorStyle="text-rose-600 text-right"
-                                hint="Sólo archivos mp3"
+                                hint="Sólo archivos mp3 | El nombre del archivo será la descripción del audio"
                                 hintStyle="text-sky-600 text-right"
                             />
                         </div>
@@ -696,10 +704,11 @@ export default function EditSuitesForm({ suite }) {
                                         fallback={<div>Loading editor...</div>}
                                     >
                                         <MDXEditorWrapper
-                                            onChange={(markdown) =>
-                                                setEditorContent(markdown)
-                                            }
                                             prevMarkdown={suite.notes}
+                                            setEditorContent={(markdown) => {
+                                                // if (editorContent)
+                                                setEditorContent(markdown);
+                                            }}
                                         />
                                     </Suspense>
                                 ) : (
@@ -707,15 +716,14 @@ export default function EditSuitesForm({ suite }) {
                                 )}
                             </div>
                         </div>
-                        <div>
+                        <div className="w-full flex flex-row justify-center">
                             {formState.errors._form ? (
                                 <div className="p-2 mt-4 bg-red-200 border border-red-400 rounded">
                                     {formState.errors._form?.join(", ")}
                                 </div>
                             ) : null}
-
-                            <FormButton>Actualizar Obra</FormButton>
                         </div>
+                        <FormButton>Actualizar Obra</FormButton>
                     </div>
                 </form>
             </div>
