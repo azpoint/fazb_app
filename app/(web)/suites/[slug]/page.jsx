@@ -26,10 +26,10 @@ export default async function SuitePage({ params }) {
 
     const HTML = marked.parse(suite.notes ? suite.notes : "");
 
-    const images = JSON.parse(suite.images).map((item) => item.filePath);
+    const images = JSON.parse(suite.images)?.map((item) => item.filePath);
 
-    const audios = JSON.parse(suite.audios).map((item) => item.filePath);
-    const audiosDescription = JSON.parse(suite.audios).map(
+    const audios = JSON.parse(suite.audios)?.map((item) => item.filePath);
+    const audiosDescription = JSON.parse(suite.audios)?.map(
         (item) => item.fileDescription
     );
 
@@ -48,13 +48,15 @@ export default async function SuitePage({ params }) {
             <EmblaCarousel photos={images} />
 
             <div className="max-w-screen-lg my-12 w-full mx-auto space-y-8">
-                {audios.map((audio, index) => (
-                    <AudioCardWeb
-                        key={"audio_car_web" + index}
-                        audio={audio}
-                        description={audiosDescription[index]}
-                    />
-                ))}
+                {audios
+                    ? audios.map((audio, index) => (
+                          <AudioCardWeb
+                              key={"audio_car_web" + index}
+                              audio={audio}
+                              description={audiosDescription[index]}
+                          />
+                      ))
+                    : null}
             </div>
         </>
     );

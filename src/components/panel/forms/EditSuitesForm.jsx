@@ -707,7 +707,7 @@ export default function EditSuitesForm({ suite }) {
                                             prevMarkdown={suite.notes}
                                             setEditorContent={(markdown) => {
                                                 // if (editorContent)
-                                                    setEditorContent(markdown);
+                                                setEditorContent(markdown);
                                             }}
                                         />
                                     </Suspense>
@@ -722,9 +722,8 @@ export default function EditSuitesForm({ suite }) {
                                     {formState.errors._form?.join(", ")}
                                 </div>
                             ) : null}
-
-                            <FormButton>Actualizar Obra</FormButton>
                         </div>
+                        <FormButton>Actualizar Obra</FormButton>
                     </div>
                 </form>
             </div>

@@ -44,12 +44,12 @@ export default function NewSuitesForm() {
         errors: {},
     });
 
-	//Force re-render when formState.errors change to show all states correctly, specially the isSuite and radio buttons
-	useEffect(() => {
-		setFormValues(prev => ({
-			...prev
-		}))
-	},[formState.errors])
+    //Force re-render when formState.errors change to show all states correctly, specially the isSuite and radio buttons
+    useEffect(() => {
+        setFormValues((prev) => ({
+            ...prev,
+        }));
+    }, [formState.errors]);
 
     //Mov Fields Handler
     const handleMovFields = (code) => {
@@ -562,9 +562,8 @@ export default function NewSuitesForm() {
                                     {formState.errors._form?.join(", ")}
                                 </div>
                             ) : null}
-
-                            <FormButton >Agregar Obra</FormButton>
                         </div>
+                        <FormButton>Agregar Obra</FormButton>
                     </div>
                 </form>
             </div>
