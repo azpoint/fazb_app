@@ -49,7 +49,7 @@ export function EmblaCarousel({ photos }) {
                 className="group flex items-center justify-center absolute inset-y-0 left-0 w-[6%] md:w-[10%] bg-gradient-to-r from-slate-100 to-transparent z-10 cursor-pointer "
                 onClick={scrollPrev}
             >
-                <GrPrevious className="size-8 md:size-12 lg:size-16 xl:size-20 text-sky-900 transform transition-transform duration-300 group-hover:scale-120 group-active:scale-90" />
+                <GrPrevious className="size-8 md:size-12 lg:size-16 xl:size-20 text-sky-900 transform transition-transform duration-300 group-hover:scale-120 group-active:scale-80" />
             </div>
 
             {/* Gradient Overlay for the Right Side */}
@@ -57,7 +57,7 @@ export function EmblaCarousel({ photos }) {
                 className="group flex items-center justify-center absolute inset-y-0 right-0 w-[6%] md:w-[10%] bg-gradient-to-l from-slate-100 to-transparent z-10 cursor-pointer "
                 onClick={scrollNext}
             >
-                <GrNext className="size-8 md:size-12 lg:size-16 xl:size-20 text-sky-900 transform transition-transform duration-300 group-hover:scale-120 group-active:scale-90" />
+                <GrNext className="size-8 md:size-12 lg:size-16 xl:size-20 text-sky-900 transform transition-transform duration-300 group-hover:scale-120 group-active:scale-80" />
             </div>
         </div>
     );

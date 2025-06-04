@@ -55,7 +55,7 @@ export default function Navbar() {
                     (!scrollPosition && burgerOpen) || scrollPosition
                         ? "bg-slate-100"
                         : "bg-transparent"
-                } h-20 flex items-center z-10 sm:h-24 transition-all duration-300`}
+                } h-20 flex items-center z-40 sm:h-24 transition-all duration-300`}
                 onMouseLeave={() => setObrasOpen(false)}
             >
                 <div className="flex justify-between items-center max-w-screen-xl w-full mx-auto px-4 md:px-12">

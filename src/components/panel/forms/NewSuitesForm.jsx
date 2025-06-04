@@ -527,7 +527,7 @@ export default function NewSuitesForm() {
                             <HintFeedBack
                                 error={formState.errors.audios?.join(", ")}
                                 errorStyle="text-rose-600 text-right"
-                                hint="Sólo archivos mp3"
+                                hint="Sólo archivos mp3 | El nombre del archivo será la descripción del audio"
                                 hintStyle="text-sky-600 text-right"
                             />
                         </div>

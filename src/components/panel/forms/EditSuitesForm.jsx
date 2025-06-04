@@ -64,7 +64,7 @@ export default function EditSuitesForm({ suite }) {
         audios_to_delete: originalAudiosArray.current,
     });
 
-    //Force re-render when formState.errors change to show all states correctly, specially the isSuite and radio buttons
+    //Force re-render when formState.errors change to re-sync states
     useEffect(() => {
         setFormValues((prev) => ({
             ...prev,
@@ -683,7 +683,7 @@ export default function EditSuitesForm({ suite }) {
                             <HintFeedBack
                                 error={formState.errors.audios?.join(", ")}
                                 errorStyle="text-rose-600 text-right"
-                                hint="Sólo archivos mp3"
+                                hint="Sólo archivos mp3 | El nombre del archivo será la descripción del audio"
                                 hintStyle="text-sky-600 text-right"
                             />
                         </div>

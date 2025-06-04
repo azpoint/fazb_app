@@ -1,10 +1,11 @@
 import prisma from "@/lib/prisma";
 import { marked } from "marked";
+import appPaths from "@/src/appPaths";
 
 //Component
 import { EmblaCarousel } from "@/src/components/web/EmblaCarousel";
 import { redirect } from "next/navigation";
-import appPaths from "@/src/appPaths";
+import AudioCardWeb from "@/src/components/panel/cards/AudioCardWeb";
 
 export async function generateMetadata({ searchParams }) {
     const params = await searchParams;
@@ -20,12 +21,17 @@ export default async function SuitePage({ params }) {
         where: { slug },
     });
 
-	//Redirects if no suite or unpublished
+    //Redirects if no suite or unpublished
     if (!suite || suite.published === false) redirect(appPaths.suites());
 
     const HTML = marked.parse(suite.notes ? suite.notes : "");
 
     const images = JSON.parse(suite.images).map((item) => item.filePath);
+
+    const audios = JSON.parse(suite.audios).map((item) => item.filePath);
+    const audiosDescription = JSON.parse(suite.audios).map(
+        (item) => item.fileDescription
+    );
 
     return (
         <>
@@ -40,6 +46,16 @@ export default async function SuitePage({ params }) {
             ></article>
 
             <EmblaCarousel photos={images} />
+
+            <div className="max-w-screen-lg my-12 w-full mx-auto space-y-8">
+                {audios.map((audio, index) => (
+                    <AudioCardWeb
+                        key={"audio_car_web" + index}
+                        audio={audio}
+                        description={audiosDescription[index]}
+                    />
+                ))}
+            </div>
         </>
     );
 }
