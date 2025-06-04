@@ -4,7 +4,6 @@
 import fs from "fs";
 import path from "path";
 import util from "util";
-import fse from "fs-extra";
 
 //Dependencies
 import { redirect } from "next/navigation";

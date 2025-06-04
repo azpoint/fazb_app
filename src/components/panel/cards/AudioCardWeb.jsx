@@ -63,7 +63,7 @@ function AudioCardWeb({ audio, description }) {
     };
 
     const handleSeek = (e) => {
-        const newTime = parseFloat(e.target.value);
+        const newTime = e.target.value;
         audioRef.current.currentTime = newTime;
         setCurrentTime(newTime);
     };

@@ -5,7 +5,6 @@ import fs from "fs";
 import fsp from "fs/promises";
 import path from "path";
 import util from "util";
-import fse from "fs-extra";
 
 //Dependencies
 import { redirect } from "next/navigation";
@@ -145,7 +144,7 @@ export async function editSuite(_formState, formData) {
 	let imagePaths = [];
 	let serverFileList = [];
 
-	// Get photo filenames from directory
+	// Get photo filenames from server directory
 	try {
 		const dirents = await fsp.readdir(imageFilePath, {
 			withFileTypes: true,
