@@ -31,7 +31,7 @@ export default function SideNav() {
             <div className="text-stone-200 text-2xl font-bold text-center border-b pb-2 my-5 hidden md:block">
                 Panel Administrador
             </div>
-			<div className="text-stone-200 text-2xl font-bold text-center border-b pb-2 my-5 md:hidden">
+            <div className="text-stone-200 text-2xl font-bold text-center border-b pb-2 my-5 md:hidden">
                 Panel Administrador FAZB
             </div>
 
@@ -51,18 +51,10 @@ export default function SideNav() {
                         </div>
                     </div>
                 </Link>
-
-                <Link href="" className="no-underline">
-                    <div className="bg-slate-700 w-full rounded-full p-4 flex flew-row justify-center text-2xl text-stone-200 hover:bg-slate-500 hover:shadow-md">
-                        {/* <FaPlus className="text-stone-200 text-3xl justify-self-auto w-1/5" /> */}
-                        <div className="pr-4 text-2xl font-semibold">
-                            Blog Posts
-                        </div>
-                    </div>
-                </Link>
-				
             </div>
-			<Link href="" className="no-underline text-stone-200 my-4 italic">Developed by Alejandro Zapata</Link>
+            <Link href="" className="no-underline text-stone-200 my-4 italic">
+                Developed by Alejandro Zapata
+            </Link>
         </div>
     );
 }

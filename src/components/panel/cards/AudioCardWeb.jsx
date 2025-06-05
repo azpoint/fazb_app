@@ -3,12 +3,14 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { FaPlayCircle, FaPauseCircle } from "react-icons/fa";
+import { FaVolumeUp } from "react-icons/fa";
 
 function AudioCardWeb({ audio, description }) {
     const audioRef = useRef(null);
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
+    const [volume, setVolume] = useState(1); 
 
     useEffect(() => {
         const audio = audioRef.current;
@@ -34,14 +36,10 @@ function AudioCardWeb({ audio, description }) {
         audio.addEventListener("timeupdate", setAudioTime);
         audio.addEventListener("ended", handleAudioEnded);
 
-        // Handle cases where metadata is already loaded or needs re-triggering ---
+        // Handle cases where metadata is already loaded or needs re-triggering
         if (audio.readyState >= 1) {
-            // 1 (HAVE_METADATA) or higher means metadata is available
-
-            setAudioData(); // Call setAudioData immediately
+            setAudioData();
         } else {
-            // If not ready, call load() to force the browser to load and dispatch events
-            // This is useful if the src changed or event was missed
             audio.load();
         }
 
@@ -51,7 +49,7 @@ function AudioCardWeb({ audio, description }) {
             audio.removeEventListener("timeupdate", setAudioTime);
             audio.removeEventListener("ended", handleAudioEnded);
         };
-    }, []);
+    }, [volume]);
 
     const togglePlayPause = () => {
         if (isPlaying) {
@@ -68,6 +66,12 @@ function AudioCardWeb({ audio, description }) {
         setCurrentTime(newTime);
     };
 
+    const handleVolumeChange = (e) => {
+        const newVolume = e.target.value;
+        audioRef.current.volume = newVolume;
+        setVolume(newVolume);
+    };
+
     const formatTime = (time) => {
         const minutes = Math.floor(time / 60);
         const seconds = Math.floor(time % 60);
@@ -77,24 +81,40 @@ function AudioCardWeb({ audio, description }) {
     return (
         <div className="flex flex-col">
             {/* Waveform Image */}
-            <div
-                className="relative h-24 transition-all duration-300 rounded-lg overflow-hidden shadow-lg hover:cursor-pointer hover:brightness-125"
-                onClick={togglePlayPause}
-            >
+            <div className="relative h-24 transition-all duration-300 rounded-lg overflow-hidden shadow-lg hover:cursor-pointer hover:brightness-125">
                 <Image
                     src={"/assets/audio-wave.webp"}
                     alt=""
                     fill={true}
                     className="bg-sky-600 opacity-20 z-0"
+                    onClick={togglePlayPause}
                 />
                 <div className="absolute ml-4 mt-2 z-20">{description}</div>
 
-                <div className="absolute inset-0 flex items-center justify-center z-10">
+                <div
+                    className="absolute inset-0 flex items-center justify-center z-10"
+                    onClick={togglePlayPause}
+                >
                     {isPlaying ? (
                         <FaPauseCircle className="w-12 h-12 text-rose-800 active:scale-95 cursor-pointer hover:text-rose-600 mx-auto" />
                     ) : (
                         <FaPlayCircle className="w-12 h-12 text-sky-900 active:scale-95 cursor-pointer hover:text-sky-700 mx-auto" />
                     )}
+                </div>
+
+                {/* Volume Control */}
+                <div className="absolute right-4 bottom-2 z-50 flex gap-2">
+                    <FaVolumeUp className="text-sky-950"/>
+                    <input
+                        type="range"
+                        id="volume"
+                        min="0"
+                        max="1"
+                        step="0.01"
+                        value={volume}
+                        onChange={handleVolumeChange}
+                        style={{ width: "120px" }} 
+                    />
                 </div>
             </div>
 

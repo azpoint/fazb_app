@@ -548,9 +548,10 @@ export default function NewSuitesForm() {
                                     fallback={<div>Loading editor...</div>}
                                 >
                                     <MDXEditorWrapper
-                                        setEditorContent={(markdown) =>
-                                            setEditorContent(markdown)
-                                        }
+                                        setEditorContent={(markdown) => {
+                                            if (editorContent)
+                                                setEditorContent(markdown);
+                                        }}
                                     />
                                 </Suspense>
                             </div>
@@ -563,7 +564,10 @@ export default function NewSuitesForm() {
                                 </div>
                             ) : null}
                         </div>
-                        <FormButton>Agregar Obra</FormButton>
+
+                        <div className="w-full flex flex-row justify-center ">
+                            <FormButton>Actualizar Obra</FormButton>
+                        </div>
                     </div>
                 </form>
             </div>
