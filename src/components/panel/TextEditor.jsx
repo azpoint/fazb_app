@@ -40,7 +40,7 @@ export default function MDXEditorWrapper({ setEditorContent, prevMarkdown }) {
 		<div
 			style={{
 				padding: "1rem",
-				background: "oklch(97% 0.001 106.424)",
+				background: "oklch(98.4% 0.003 247.858)",
 				borderRadius: "0.5rem",
 			}}
 		>

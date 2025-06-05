@@ -10,7 +10,7 @@ function AudioCardWeb({ audio, description }) {
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
-    const [volume, setVolume] = useState(1); //New state for volume
+    const [volume, setVolume] = useState(1); 
 
     useEffect(() => {
         const audio = audioRef.current;
@@ -113,7 +113,7 @@ function AudioCardWeb({ audio, description }) {
                         step="0.01"
                         value={volume}
                         onChange={handleVolumeChange}
-                        style={{ width: "100px" }} // Adjust width as needed
+                        style={{ width: "120px" }} 
                     />
                 </div>
             </div>

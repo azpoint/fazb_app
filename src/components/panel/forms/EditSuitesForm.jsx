@@ -706,8 +706,8 @@ export default function EditSuitesForm({ suite }) {
                                         <MDXEditorWrapper
                                             prevMarkdown={suite.notes}
                                             setEditorContent={(markdown) => {
-                                                // if (editorContent)
-                                                setEditorContent(markdown);
+                                                if (editorContent)
+                                                    setEditorContent(markdown);
                                             }}
                                         />
                                     </Suspense>
@@ -723,7 +723,10 @@ export default function EditSuitesForm({ suite }) {
                                 </div>
                             ) : null}
                         </div>
-                        <FormButton>Actualizar Obra</FormButton>
+
+                        <div className="w-full flex flex-row justify-center ">
+                            <FormButton>Actualizar Obra</FormButton>
+                        </div>
                     </div>
                 </form>
             </div>

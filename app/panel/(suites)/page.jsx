@@ -22,7 +22,7 @@ export default async function Suites() {
 
 
     return (
-        <div className="container mx-auto my-12">
+        <div className="container mx-auto my-12 px-4">
             <div className="text-6xl font-bold text-center text-sky-800">
                 Obras/Suites
             </div>
