@@ -26,14 +26,12 @@ export default function Navbar() {
     useEffect(() => {
         const updateScrollPosition = () => {
             if (pathname === "/") {
-                // If scrolled down past 150px, set scrollPosition to true
                 if (window.scrollY >= 150) {
                     setScrollPosition(true);
                 } else {
                     setScrollPosition(false);
                 }
             } else {
-                // If NOT on the homepage, scrollPosition should always be true (solid background)
                 setScrollPosition(true);
             }
         };

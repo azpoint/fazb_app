@@ -24,7 +24,7 @@ import prisma from "@/lib/prisma";
 //Convert a callback-based function into a promise-based function
 const writeFileAsync = util.promisify(fs.writeFile);
 
-export async function editSuite(_formState, formData) {
+export async function editSuite(_prevData, formData) {
 	//User load
 	const user = await prisma.user.findUnique({
 		where: { email: "franzapata2@gmail.com" },
