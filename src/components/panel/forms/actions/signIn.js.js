@@ -7,7 +7,7 @@ export default async function signIn(_prevState, formData) {
 	const email = formData.get("email");
 	const password = formData.get("password");
 
-	console.log("[signInAction]", { email, password });
+	console.log("formData", formData)
 
 	const user = authenticate(email, password);
 
@@ -19,7 +19,7 @@ export default async function signIn(_prevState, formData) {
 }
 
 function authenticate(email, password) {
-	if (email?.endsWith("@gmail.com") && password === "test") {
+	if (email.endsWith("@gmail.com") && password === "test") {
 		return { email };
 	}
 	return null;
