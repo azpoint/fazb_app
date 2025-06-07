@@ -669,7 +669,7 @@ export default function EditSuitesForm({ suite }) {
                                     id="audios"
                                     name="audios"
                                     className={`w-5/6 outline-none justify-self-end ${
-                                        formState.errors?.audios
+                                        formState?.errors?.audios
                                             ? "border-rose-600"
                                             : null
                                     } file:mr-4 file:py-2 file:px-6
@@ -681,7 +681,7 @@ export default function EditSuitesForm({ suite }) {
                                 />
                             </div>
                             <HintFeedBack
-                                error={formState.errors.audios?.join(", ")}
+                                error={formState?.errors.audios?.join(", ")}
                                 errorStyle="text-rose-600 text-right"
                                 hint="Sólo archivos mp3 | El nombre del archivo será la descripción del audio"
                                 hintStyle="text-sky-600 text-right"
@@ -706,7 +706,6 @@ export default function EditSuitesForm({ suite }) {
                                         <MDXEditorWrapper
                                             prevMarkdown={suite.notes}
                                             setEditorContent={(markdown) => {
-                                                if (editorContent)
                                                     setEditorContent(markdown);
                                             }}
                                         />
@@ -717,7 +716,7 @@ export default function EditSuitesForm({ suite }) {
                             </div>
                         </div>
                         <div className="w-full flex flex-row justify-center">
-                            {formState.errors._form ? (
+                            {formState?.errors._form ? (
                                 <div className="p-2 mt-4 bg-red-200 border border-red-400 rounded">
                                     {formState.errors._form?.join(", ")}
                                 </div>

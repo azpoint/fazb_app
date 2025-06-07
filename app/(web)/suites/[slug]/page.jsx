@@ -46,7 +46,7 @@ export default async function SuitePage({ params }) {
                 className="prose prose-slate prose-xl mx-auto w-full mt-16 max-w-screen-lg"
             ></article>
 
-            <EmblaCarousel photos={images} />
+            {images ? <EmblaCarousel /> : null}
 
             <div className="max-w-screen-lg my-12 w-full mx-auto space-y-8">
                 {audios

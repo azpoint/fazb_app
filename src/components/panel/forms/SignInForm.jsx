@@ -81,13 +81,13 @@ export default function SignInForm() {
             </div>
             <button
                 type="submit"
-                className={`${displayTrigger} w-3/5 mx-auto block mt-14 p-4 text-slate-200 text-2xl font-semibold rounded-md hover:bg-teal-600 cursor-pointer transition-colors duration-500`}
+                className={`${displayTrigger} w-3/5 mx-auto block mt-14 p-4 text-slate-200 text-2xl font-semibold rounded-md hover:bg-teal-600 cursor-pointer transition-colors duration-200`}
             >
                 Ingresar
             </button>
             <div className="mt-4 h-4">
                 {displayTrigger === "bg-rose-600" ? (
-                    <p className="text-red-500 text-center">
+                    <p className="text-rose-600 text-center">
                         {formState.error}
                     </p>
                 ) : null}

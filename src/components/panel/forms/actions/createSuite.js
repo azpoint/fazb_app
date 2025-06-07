@@ -320,5 +320,4 @@ export async function createSuite(_formState, formData) {
 	revalidatePath('/suites')
 	revalidatePath('/panel')
 	redirect(appPaths.mainPanel());
-	// return { errors };
 }

@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
 //first arguments is the previous state of the form data
 export default async function signIn(_prevState, formData) {
@@ -15,6 +16,7 @@ export default async function signIn(_prevState, formData) {
 		return { success: false, error: "Credenciales inválidas" };
 	}
 
+	cookies().set('user',JSON.stringify(user))
 	redirect("/admin/panel");
 }
 

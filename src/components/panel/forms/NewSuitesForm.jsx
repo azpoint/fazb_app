@@ -549,7 +549,6 @@ export default function NewSuitesForm() {
                                 >
                                     <MDXEditorWrapper
                                         setEditorContent={(markdown) => {
-                                            if (editorContent)
                                                 setEditorContent(markdown);
                                         }}
                                     />
