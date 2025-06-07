@@ -2,6 +2,7 @@
 
 //Dependencies
 import Image from "next/image";
+import Link from "next/link";
 
 //Actions
 import { useActionState, useEffect, useState } from "react";
@@ -33,7 +34,7 @@ export default function SignInForm() {
             className="bg-sky-900 h-fit p-8 rounded-2xl text-slate-200"
         >
             <div>
-                <div className="flex flex-row items-baseline-last">
+                <Link href={"/"} className="flex flex-row items-baseline-last no-underline">
                     <Image
                         src="/favicon.png"
                         alt="fazb=logo"
@@ -45,7 +46,7 @@ export default function SignInForm() {
                     <div className="text-slate-200 text-4xl font-semibold italic ml-4">
                         Francisco Zapata Bello
                     </div>
-                </div>
+                </Link>
 
                 <div className="text-slate-200 text-2xl font-semibold text-center my-6">
                     Panel Administrador
@@ -81,7 +82,7 @@ export default function SignInForm() {
             </div>
             <button
                 type="submit"
-                className={`${displayTrigger} w-3/5 mx-auto block mt-14 p-4 text-slate-200 text-2xl font-semibold rounded-md hover:bg-teal-600 cursor-pointer transition-colors duration-200`}
+                className={`${displayTrigger} w-3/5 mx-auto block mt-14 p-4 text-slate-200 text-2xl font-semibold rounded-md ${displayTrigger === "bg-rose-600" ? null : "hover:bg-teal-600"} cursor-pointer transition-colors duration-200`}
             >
                 Ingresar
             </button>

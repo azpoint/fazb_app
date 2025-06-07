@@ -5,10 +5,12 @@ import appPaths from "@/src/appPaths";
 import { deleteSessionCookie } from "@/lib/auth";
 
 export default function SideNav() {
-	async function action() {
+
+	async function sessionLogout() {
 		'use server'
 		deleteSessionCookie()
 	}
+
     return (
         <div className="bg-sky-900 h-full flex flex-col items-center px-4">
             <Link
@@ -56,10 +58,10 @@ export default function SideNav() {
             </div>
 
             {/* Logout */}
-            <form action={action}>
+            <form action={sessionLogout}>
                 <button
                     type="submit"
-                    className={`bg-teal-700 w-fit mx-auto block mt-14 p-4 text-slate-200 text-xl font-semibold rounded-md hover:bg-teal-600 cursor-pointer transition-colors duration-200`}
+                    className={`bg-teal-700 w-fit mx-auto block mt-14 px-6 py-3 text-slate-200 text-xl font-semibold rounded-md hover:bg-teal-600 cursor-pointer transition-colors duration-200`}
                 >
                     Cerrar Sesión
                 </button>
