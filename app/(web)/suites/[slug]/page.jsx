@@ -34,7 +34,7 @@ export default async function SuitePage({ params }) {
     );
     const ytLinks = JSON.parse(suite.ytLinks);
 
-	console.log(images)
+    console.log(images);
 
     return (
         <>
@@ -48,7 +48,7 @@ export default async function SuitePage({ params }) {
                 className="prose prose-slate prose-xl mx-auto w-full mt-16 max-w-screen-lg"
             ></article>
 
-            {images ? <EmblaCarousel images={images}/> : null}
+            {images ? <EmblaCarousel images={images} /> : null}
 
             <div className="max-w-screen-lg my-12 w-full mx-auto space-y-8">
                 {audios

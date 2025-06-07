@@ -1,14 +1,12 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
+import { setSessionCookie } from "@/lib/auth";
 
 //first arguments is the previous state of the form data
 export default async function signIn(_prevState, formData) {
 	const email = formData.get("email");
 	const password = formData.get("password");
-
-	console.log("formData", formData)
 
 	const user = authenticate(email, password);
 
@@ -16,7 +14,8 @@ export default async function signIn(_prevState, formData) {
 		return { success: false, error: "Credenciales inválidas" };
 	}
 
-	cookies().set('user',JSON.stringify(user))
+	await setSessionCookie(user)
+	
 	redirect("/admin/panel");
 }
 

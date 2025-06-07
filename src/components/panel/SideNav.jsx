@@ -2,11 +2,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import appPaths from "@/src/appPaths";
-
-//Components
-// import { FaPlus } from "react-icons/fa6";
+import { deleteSessionCookie } from "@/lib/auth";
 
 export default function SideNav() {
+	async function action() {
+		'use server'
+		deleteSessionCookie()
+	}
     return (
         <div className="bg-sky-900 h-full flex flex-col items-center px-4">
             <Link
@@ -52,6 +54,17 @@ export default function SideNav() {
                     </div>
                 </Link>
             </div>
+
+            {/* Logout */}
+            <form action={action}>
+                <button
+                    type="submit"
+                    className={`bg-teal-700 w-fit mx-auto block mt-14 p-4 text-slate-200 text-xl font-semibold rounded-md hover:bg-teal-600 cursor-pointer transition-colors duration-200`}
+                >
+                    Cerrar Sesión
+                </button>
+            </form>
+
             <Link href="" className="no-underline text-stone-200 my-4 italic">
                 Developed by Alejandro Zapata
             </Link>

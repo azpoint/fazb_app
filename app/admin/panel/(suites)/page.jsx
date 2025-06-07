@@ -4,12 +4,21 @@ import prisma from "@/lib/prisma";
 import SuiteCard from "@/src/components/panel/cards/SuiteCard";
 import Image from "next/image";
 
+//lib
+import { getUserFromSession } from "@/lib/auth";
+import { redirect } from "next/navigation";
+
 export const metadata = {
-	title: "Panel",
-	description: "Fracisco Zapata Augusto Bello, compositor, director y vida",
+    title: "Panel",
+    description: "Fracisco Zapata Augusto Bello, compositor, director y vida",
 };
 
 export default async function Suites() {
+    const sessionPayload = await getUserFromSession();
+    console.log("__SESSION", sessionPayload);
+
+	if(!sessionPayload) redirect('/admin')
+
     const suites = await prisma.suite.findMany({
         orderBy: { created: "asc" },
     });
@@ -19,7 +28,6 @@ export default async function Suites() {
         const imageDescription = JSON.parse(suite.images)?.[0]?.fileDescription;
         return image ? { image, imageDescription } : null;
     });
-
 
     return (
         <div className="container mx-auto my-12 px-4">
@@ -47,7 +55,7 @@ export default async function Suites() {
                             lastUpdateAt={suite.updatedAt?.toLocaleDateString()}
                             published={suite.published}
                             suite_id={suite.suite_id}
-							slug={suite.slug}
+                            slug={suite.slug}
                         />
                     ))
                 ) : (
