@@ -10,7 +10,8 @@ import Image from "next/image";
 // import "@/src/styles/components/carousel.css";
 import { GrNext, GrPrevious } from "react-icons/gr";
 
-export function EmblaCarousel({ photos }) {
+export function EmblaCarousel({ images }) {
+	
     const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
         Autoplay({ stopOnInteraction: false, stopOnMouseEnter: true }),
     ]);
@@ -27,7 +28,7 @@ export function EmblaCarousel({ photos }) {
         <div className="relative mx-auto max-w-screen-lg mt-12">
             <div className="overflow-hidden" ref={emblaRef}>
                 <div className="flex">
-                    {photos.map((image, index) => (
+                    {images.map((image, index) => (
                         <div
                             className="flex-[0_0_90%] md:flex-[0_0_80%] min-w-0 px-2"
                             key={"carousel" + index}
