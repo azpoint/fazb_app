@@ -194,16 +194,16 @@ export default function EditSuitesForm({ suite }) {
 
     return (
         <>
-            <div className="container mx-auto my-12 text-stone-900 ">
+            <div className="container mx-auto my-12 text-stone-900 p-12 max-w-screen-lg">
                 <h2 className="text-4xl font-bold text-center text-sky-800">
                     Editar {suite.title}
                 </h2>
 
                 <form
                     action={handleSubmit}
-                    className="mt-8 px-12 text-xl flex flex-wrap flex-col lg:flex-row"
+                    className="mt-8 text-xl flex flex-col"
                 >
-                    <div className="mx-auto xl:w-3/5">
+                    <div className="mx-auto">
                         {/* -------- Suite Type -------- */}
                         <h3 className="text-xl text-left font-semibold">
                             *Tipo de Obra

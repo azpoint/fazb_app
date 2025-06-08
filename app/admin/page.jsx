@@ -1,8 +1,10 @@
-//Components
+//Dependencies
 import { getUserFromSession } from "@/lib/auth";
+import { redirect } from "next/navigation";
+
+//Components
 import SignInForm from "@/src/components/panel/forms/SignInForm";
 import Footer from "@/src/components/web/Footer";
-import { redirect } from "next/navigation";
 
 export const metadata = {
 	title: 'Sign In'

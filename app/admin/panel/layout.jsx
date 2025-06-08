@@ -13,7 +13,7 @@ export default function PanelLayout({ children }) {
         <div className="flex h-screen overflow-hidden">
             <SideNav />
 
-            <main className="flex-grow overflow-y-auto bg-slate-100 p-6">
+            <main className="flex-grow overflow-y-auto bg-slate-100">
                 {children}
             </main>
         </div>

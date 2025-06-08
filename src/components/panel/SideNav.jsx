@@ -1,6 +1,8 @@
 //Dependencies
 import Link from "next/link";
 import Image from "next/image";
+import { redirect } from "next/navigation";
+
 import appPaths from "@/src/appPaths";
 import { deleteSessionCookie } from "@/lib/auth";
 
@@ -8,14 +10,15 @@ export default function SideNav() {
 
 	async function sessionLogout() {
 		'use server'
-		deleteSessionCookie()
+		await deleteSessionCookie()
+		redirect('/admin')
 	}
 
     return (
-        <div className="bg-sky-900 h-full flex flex-col items-center px-4">
+        <div className="bg-sky-900 h-full flex flex-col items-center px-6 w-80 min-w-80">
             <Link
                 href="/"
-                className="no-underline hover:drop-shadow-lg mx-8 my-6 hidden md:block"
+                className="no-underline hover:drop-shadow-lg mx-8 my-6"
             >
                 <Image
                     src="/favicon.png"
@@ -28,15 +31,12 @@ export default function SideNav() {
             </Link>
             <Link
                 href={"/"}
-                className="text-stone-200 font-hand text-3xl text-center hidden md:block"
+                className="text-stone-200 font-hand text-3xl text-center"
             >
                 Francisco Zapata Bello
             </Link>
-            <div className="text-stone-200 text-2xl font-bold text-center border-b pb-2 my-5 hidden md:block">
+            <div className="text-stone-200 text-2xl font-bold text-center border-b pb-2 my-5">
                 Panel Administrador
-            </div>
-            <div className="text-stone-200 text-2xl font-bold text-center border-b pb-2 my-5 md:hidden">
-                Panel Administrador FAZB
             </div>
 
             <div className="flex flex-col gap-y-4 w-full flex-grow">

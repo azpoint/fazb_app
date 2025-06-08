@@ -1,12 +1,13 @@
-import prisma from "@/lib/prisma";
+//Dependencies
+import { redirect } from "next/navigation";
+import Image from "next/image";
 
 //Components
+import prisma from "@/lib/prisma";
 import SuiteCard from "@/src/components/panel/cards/SuiteCard";
-import Image from "next/image";
 
 //lib
 import { getUserFromSession } from "@/lib/auth";
-import { redirect } from "next/navigation";
 
 export const metadata = {
     title: "Panel",
@@ -15,7 +16,6 @@ export const metadata = {
 
 export default async function Suites() {
     const sessionPayload = await getUserFromSession();
-    console.log("__SESSION", sessionPayload);
 
 	if(!sessionPayload) redirect('/admin')
 
@@ -30,11 +30,11 @@ export default async function Suites() {
     });
 
     return (
-        <div className="container mx-auto my-12 px-4">
-            <div className="text-6xl font-bold text-center text-sky-800">
+        <div className="container mx-auto my-12 px-12">
+            <div className="text-6xl font-bold text-center text-sky-800 my-12">
                 Obras/Suites
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {suites.length !== 0 ? (
                     suites.map((suite, index) => (
                         <SuiteCard
