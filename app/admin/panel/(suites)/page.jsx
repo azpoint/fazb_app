@@ -65,7 +65,7 @@ export default async function Suites() {
                             width={800}
                             height={600}
                             alt="Empty Space"
-                            className=""
+                            unoptimized
                         />
                     </div>
                 )}
