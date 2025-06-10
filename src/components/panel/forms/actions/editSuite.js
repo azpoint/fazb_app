@@ -16,6 +16,7 @@ import appPaths from "@/src/appPaths";
 
 //Actions, Options, Validation Schemas
 import { createSuiteZodSchema } from "@/lib/setup-options/zodSchemas/createSuiteZodSchema";
+import { getUserFromSession } from "@/lib/auth";
 
 //DB
 import prisma from "@/lib/prisma";
@@ -26,8 +27,12 @@ const writeFileAsync = util.promisify(fs.writeFile);
 
 export async function editSuite(_prevData, formData) {
 	//User load
-	const user = await prisma.user.findUnique({
-		where: { email: "franzapata2@gmail.com" },
+	const userSession = await getUserFromSession()
+
+	const user = await prisma.user.findFirst({
+		where: {
+			email: userSession.user,
+		},
 	});
 
 	//Find Suite

@@ -9,14 +9,15 @@ export default async function signIn(_prevState, formData) {
 	const email = formData.get("email");
 	const password = formData.get("password");
 
-	const user = authenticateUser(email, password);
+
+	const user = await authenticateUser(email, password);
 
 	if (!user) {
-		return { isError: true, message: "Credenciales inválidas" };
+		return { success: false, error: "Credenciales inválidas" };
 	}
 
 	await setSessionCookie(user)
-	
+
 	redirect("/admin/panel");
 }
 

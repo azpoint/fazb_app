@@ -563,7 +563,7 @@ export default function NewSuitesForm() {
                         </div>
 
                         <div className="w-full flex flex-row justify-center ">
-                            <FormButton>Actualizar Obra</FormButton>
+                            <FormButton>Agregar Obra</FormButton>
                         </div>
                     </div>
                 </form>
