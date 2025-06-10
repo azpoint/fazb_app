@@ -7,8 +7,8 @@ export async function middleware(request) {
     const { pathname } = request.nextUrl;
 
     // If user is not authenticated AND the current path is NOT the login page
-    // (to avoid infinite redirects if /admin is also your login)
-    if (!user && pathname !== "/admin") { // Assuming '/admin' is where unauthenticated users are redirected
+    // (to avoid infinite redirects due to /admin is also the login page)
+    if (!user && pathname !== "/admin") { 
         const url = request.nextUrl.clone();
         url.pathname = "/admin";
         return NextResponse.redirect(url);

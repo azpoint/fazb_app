@@ -1,27 +1,21 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { setSessionCookie } from "@/lib/auth";
+import { createUser } from "@/lib/users";
 
 //first arguments is the previous state of the form data
 export default async function signUp(_prevState, formData) {
-	const email = formData.get("email");
-	const password = formData.get("password");
+    const result = await createUser(
+        formData.get("email"),
+        formData.get("password"),
+        formData.get("role"),
+        formData.get("name"),
+        formData.get("surname")
+    );
 
-	const user = authenticate(email, password);
+    if (result?.errors) {
+        return { success: false, error: result.errors._form[0] }; // Return error to client
+    }
 
-	if (!user) {
-		return { success: false, error: "Credenciales inválidas" };
-	}
-
-	await setSessionCookie(user)
-	
-	redirect("/admin/panel");
-}
-
-function authenticate(email, password) {
-	if (email.endsWith("@gmail.com") && password === "test") {
-		return { email };
-	}
-	return null;
+    redirect("/admin/panel"); // Only redirect on success
 }

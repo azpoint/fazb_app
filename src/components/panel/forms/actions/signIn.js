@@ -2,16 +2,17 @@
 
 import { redirect } from "next/navigation";
 import { setSessionCookie } from "@/lib/auth";
+import { authenticateUser } from "@/lib/users";
 
 //first arguments is the previous state of the form data
 export default async function signIn(_prevState, formData) {
 	const email = formData.get("email");
 	const password = formData.get("password");
 
-	const user = authenticate(email, password);
+	const user = authenticateUser(email, password);
 
 	if (!user) {
-		return { success: false, error: "Credenciales inválidas" };
+		return { isError: true, message: "Credenciales inválidas" };
 	}
 
 	await setSessionCookie(user)
@@ -19,9 +20,3 @@ export default async function signIn(_prevState, formData) {
 	redirect("/admin/panel");
 }
 
-function authenticate(email, password) {
-	if (email.endsWith("@gmail.com") && password === "test") {
-		return { email };
-	}
-	return null;
-}
