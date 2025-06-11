@@ -80,9 +80,15 @@ export default function SignInForm() {
                     />
                 </div>
 
-				<Link href={"/recover"} className="text-slate-200 text-xl">
+				<Link href={"/recover"} className="text-slate-200 text-xl italic">
 				Olvidé la clave...
 				</Link>
+
+				<div>
+					<label htmlFor="confCodeField">
+						
+					</label>
+				</div>
             </div>
             <button
                 type="submit"
