@@ -79,6 +79,10 @@ export default function SignInForm() {
                         placeholder="Ingresa tu contraseña aquí"
                     />
                 </div>
+
+				<Link href={"/recover"} className="text-slate-200 text-xl">
+				Olvidé la clave...
+				</Link>
             </div>
             <button
                 type="submit"
