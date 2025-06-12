@@ -37,7 +37,7 @@ export default function SuiteCard({
             throw new Error("Hubo un problema poniendo la obra en linea");
         }
 
-        revalidatePath("/panel");
+        revalidatePath("/admin/panel");
         revalidatePath("/suites");
         revalidatePath(appPaths.suite(slug, title));
     }
@@ -56,7 +56,7 @@ export default function SuiteCard({
         } catch (error) {
             throw new Error("Hubo un problema eliminando la obra");
         }
-        revalidatePath("/panel");
+        revalidatePath("/admin/panel");
         revalidatePath("/suites");
         revalidatePath(appPaths.suite(slug, title));
     }

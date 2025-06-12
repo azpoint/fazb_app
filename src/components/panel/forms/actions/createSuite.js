@@ -18,6 +18,7 @@ import slugifyOptions from "@/lib/setup-options/slugify-options";
 
 //DB
 import prisma from "@/lib/prisma";
+import { getUserFromSession } from "@/lib/auth";
 
 //-------- Definitions -------
 //Convert a callback-based function into a promise-based function
@@ -133,9 +134,11 @@ export async function createSuite(_formState, formData) {
 	let imagePaths = [];
 
 	//User load
+	const userSession = await getUserFromSession()
+
 	const user = await prisma.user.findFirst({
 		where: {
-			OR: [{ user_id: 1 }, { email: "franzapata2@gmail.com" }],
+			email: userSession.user,
 		},
 	});
 
@@ -258,9 +261,10 @@ export async function createSuite(_formState, formData) {
 		}
 	}
 
+	let suiteDbCreated 
 	//------- DDBB Create -------
 	try {
-		await prisma.suite.create({
+		suiteDbCreated = await prisma.suite.create({
 			data: {
 				suite_id: suite_id,
 				author: { connect: { user_id: user.user_id } },
@@ -319,6 +323,5 @@ export async function createSuite(_formState, formData) {
 	// Update static pages on the server at the path in production mode.
 	revalidatePath('/suites')
 	revalidatePath('/panel')
-	redirect(appPaths.mainPanel());
-	// return { errors };
+	redirect(appPaths.editSuite(suiteDbCreated.suite_id));
 }

@@ -1,15 +1,24 @@
-import prisma from "@/lib/prisma";
-
-//Components
-import SuiteCard from "@/src/components/panel/cards/SuiteCard";
+//Dependencies
+import { redirect } from "next/navigation";
 import Image from "next/image";
 
+//Components
+import prisma from "@/lib/prisma";
+import SuiteCard from "@/src/components/panel/cards/SuiteCard";
+
+//lib
+import { getUserFromSession } from "@/lib/auth";
+
 export const metadata = {
-	title: "Panel",
-	description: "Fracisco Zapata Augusto Bello, compositor, director y vida",
+    title: "Panel",
+    description: "Fracisco Zapata Augusto Bello, compositor, director y vida",
 };
 
 export default async function Suites() {
+    const sessionPayload = await getUserFromSession();
+
+	if(!sessionPayload) redirect('/admin')
+
     const suites = await prisma.suite.findMany({
         orderBy: { created: "asc" },
     });
@@ -20,13 +29,12 @@ export default async function Suites() {
         return image ? { image, imageDescription } : null;
     });
 
-
     return (
-        <div className="container mx-auto my-12 px-4">
-            <div className="text-6xl font-bold text-center text-sky-800">
+        <div className="container mx-auto my-12 px-12">
+            <div className="text-6xl font-bold text-center text-sky-800 my-12">
                 Obras/Suites
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {suites.length !== 0 ? (
                     suites.map((suite, index) => (
                         <SuiteCard
@@ -47,7 +55,7 @@ export default async function Suites() {
                             lastUpdateAt={suite.updatedAt?.toLocaleDateString()}
                             published={suite.published}
                             suite_id={suite.suite_id}
-							slug={suite.slug}
+                            slug={suite.slug}
                         />
                     ))
                 ) : (
@@ -57,7 +65,7 @@ export default async function Suites() {
                             width={800}
                             height={600}
                             alt="Empty Space"
-                            className=""
+                            unoptimized
                         />
                     </div>
                 )}

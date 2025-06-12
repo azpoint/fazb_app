@@ -194,16 +194,16 @@ export default function EditSuitesForm({ suite }) {
 
     return (
         <>
-            <div className="container mx-auto my-12 text-stone-900 ">
+            <div className="container mx-auto my-12 text-stone-900 p-12 max-w-screen-lg">
                 <h2 className="text-4xl font-bold text-center text-sky-800">
                     Editar {suite.title}
                 </h2>
 
                 <form
                     action={handleSubmit}
-                    className="mt-8 px-12 text-xl flex flex-wrap flex-col lg:flex-row"
+                    className="mt-8 text-xl flex flex-col"
                 >
-                    <div className="mx-auto xl:w-3/5">
+                    <div className="mx-auto">
                         {/* -------- Suite Type -------- */}
                         <h3 className="text-xl text-left font-semibold">
                             *Tipo de Obra
@@ -669,7 +669,7 @@ export default function EditSuitesForm({ suite }) {
                                     id="audios"
                                     name="audios"
                                     className={`w-5/6 outline-none justify-self-end ${
-                                        formState.errors?.audios
+                                        formState?.errors?.audios
                                             ? "border-rose-600"
                                             : null
                                     } file:mr-4 file:py-2 file:px-6
@@ -681,7 +681,7 @@ export default function EditSuitesForm({ suite }) {
                                 />
                             </div>
                             <HintFeedBack
-                                error={formState.errors.audios?.join(", ")}
+                                error={formState?.errors.audios?.join(", ")}
                                 errorStyle="text-rose-600 text-right"
                                 hint="Sólo archivos mp3 | El nombre del archivo será la descripción del audio"
                                 hintStyle="text-sky-600 text-right"
@@ -706,7 +706,6 @@ export default function EditSuitesForm({ suite }) {
                                         <MDXEditorWrapper
                                             prevMarkdown={suite.notes}
                                             setEditorContent={(markdown) => {
-                                                if (editorContent)
                                                     setEditorContent(markdown);
                                             }}
                                         />
@@ -717,7 +716,7 @@ export default function EditSuitesForm({ suite }) {
                             </div>
                         </div>
                         <div className="w-full flex flex-row justify-center">
-                            {formState.errors._form ? (
+                            {formState?.errors._form ? (
                                 <div className="p-2 mt-4 bg-red-200 border border-red-400 rounded">
                                     {formState.errors._form?.join(", ")}
                                 </div>
