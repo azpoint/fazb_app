@@ -11,6 +11,9 @@ import {
     useCallback,
     startTransition,
 } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+
+//lib
 import { debounce } from "@/lib/debounce";
 import { recoverPassZodSchema } from "@/lib/setup-options/zodSchemas/recoverPassZodSchema";
 
@@ -18,6 +21,8 @@ import { recoverPassZodSchema } from "@/lib/setup-options/zodSchemas/recoverPass
 import recoverPassAction from "@/src/components/panel/forms/actions/recoverPass";
 
 export default function RecoverForm() {
+	const router = useRouter();
+	const searchParams = useSearchParams()
     const [form1State, setForm2State] = useState(true);
     const [sendCodeButtonState, setSendCodeButtonState] = useState(false);
     const [sendCodeButtonText, setSendCodeButtonText] =
@@ -35,6 +40,16 @@ export default function RecoverForm() {
         error: null,
     });
     const [errors, setErrors] = useState({});
+
+	const paramsMessage = searchParams.get("message")
+
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			router.push("/recover")
+		}, 5000);
+
+		return () => clearTimeout(timer)
+	}, [])
 
     useEffect(() => {
         if (formState.success === false) {
@@ -148,7 +163,7 @@ export default function RecoverForm() {
     };
 
     return (
-        <div className="bg-sky-900 h-fit p-8 rounded-2xl text-slate-200">
+        <div className="bg-sky-900 h-fit p-8 rounded-2xl text-slate-200 w-xl">
             <div>
                 <Link
                     href={"/"}
@@ -193,9 +208,9 @@ export default function RecoverForm() {
                             </div>
                             <div>
                                 {sendCodeButtonState ? (
-                                    <p className="text-teal-400 text-lg mt-1">
+                                    <p className="text-teal-400 text-lg mt-4 text-center font-semibold">
                                         Si el email es correcto te llegara un
-                                        código que dura 5 min.
+                                        código que dura 15 minutos
                                     </p>
                                 ) : null}
                             </div>
@@ -207,6 +222,12 @@ export default function RecoverForm() {
                         >
                             {sendCodeButtonText}
                         </button>
+
+						{paramsMessage && (
+                                    <p className="text-rose-400 text-lg mt-4 text-center font-semibold">
+                                        {paramsMessage}
+                                    </p>
+                                )}
                     </form>
                 </>
             ) : (
@@ -228,7 +249,7 @@ export default function RecoverForm() {
                                     onChange={handleFormValues}
                                 />
                                 {errors.password && (
-                                    <p className="text-rose-600 text-sm mt-1">
+                                    <p className="text-rose-400 text-lg mt-4 text-center font-semibold">
                                         {errors.password}
                                     </p>
                                 )}
@@ -249,7 +270,7 @@ export default function RecoverForm() {
                                     onChange={handleFormValues}
                                 />
                                 {errors.confirmPassword && (
-                                    <p className="text-rose-600 text-sm mt-1">
+                                    <p className="text-rose-400 text-lg mt-4 text-center font-semibold">
                                         {errors.confirmPassword}
                                     </p>
                                 )}
@@ -270,7 +291,7 @@ export default function RecoverForm() {
                                     onChange={handleFormValues}
                                 />
                                 {errors.confCode && (
-                                    <p className="text-rose-600 text-sm mt-1">
+                                    <p className="text-rose-400 text-lg mt-4 text-center font-semibold">
                                         {errors.confCode}
                                     </p>
                                 )}
@@ -286,7 +307,7 @@ export default function RecoverForm() {
                         </button>
                         <div className="mt-4 h-4">
                             {buttonColor === "bg-rose-600" ? (
-                                <p className="text-rose-600 text-center">
+                                <p className="text-rose-400 text-lg mt-4 text-center font-semibold">
                                     {formState.error}
                                 </p>
                             ) : null}
