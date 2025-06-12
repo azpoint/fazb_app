@@ -98,7 +98,7 @@ export default function SignInForm() {
             </button>
             <div className="mt-4 h-4">
                 {displayTrigger === "bg-rose-600" ? (
-                    <p className="text-rose-600 text-center">
+                    <p className="text-rose-400 text-lg font-semibold text-center">
                         {formState.error}
                     </p>
                 ) : null}
