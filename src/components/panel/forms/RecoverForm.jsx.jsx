@@ -93,9 +93,9 @@ export default function RecoverForm() {
                 body: JSON.stringify({ email: formValues.email }),
             });
 
-            // const data = await res.json();
+            const data = await res.json();
 
-            if (res.status === 202) {
+            if (!data.success) {
                 setSendCodeButtonText("Código Enviado");
 
                 setTimeout(() => {
@@ -195,7 +195,7 @@ export default function RecoverForm() {
                                 {sendCodeButtonState ? (
                                     <p className="text-teal-400 text-lg mt-1">
                                         Si el email es correcto te llegara un
-                                        código
+                                        código que dura 5 min.
                                     </p>
                                 ) : null}
                             </div>

@@ -46,3 +46,9 @@ model User {
     updatedAt DateTime @updatedAt
     suites    Suite[]
 }
+
+model Confcode {
+    code      String   @unique
+    email     String   @unique
+    createdAt DateTime @default(now())
+}

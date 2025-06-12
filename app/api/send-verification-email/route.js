@@ -17,7 +17,7 @@ export async function POST(req) {
 
 		if (mainUser?.email === email) {
 			const result = await sendVerificationEmail(mainUser.email);
-			if (result.success) return NextResponse.json({ success: true }, { status: 202 })
+			if (result.success) return NextResponse.json({ success: null }, { status: 200 })
 
 		}
 	} catch (err) {
