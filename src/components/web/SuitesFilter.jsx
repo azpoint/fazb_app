@@ -36,7 +36,7 @@ export default function SuitesFilter({ types }) {
                 htmlFor="type-filter"
                 className="block text-lg font-medium text-gray-700 mb-2"
             >
-                Filter by Type:
+                Tipo de Obra:
             </label>
             <select
                 id="type-filter"
