@@ -21,9 +21,9 @@ import { recoverPassZodSchema } from "@/lib/setup-options/zodSchemas/recoverPass
 import recoverPassAction from "@/src/components/panel/forms/actions/recoverPass";
 
 export default function RecoverForm() {
-	const router = useRouter();
-	const searchParams = useSearchParams()
-    const [form1State, setForm2State] = useState(true);
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const [form1State, setForm1State] = useState(true);
     const [sendCodeButtonState, setSendCodeButtonState] = useState(false);
     const [sendCodeButtonText, setSendCodeButtonText] =
         useState("Enviar Código");
@@ -41,15 +41,15 @@ export default function RecoverForm() {
     });
     const [errors, setErrors] = useState({});
 
-	const paramsMessage = searchParams.get("message")
+    const paramsMessage = searchParams.get("message");
 
-	useEffect(() => {
-		const timer = setTimeout(() => {
-			router.push("/recover")
-		}, 5000);
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            router.push("/recover");
+        }, 5000);
 
-		return () => clearTimeout(timer)
-	}, [])
+        return () => clearTimeout(timer);
+    }, []);
 
     useEffect(() => {
         if (formState.success === false) {
@@ -114,9 +114,11 @@ export default function RecoverForm() {
                 setSendCodeButtonText("Código Enviado");
 
                 setTimeout(() => {
-                    setForm2State(false);
+                    setForm1State(false);
                 }, 2000);
             }
+
+            if (data.success === "next") setForm1State(false);
         } catch (err) {
             setSendCodeButtonText("Enviando...");
         }
@@ -223,11 +225,11 @@ export default function RecoverForm() {
                             {sendCodeButtonText}
                         </button>
 
-						{paramsMessage && (
-                                    <p className="text-rose-400 text-lg mt-4 text-center font-semibold">
-                                        {paramsMessage}
-                                    </p>
-                                )}
+                        {paramsMessage && (
+                            <p className="text-rose-400 text-lg mt-4 text-center font-semibold">
+                                {paramsMessage}
+                            </p>
+                        )}
                     </form>
                 </>
             ) : (

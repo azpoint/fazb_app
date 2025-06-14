@@ -28,7 +28,7 @@ export default async function recoverPass(_prevState, formData) {
         (Date.now() - new Date(checkCode.createdAt).getTime()) / 60000
     );
 
-    if (timePassed > 15) {
+    if (timePassed >= 15) {
         const params = new URLSearchParams({
             error: true,
             message: "Codigo Expirado",
