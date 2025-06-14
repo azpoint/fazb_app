@@ -37,8 +37,6 @@ export default async function SuitePage({ params }) {
     const ytLinks = JSON.parse(suite.ytLinks);
     const movs = JSON.parse(suite.mov);
 
-    console.log(movs);
-
     return (
         <>
             <div className="w-full h-24" />
