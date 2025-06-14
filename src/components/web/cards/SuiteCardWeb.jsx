@@ -23,6 +23,7 @@ export default function SuiteCardWeb({
                         src={imageCard}
                         alt={imageDescription || "Suite Text"}
                         fill={true}
+						priority
                         className="object-cover object-center hover:brightness-125"
                     />
                 </Link>

@@ -5,7 +5,7 @@ import appPaths from "@/src/appPaths";
 //Component
 import { EmblaCarousel } from "@/src/components/web/EmblaCarousel";
 import { redirect } from "next/navigation";
-import AudioCardWeb from "@/src/components/panel/cards/AudioCardWeb";
+import AudioCardWeb from "@/src/components/web/cards/AudioCardWeb";
 
 export async function generateMetadata({ searchParams }) {
     const params = await searchParams;
