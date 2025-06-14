@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma";
+import Link from "next/link";
 import { marked } from "marked";
 import appPaths from "@/src/appPaths";
 
@@ -6,6 +7,7 @@ import appPaths from "@/src/appPaths";
 import { EmblaCarousel } from "@/src/components/web/EmblaCarousel";
 import { redirect } from "next/navigation";
 import AudioCardWeb from "@/src/components/web/cards/AudioCardWeb";
+import { GrPrevious } from "react-icons/gr";
 
 export async function generateMetadata({ searchParams }) {
     const params = await searchParams;
@@ -34,9 +36,24 @@ export default async function SuitePage({ params }) {
     );
     const ytLinks = JSON.parse(suite.ytLinks);
 
+    console.log(suite.mov);
+
     return (
         <>
             <div className="w-full h-24" />
+
+            <div className="text-sky-900 font-bold flex justify-end max-w-screen-lg mx-auto my-8">
+                <Link
+                    href="/suites"
+                    className="group inline-flex items-center text-4xl md:text-6xl no-underline transition-transform duration-300 hover:scale-105"
+                >
+                    <GrPrevious className="size-8 md:size-10 lg:size-14 text-sky-900 group-hover:text-sky-600 transition-colors duration-300" />
+                    <span className="ml-2 text-sky-900 group-hover:text-sky-600 transition-colors duration-300">
+                        Volver
+                    </span>
+                </Link>
+            </div>
+
             <h1 className="mt-8 text-sky-900 text-4xl text-center md:text-6xl font-bold">
                 {suite.title}
             </h1>
@@ -80,6 +97,18 @@ export default async function SuitePage({ params }) {
                           </div>
                       ))
                     : null}
+            </div>
+
+			<div className="text-sky-900 font-bold flex justify-end max-w-screen-lg mx-auto my-8">
+                <Link
+                    href="/suites"
+                    className="group inline-flex items-center text-4xl md:text-6xl no-underline transition-transform duration-300 hover:scale-105"
+                >
+                    <GrPrevious className="size-8 md:size-10 lg:size-14 text-sky-900 group-hover:text-sky-600 transition-colors duration-300" />
+                    <span className="ml-2 text-sky-900 group-hover:text-sky-600 transition-colors duration-300">
+                        Volver
+                    </span>
+                </Link>
             </div>
         </>
     );
