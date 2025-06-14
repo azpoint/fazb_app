@@ -14,8 +14,8 @@ const appPaths = {
     suite(slug, title) {
         return `/suites/${slug}?title=${title}`;
     },
-    suites() {
-        return "/suites";
+    suites(slug) {
+        return `/suites?type=${slug}`;
     },
 };
 

@@ -45,9 +45,9 @@ export default async function SuitePage({ params }) {
             <div className="text-sky-900 font-bold flex justify-end max-w-screen-lg mx-auto my-8">
                 <Link
                     href="/suites"
-                    className="group inline-flex items-center text-4xl md:text-6xl no-underline transition-transform duration-300 hover:scale-105"
+                    className="group inline-flex items-center text-2xl md:text-4xl no-underline transition-transform duration-300 hover:scale-105"
                 >
-                    <GrPrevious className="size-8 md:size-10 lg:size-14 text-sky-900 group-hover:text-sky-600 transition-colors duration-300" />
+                    <GrPrevious className="size-8 md:size-10  text-sky-900 group-hover:text-sky-600 transition-colors duration-300" />
                     <span className="ml-2 text-sky-900 group-hover:text-sky-600 transition-colors duration-300">
                         Volver
                     </span>
@@ -99,12 +99,12 @@ export default async function SuitePage({ params }) {
                     : null}
             </div>
 
-			<div className="text-sky-900 font-bold flex justify-end max-w-screen-lg mx-auto my-8">
+            <div className="text-sky-900 font-bold flex justify-end max-w-screen-lg mx-auto my-8">
                 <Link
                     href="/suites"
-                    className="group inline-flex items-center text-4xl md:text-6xl no-underline transition-transform duration-300 hover:scale-105"
+                    className="group inline-flex items-center text-2xl md:text-4xl no-underline transition-transform duration-300 hover:scale-105"
                 >
-                    <GrPrevious className="size-8 md:size-10 lg:size-14 text-sky-900 group-hover:text-sky-600 transition-colors duration-300" />
+                    <GrPrevious className="size-8 md:size-10  text-sky-900 group-hover:text-sky-600 transition-colors duration-300" />
                     <span className="ml-2 text-sky-900 group-hover:text-sky-600 transition-colors duration-300">
                         Volver
                     </span>
