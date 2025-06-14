@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import appPaths from "@/src/appPaths";
+
 //Styles
 import "@/src/styles/components/navbar.css";
 
@@ -44,7 +46,7 @@ export default function Navbar() {
         return () => {
             window.removeEventListener("scroll", updateScrollPosition);
         };
-    }, [pathname]); 
+    }, [pathname]);
 
     return (
         <>
@@ -143,7 +145,7 @@ export default function Navbar() {
                                 onMouseLeave={() => setObrasOpen(false)}
                             >
                                 <Link
-                                    href=""
+                                    href={appPaths.suites("guitarra")}
                                     className={`${
                                         scrollPosition
                                             ? "text-stone-900"
@@ -155,7 +157,7 @@ export default function Navbar() {
                                     </li>
                                 </Link>
                                 <Link
-                                    href=""
+                                    href={appPaths.suites("coral")}
                                     className={`${
                                         scrollPosition
                                             ? "text-stone-900"
@@ -167,7 +169,7 @@ export default function Navbar() {
                                     </li>
                                 </Link>
                                 <Link
-                                    href=""
+                                    href={appPaths.suites("camara")}
                                     className={`${
                                         scrollPosition
                                             ? "text-stone-900"
@@ -179,7 +181,7 @@ export default function Navbar() {
                                     </li>
                                 </Link>
                                 <Link
-                                    href=""
+                                    href={appPaths.suites("orquesta-cuerdas")}
                                     className={`${
                                         scrollPosition
                                             ? "text-stone-900"
@@ -191,7 +193,7 @@ export default function Navbar() {
                                     </li>
                                 </Link>
                                 <Link
-                                    href=""
+                                    href={appPaths.suites("orquesta-sinfonica")}
                                     className={`${
                                         scrollPosition
                                             ? "text-stone-900"
@@ -203,7 +205,7 @@ export default function Navbar() {
                                     </li>
                                 </Link>
                                 <Link
-                                    href=""
+                                    href={appPaths.suites("piano")}
                                     className={`${
                                         scrollPosition
                                             ? "text-stone-900"
@@ -215,7 +217,8 @@ export default function Navbar() {
                                     </li>
                                 </Link>
                             </ul>
-                            <Link
+
+                            {/* <Link
                                 href=""
                                 className={`desktopLink ${
                                     scrollPosition
@@ -227,7 +230,8 @@ export default function Navbar() {
                                 <li className="hover:text-sky-800 hover:underline">
                                     Artículos
                                 </li>
-                            </Link>
+                            </Link> */}
+                            {/* 
                             <Link
                                 href=""
                                 className={`desktopLink ${
@@ -239,7 +243,8 @@ export default function Navbar() {
                                 <li className="hover:text-sky-800 hover:underline">
                                     Blog
                                 </li>
-                            </Link>
+                            </Link> */}
+
                             <Link
                                 href=""
                                 className={`desktopLink ${
@@ -265,14 +270,16 @@ export default function Navbar() {
             >
                 <ul className="flex flex-col items-center">
                     <ul className="mobileLink">
-                        <Link href="" className="mobileLink">
+                        <Link href="/suites" className="mobileLink">
                             <li>Obras</li>
                         </Link>
                         <ul
                             className="transition-all duration-300"
                             id="obras-menu"
                         >
-                            <Link href="" className="mobileLink">
+                            <Link 
+							href={appPaths.suites("guitarra")} 
+							className="mobileLink">
                                 <li className="font-light">Guitarra</li>
                             </Link>
                             <Link href="" className="mobileLink">
@@ -280,32 +287,43 @@ export default function Navbar() {
                                     Coral y A Capella
                                 </li>
                             </Link>
-                            <Link href="" className="mobileLink">
+                            <Link 
+							href={appPaths.suites("camara")} 
+							className="mobileLink">
                                 <li className="font-light">Música de Cámara</li>
                             </Link>
-                            <Link href="" className="mobileLink">
+                            <Link 
+							href={appPaths.suites("orquesta-cuerdas")} 
+							className="mobileLink">
                                 <li className="font-light">
                                     Orquesta y Cuerdas
                                 </li>
                             </Link>
-                            <Link href="" className="mobileLink">
+                            <Link 
+							href={appPaths.suites("orquesta-sinfonica")} 
+							className="mobileLink">
                                 <li className="font-light">
                                     Orquesta y Sinfónica
                                 </li>
                             </Link>
-                            <Link href="" className="mobileLink">
+                            <Link 
+							href={appPaths.suites("piano")} 
+							className="mobileLink">
                                 <li className="font-light">
                                     Música para Piano
                                 </li>
                             </Link>
                         </ul>
                     </ul>
-                    <Link href="" className="mobileLink">
+
+                    {/* <Link href="" className="mobileLink">
                         <li>Medios</li>
-                    </Link>
+                    </Link> */}
+{/* 
                     <Link href="" className="mobileLink">
                         <li>Blog</li>
-                    </Link>
+                    </Link> */}
+
                     <Link href="" className="mobileLink">
                         <li>Contacto</li>
                     </Link>

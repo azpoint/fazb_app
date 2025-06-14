@@ -1,11 +1,13 @@
 import prisma from "@/lib/prisma";
+import Link from "next/link";
 import { marked } from "marked";
 import appPaths from "@/src/appPaths";
 
 //Component
 import { EmblaCarousel } from "@/src/components/web/EmblaCarousel";
 import { redirect } from "next/navigation";
-import AudioCardWeb from "@/src/components/panel/cards/AudioCardWeb";
+import AudioCardWeb from "@/src/components/web/cards/AudioCardWeb";
+import { GrPrevious } from "react-icons/gr";
 
 export async function generateMetadata({ searchParams }) {
     const params = await searchParams;
@@ -33,17 +35,44 @@ export default async function SuitePage({ params }) {
         (item) => item.fileDescription
     );
     const ytLinks = JSON.parse(suite.ytLinks);
+    const movs = JSON.parse(suite.mov);
+
+    console.log(movs);
 
     return (
         <>
             <div className="w-full h-24" />
+
+            <div className="text-sky-900 font-bold flex justify-end max-w-screen-lg mx-auto my-8">
+                <Link
+                    href="/suites"
+                    className="group inline-flex items-center text-2xl md:text-4xl no-underline transition-transform duration-300 hover:scale-105"
+                >
+                    <GrPrevious className="size-8 md:size-10  text-sky-900 group-hover:text-sky-600 transition-colors duration-300" />
+                    <span className="ml-2 text-sky-900 group-hover:text-sky-600 transition-colors duration-300">
+                        Volver
+                    </span>
+                </Link>
+            </div>
+
             <h1 className="mt-8 text-sky-900 text-4xl text-center md:text-6xl font-bold">
                 {suite.title}
             </h1>
 
+            {movs ? (
+                <div className="font-bold flex flex-col max-w-screen-lg mx-auto mt-12">
+                    <h2 className="text-2xl md:text-4xl">Movimientos</h2>
+                    <ul className="mt-4 ml-8 list-disc list-inside">
+                        {movs.map((mov, index) => (
+                            <li key={"mov" + index} className="mt-2 text-xl">{mov}</li>
+                        ))}
+                    </ul>
+                </div>
+            ) : null}
+
             <article
                 dangerouslySetInnerHTML={{ __html: HTML }}
-                className="prose prose-slate prose-xl mx-auto w-full mt-16 max-w-screen-lg"
+                className="prose prose-slate prose-xl mx-auto w-full mt-12 max-w-screen-lg"
             ></article>
 
             {images ? <EmblaCarousel images={images} /> : null}
@@ -80,6 +109,18 @@ export default async function SuitePage({ params }) {
                           </div>
                       ))
                     : null}
+            </div>
+
+            <div className="text-sky-900 font-bold flex justify-end max-w-screen-lg mx-auto my-8">
+                <Link
+                    href="/suites"
+                    className="group inline-flex items-center text-2xl md:text-4xl no-underline transition-transform duration-300 hover:scale-105"
+                >
+                    <GrPrevious className="size-8 md:size-10  text-sky-900 group-hover:text-sky-600 transition-colors duration-300" />
+                    <span className="ml-2 text-sky-900 group-hover:text-sky-600 transition-colors duration-300">
+                        Volver
+                    </span>
+                </Link>
             </div>
         </>
     );
