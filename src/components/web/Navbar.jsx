@@ -246,7 +246,7 @@ export default function Navbar() {
                             </Link> */}
 
                             <Link
-                                href=""
+                                href="/contact"
                                 className={`desktopLink ${
                                     scrollPosition
                                         ? "text-stone-900"
