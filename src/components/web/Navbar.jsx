@@ -247,7 +247,7 @@ export default function Navbar() {
                                 </li>
                             </a>
 
-                            <Link
+                            <a
                                 href="/contact"
                                 className={`desktopLink ${
                                     scrollPosition
@@ -258,7 +258,7 @@ export default function Navbar() {
                                 <li className="hover:text-sky-800 hover:underline">
                                     Contacto
                                 </li>
-                            </Link>
+                            </a>
                         </ul>
                     </div>
                 </div>
@@ -336,9 +336,9 @@ export default function Navbar() {
                         <li>Blog</li>
                     </a>
 
-                    <Link href="/contact" className="mobileLink">
+                    <a href="/contact" className="mobileLink">
                         <li>Contacto</li>
-                    </Link>
+                    </a>
                 </ul>
             </div>
         </>

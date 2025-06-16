@@ -24,7 +24,7 @@ export async function POST(req) {
                     60000
             );
 
-            if (timePassed <= 1) {
+            if (timePassed <= 15) {
                 return NextResponse.json({ success: "next" }, { status: 200 });
             }
         }

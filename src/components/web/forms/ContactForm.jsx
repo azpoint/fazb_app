@@ -1,17 +1,35 @@
 "use client";
 
 //Dependencies
-import { useActionState, useState } from "react";
+import { useState } from "react";
+import Script from "next/script";
+
 
 //Actions
-import contactAction from "@/src/components/web/forms/actions/contact";
+import contactUsAction from "@/src/components/web/forms/actions/contact";
+import { getCaptchaToken } from "@/lib/captcha";
 
 export default function ContactForm() {
-    const [displayTrigger, setDisplayTrigger] = useState("");
-    const [contactFormState, handleSubmit] = useActionState(contactAction, {
-        success: null,
-        error: null,
-    });
+    const [successMessage, setSuccessMessage] = useState("");
+    // const [contactFormState, formAction] = useActionState(contactUsAction, {
+    //     success: null,
+    //     error: null,
+    // });
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(e.target);
+
+        const token = await getCaptchaToken();
+
+        console.log("__TOKEN", token);
+
+        const res = await contactUsAction(token, formData);
+
+        if (res.success) {
+        }
+    };
 
     return (
         <>
@@ -26,7 +44,7 @@ export default function ContactForm() {
                     Escribe tu mensaje aquí:
                 </h2> */}
 
-                <form action={handleSubmit}>
+                <form onSubmit={handleSubmit}>
                     <div className="mt-4">
                         <label
                             htmlFor="emailField"
@@ -62,6 +80,10 @@ export default function ContactForm() {
                     </button>
                 </form>
             </div>
+            <Script
+                src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
+                strategy="beforeInteractive"
+            />
         </>
     );
 }
