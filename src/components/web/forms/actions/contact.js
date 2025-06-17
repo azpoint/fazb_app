@@ -45,6 +45,8 @@ export default async function contactUsAction(token, formData) {
 		contactMessage
 	);
 
+	console.log(emailResult)
+
 	if (emailResult.success) {
 		return {
 			success: true,
