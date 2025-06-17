@@ -46,7 +46,7 @@ export default async function SuitesPage({ searchParams }) {
             <div className="w-full h-24" />
             <AnimatedBanner />
             <h2 className="my-12 text-sky-900 text-4xl text-center md:text-6xl font-bold underline">
-                Obras
+                Música
             </h2>
             <div className="container mx-auto my-12">
                 <SuitesFilter types={types} />

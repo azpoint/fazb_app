@@ -124,9 +124,10 @@ export default function Navbar() {
                                 onMouseOver={() => setObrasOpen(true)}
                             >
                                 <li className="hover:text-sky-800 hover:underline">
-                                    Obras
+                                    Música
                                 </li>
                             </Link>
+
                             <ul
                                 id="obras-menu"
                                 className={`${
@@ -139,7 +140,7 @@ export default function Navbar() {
                                         : "bg-transparent"
                                 } absolute top-0 translate-y-16 translate-x-2 transition-discrete transition-opacity duration-400 delay-75 -z-10 px-6 py-4 rounded-b-md ${
                                     obrasOpen
-                                        ? "block opacity-20 hover:opacity-100"
+                                        ? "block opacity-50 hover:opacity-100"
                                         : "hidden opacity-0"
                                 }`}
                                 onMouseLeave={() => setObrasOpen(false)}
@@ -231,9 +232,10 @@ export default function Navbar() {
                                     Artículos
                                 </li>
                             </Link> */}
-                            {/* 
-                            <Link
-                                href=""
+
+                            <a
+                                href="https://franciscozapatabello.blogspot.com/"
+                                target="_blank"
                                 className={`desktopLink ${
                                     scrollPosition
                                         ? "text-stone-900"
@@ -243,10 +245,10 @@ export default function Navbar() {
                                 <li className="hover:text-sky-800 hover:underline">
                                     Blog
                                 </li>
-                            </Link> */}
+                            </a>
 
-                            <Link
-                                href=""
+                            <a
+                                href="/contact"
                                 className={`desktopLink ${
                                     scrollPosition
                                         ? "text-stone-900"
@@ -256,7 +258,7 @@ export default function Navbar() {
                                 <li className="hover:text-sky-800 hover:underline">
                                     Contacto
                                 </li>
-                            </Link>
+                            </a>
                         </ul>
                     </div>
                 </div>
@@ -266,20 +268,22 @@ export default function Navbar() {
             <div
                 id="mobile-menu"
                 onClick={handleBurger}
-                className="fixed pt-0 top-20 sm:top-24 left-full w-screen h-screen bg-slate-100/90 transition-all duration-150"
+                className="fixed pt-0 top-20 sm:top-24 left-full w-screen h-screen bg-slate-100/90 transition-all duration-150 z-50"
             >
                 <ul className="flex flex-col items-center">
                     <ul className="mobileLink">
                         <Link href="/suites" className="mobileLink">
-                            <li>Obras</li>
+                            <li>Música</li>
                         </Link>
+                        <hr />
                         <ul
                             className="transition-all duration-300"
                             id="obras-menu"
                         >
-                            <Link 
-							href={appPaths.suites("guitarra")} 
-							className="mobileLink">
+                            <Link
+                                href={appPaths.suites("guitarra")}
+                                className="mobileLink"
+                            >
                                 <li className="font-light">Guitarra</li>
                             </Link>
                             <Link href="" className="mobileLink">
@@ -287,28 +291,32 @@ export default function Navbar() {
                                     Coral y A Capella
                                 </li>
                             </Link>
-                            <Link 
-							href={appPaths.suites("camara")} 
-							className="mobileLink">
+                            <Link
+                                href={appPaths.suites("camara")}
+                                className="mobileLink"
+                            >
                                 <li className="font-light">Música de Cámara</li>
                             </Link>
-                            <Link 
-							href={appPaths.suites("orquesta-cuerdas")} 
-							className="mobileLink">
+                            <Link
+                                href={appPaths.suites("orquesta-cuerdas")}
+                                className="mobileLink"
+                            >
                                 <li className="font-light">
                                     Orquesta y Cuerdas
                                 </li>
                             </Link>
-                            <Link 
-							href={appPaths.suites("orquesta-sinfonica")} 
-							className="mobileLink">
+                            <Link
+                                href={appPaths.suites("orquesta-sinfonica")}
+                                className="mobileLink"
+                            >
                                 <li className="font-light">
                                     Orquesta y Sinfónica
                                 </li>
                             </Link>
-                            <Link 
-							href={appPaths.suites("piano")} 
-							className="mobileLink">
+                            <Link
+                                href={appPaths.suites("piano")}
+                                className="mobileLink"
+                            >
                                 <li className="font-light">
                                     Música para Piano
                                 </li>
@@ -319,14 +327,18 @@ export default function Navbar() {
                     {/* <Link href="" className="mobileLink">
                         <li>Medios</li>
                     </Link> */}
-{/* 
-                    <Link href="" className="mobileLink">
-                        <li>Blog</li>
-                    </Link> */}
 
-                    <Link href="" className="mobileLink">
+                    <a
+                        href="https://franciscozapatabello.blogspot.com/"
+                        className="mobileLink"
+                        target="_blank"
+                    >
+                        <li>Blog</li>
+                    </a>
+
+                    <a href="/contact" className="mobileLink">
                         <li>Contacto</li>
-                    </Link>
+                    </a>
                 </ul>
             </div>
         </>
