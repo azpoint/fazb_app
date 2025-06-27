@@ -12,7 +12,7 @@ services:
         stdin_open: true
         tty: true
         environment:
-          - CHOKIDAR_USEPOLLING=true
+            - CHOKIDAR_USEPOLLING=true
         # entrypoint: ["sh"]
     # docker exec -it fazb-app sh
     db-fazb:
@@ -23,9 +23,9 @@ services:
         ports:
             - "5432:5432"
         environment:
-            POSTGRES_DB: fazb-db
-            POSTGRES_USER: fazbsys
-            POSTGRES_PASSWORD: muestramelasobras
+            POSTGRES_DB:
+            POSTGRES_USER:
+            POSTGRES_PASSWORD:
         volumes:
             - /home/alejo/dev/fazb/fazb_app/db/data:/var/lib/postgresql/data
 
