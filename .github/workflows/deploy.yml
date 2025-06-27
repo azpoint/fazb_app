@@ -1,0 +1,46 @@
+name: Deploy FAZB NextJS app to Github Packages Registry
+on:
+    push:
+        branches:
+            - main
+        paths-ignore:
+            - "**"
+    workflow_dispatch:
+jobs:
+    build-and-publish:
+        runs-on: ubuntu-latest
+        if: github.event_name == 'workflow_dispatch' || endsWith(github.event.head_commit.message, '/deploy')
+        permissions:
+            contents: read
+            packages: write
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+            - name: Setup Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20.14.0
+            - name: Cache NextJS build
+              id: cache-build
+              uses: actions/cache@v4
+              with:
+                  path: |
+                      .next/cache
+                  key: ${{ runner.os }}-nextjs-build-${{ hashFiles('package.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-nextjs-build-
+            - name: Install Dependencies
+              run: npm ci
+            - name: Build NextJS app
+              run: npm run build
+            - name: Log into Github COntainer Registry
+              uses: docker/login-action@v3
+              with:
+                  registry: ghcr.io
+                  username: ${{github.actor}}
+                  password: ${{secrets.GITHUB_TOKEN}}
+            - name: Build and push Docker image to Github Packages
+              uses: docker/build-push-action@v6
+              with:
+                  push: true
+                  tags: ghcr.io/${{github.repository}}/fazb_app:latest
