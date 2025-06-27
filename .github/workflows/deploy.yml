@@ -1,4 +1,4 @@
-name: Deploy FAZB NextJS app to Github Container Registry
+name: Upload FAZB NextJS app to Github Container Registry
 on:
     workflow_dispatch:
     push:
