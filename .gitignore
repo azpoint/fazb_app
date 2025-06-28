@@ -32,6 +32,7 @@
 /ai_prompts/
 *.Identifier
 docker-compose.yml
+docker-compose.dev.yml
 docker-cli-commands.txt
 /public/suites/
 
