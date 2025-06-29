@@ -1,0 +1,91 @@
+services:
+    fazb-app:
+        image: ghcr.io/azpoint/fazb_app/fazb-app:latest
+        networks:
+            - fazb-net
+        ports:
+            - "3000:3000"
+        deploy:
+            mode: replicated
+            replicas: 2
+            update_config:
+                parallelism: 1
+                delay: 15s
+                failure_action: rollback
+            rollback_config:
+                parallelism: 1
+                delay: 5s
+                failure_action: continue
+            placement:
+                constraints:
+                    - node.role == manager
+        restart_policy:
+            condition: any
+            delay: 10s
+            max_attempts: 5
+            window: 30s
+        volumes:
+            - fazb_public_data:/app/public
+        environment:
+            - JWT_COOKIE=ST
+            - JWT_DURATION=86400000
+            - JWT_SECRET=/run/secrets/jwt_secret
+            - SYS_ADMIN_EMAIL=/run/secrets/sys_admin_email
+            - SYS_ADMIN_PASSWORD=/run/secrets/sys_admin_password
+            - ADMIN_MAIL_VERIF=contact.learnrhino@gmail.com
+            - ADMIN_MAIL_VERIF_PASSWORD=/run/secrets/admin_mail_verif_password
+            - NEXT_PUBLIC_RECAPTCHA_SITE_KEY=6Lcw12IrAAAAAEnp28IOgZq_01u_xXCn32tB56xe
+            - RECAPTCHA_SECRET_KEY=/run/secrets/recaptcha_secret_key
+        secrets:
+            - jwt_secret
+            - sys_admin_email
+            - sys_admin_password
+            - admin_mail_verif_password
+            - recaptcha_secret_key
+    db-fazb-service:
+        image: postgres:16.8-alpine
+        networks:
+            - fazb-net
+        # ports:
+        #     - 5432:5432
+        deploy:
+            placement:
+                constraints:
+                    - node.role == manager
+        restart_policy:
+            condition: any
+            delay: 10s
+            max_attempts: 3
+            window: 30s
+        volumes:
+            - fazb_data:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_DB=/run/secrets/postgres_db
+            - POSTGRES_USER=/run/secrets/postgres_user
+            - POSTGRES_PASSWORD=/run/secrets/postgres_password
+        secrets:
+            - postgres_db
+            - postgres_user
+            - postgres_password
+networks:
+    fazb-net:
+volumes:
+    fazb_data:
+    fazb_public_data:
+secrets:
+    jwt_secret:
+        external: true
+    sys_admin_email:
+        external: true
+    sys_admin_password:
+        external: true
+    admin_mail_verif_password:
+        external: true
+    recaptcha_secret_key:
+        external: true
+    postgres_db:
+        external: true
+    postgres_user:
+        external: true
+    postgres_password:
+        external: true
