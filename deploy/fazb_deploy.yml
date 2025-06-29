@@ -1,5 +1,21 @@
 services:
+    nginx:
+        image: nginx:1.29.0
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ./nginx.conf:/etc/nginx/nginx.conf:ro
+        networks:
+            - fazb-net
+        deploy:
+            placement:
+                constraints:
+                    - node.role == manager
     fazb-app:
+        depends_on:
+            db-fazb-service:
+                condition: service_started
         image: ghcr.io/azpoint/fazb_app/fazb-app:latest
         networks:
             - fazb-net
@@ -69,6 +85,7 @@ services:
             - postgres_password
 networks:
     fazb-net:
+    external: true
 volumes:
     fazb_data:
     fazb_public_data:
