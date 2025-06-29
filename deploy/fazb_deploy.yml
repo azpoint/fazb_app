@@ -16,7 +16,7 @@ services:
         depends_on:
             db-fazb-service:
                 condition: service_started
-        image: ghcr.io/azpoint/fazb_app/fazb-app:latest
+        image: ghcr.io/azpoint/fazb_app/fazb-app:v1.0.0
         networks:
             - fazb-net
         ports:
