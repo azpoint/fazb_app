@@ -46,3 +46,6 @@ jobs:
                   labels: |
                       org.opencontainers.image.source=${{ github.repositoryUrl }}
                       org.opencontainers.image.version=latest
+                  build-args: |
+                      NEXT_PUBLIC_RECAPTCHA_SITE_KEY=${{ secrets.NEXT_PUBLIC_RECAPTCHA_SITE_KEY }}
+                      RECAPTCHA_SECRET_KEY=${{ secrets.RECAPTCHA_SECRET_KEY }}

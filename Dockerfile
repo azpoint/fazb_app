@@ -10,6 +10,15 @@ RUN npm ci
 
 FROM base AS builder
 WORKDIR /app
+
+# Declare build args
+ARG NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+ARG RECAPTCHA_SECRET_KEY
+
+# Set env vars so Next.js build can pick them up
+ENV NEXT_PUBLIC_RECAPTCHA_SITE_KEY=$NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+ENV RECAPTCHA_SECRET_KEY=$RECAPTCHA_SECRET_KEY
+
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npm run build
