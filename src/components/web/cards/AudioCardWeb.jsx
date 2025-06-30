@@ -103,7 +103,7 @@ function AudioCardWeb({ audio, description }) {
                 </div>
 
                 {/* Volume Control */}
-                <div className="absolute right-4 bottom-2 z-50 flex gap-2">
+                <div className="absolute right-4 bottom-2 z-40 flex gap-2">
                     <FaVolumeUp className="text-sky-950"/>
                     <input
                         type="range"
