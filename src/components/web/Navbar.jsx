@@ -140,7 +140,7 @@ export default function Navbar() {
                                         : "bg-transparent"
                                 } absolute top-0 translate-y-16 translate-x-2 transition-discrete transition-opacity duration-400 delay-75 -z-10 px-6 py-4 rounded-b-md ${
                                     obrasOpen
-                                        ? "block opacity-50 hover:opacity-100"
+                                        ? "block opacity-100"
                                         : "hidden opacity-0"
                                 }`}
                                 onMouseLeave={() => setObrasOpen(false)}
