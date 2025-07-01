@@ -89,10 +89,10 @@ function AudioCardWeb({ audio, description }) {
                     className="bg-sky-600 opacity-20 z-0"
                     onClick={togglePlayPause}
                 />
-                <div className="absolute ml-4 mt-2 z-20">{description}</div>
+                <div className="absolute ml-4 mt-2 z-10">{description}</div>
 
                 <div
-                    className="absolute inset-0 flex items-center justify-center z-10"
+                    className="absolute inset-0 flex items-center justify-center z-20"
                     onClick={togglePlayPause}
                 >
                     {isPlaying ? (
