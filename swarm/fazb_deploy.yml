@@ -68,11 +68,11 @@ services:
             placement:
                 constraints:
                     - node.role == manager
-        restart_policy:
-            condition: any
-            delay: 10s
-            max_attempts: 3
-            window: 30s
+            restart_policy:
+                condition: any
+                delay: 10s
+                max_attempts: 3
+                window: 30s
         volumes:
             - fazb_data:/var/lib/postgresql/data
         environment:
