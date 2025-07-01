@@ -12,8 +12,7 @@ services:
                     - node.role == manager
     fazb-app:
         depends_on:
-            db-fazb-service:
-                condition: service_started
+            - db-fazb-service
         image: clonit/fazb-app:v1.0.0
         user: "1001:1001"
         networks:
