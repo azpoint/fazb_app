@@ -86,8 +86,7 @@ services:
             - postgres_password
 networks:
     fazb-net:
-        driver: overlay
-        attachable: true
+        external: true
 volumes:
     fazb_data:
     fazb_public_data:
