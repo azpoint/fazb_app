@@ -33,11 +33,11 @@ services:
             placement:
                 constraints:
                     - node.role == manager
-        restart_policy:
-            condition: any
-            delay: 10s
-            max_attempts: 5
-            window: 30s
+            restart_policy:
+                condition: any
+                delay: 10s
+                max_attempts: 5
+                window: 30s
         volumes:
             - fazb_public_data:/app/public
         environment:
