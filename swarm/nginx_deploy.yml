@@ -5,7 +5,7 @@ services:
             - "80:80"
             - "443:443"
         volumes:
-            - /home/deploy/sites/fazb-app/configs/nginx.conf:/etc/nginx/nginx.conf:ro
+            - ../configs/nginx.conf:/etc/nginx/nginx.conf:ro
         networks:
             - fazb-net
         deploy:
