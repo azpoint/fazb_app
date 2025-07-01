@@ -10,6 +10,7 @@ services:
             placement:
                 constraints:
                     - node.role == manager
+
     fazb-app:
         depends_on:
             - db-fazb-service
