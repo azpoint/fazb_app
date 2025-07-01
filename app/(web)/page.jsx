@@ -81,9 +81,8 @@ export default function Home() {
 					</h2>
 
 					<p>
-						Obtuvo{" "}
 						<strong>
-							en 1981, el premio <em>José Clemente Laya</em>
+							En 1981 obtuvo el premio <em>José Clemente Laya</em>
 						</strong>{" "}
 						por unanimidad por la obra{" "}
 						<strong>
@@ -137,16 +136,16 @@ export default function Home() {
 								<em>ISCM World Music Days</em>
 							</strong>
 						</a>
-						, en Yokohama. Festival realizado anualmente por la{" "}
+						, en Yokohama, festival realizado anualmente por la{" "}
 						<a href="https://iscm.org/" target="_blank">
 							<strong>
 								<em>ISCM - International Society for Contemporary Music</em>
-							</strong>
+							</strong>.
 						</a>
 					</p>
 
 					<p>
-						Su Obra{" "}
+						Su obra{" "}
 						<strong>
 							<b>Sincretismos</b>
 						</strong>{" "}
@@ -165,7 +164,7 @@ export default function Home() {
 						<strong>
 							Max Lifchitz el día 09 de junio del 2022 en Saint John’s in the
 							Village - New York
-						</strong>
+						</strong>.
 					</p>
 
 					<p>
@@ -173,7 +172,7 @@ export default function Home() {
 						<strong>
 							<b>Scherzo Latino</b>
 						</strong>{" "}
-						para piano fue seleccionada en concurso por el comité Artístico de
+						para piano fue seleccionada en concurso por el comité artístico de
 						la{" "}
 						<a
 							href="https://www.northsouthmusic.org/calendar2023.asp"
@@ -187,7 +186,7 @@ export default function Home() {
 						<strong>
 							Max Lifchitz en el National Opera Center de New York el 14 de
 							noviembre de 2022
-						</strong>
+						</strong>.
 					</p>
 
 					<h2 className="text-2xl font-semibold underline indent-0">
@@ -264,11 +263,11 @@ export default function Home() {
 					</p>
 
 					<p>
-						Fue Director Titular de La Coral{" "}
+						Fue Director Titular de la Coral{" "}
 						<strong>Seguros la Seguridad</strong> durante 18 años, al frente de
 						la cual grabó <strong>11 discos de larga duración</strong> y durante
 						40 años ha sido Director y fundador de diferentes agrupaciones
-						corales de la Empresa Privada y de organismos oficiales, su labor y
+						corales de la Empresa Privada y de organismos oficiales. Su labor y
 						profesionalismo en este campo de la Dirección Coral le ha merecido
 						el reconocimiento{" "}
 						<strong>
@@ -285,7 +284,7 @@ export default function Home() {
 						</a>
 						. Con esta agrupación graba su primer CD en 1997, titulado{" "}
 						<strong>“Concierto Entre Voces”</strong>, logrando espontáneas y
-						elogiosas críticas, mereciendo además,{" "}
+						elogiosas críticas, mereciendo además{" "}
 						<strong>
 							la nominación para el premio <em>Casa del Artista 1998</em>,
 							renglón Grupo Vocal
@@ -399,7 +398,7 @@ export default function Home() {
 						<strong>
 							Tallerista y Jurado del 8° Festival Internacional Coral D`Canto
 							Estado Nueva Esparta - Venezuela 2005
-						</strong>
+						</strong>.
 					</p>
 
 					<p>
@@ -413,7 +412,7 @@ export default function Home() {
 							XIV Festival Internacional de Coros - José María Bravo Márquez
 						</strong>{" "}
 						de Medellín Colombia, con la ponencia:{" "}
-						<strong>Del arreglo a la composición musical</strong>
+						<strong>Del arreglo a la composición musical</strong>.
 					</p>
 
 					<p>
