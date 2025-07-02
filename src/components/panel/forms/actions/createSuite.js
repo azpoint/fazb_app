@@ -188,6 +188,7 @@ export async function createSuite(_formState, formData) {
 			// Redirect must be outside of the try catch because redirect is handled like an error
 			// redirect('/panel')
 		} catch (error) {
+			console.log(error)
 			if (error instanceof Error) {
 				return {
 					errors: {
@@ -247,6 +248,7 @@ export async function createSuite(_formState, formData) {
 
 			await Promise.all(writePromises);
 		} catch (error) {
+			console.log(error)
 			if (error instanceof Error) {
 				return {
 					errors: {

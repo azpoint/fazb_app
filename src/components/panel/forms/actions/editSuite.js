@@ -254,6 +254,7 @@ export async function editSuite(_prevData, formData) {
 				throw new Error("Directorio de la suite inexistente");
 			}
 		} catch (error) {
+			console.log(error)
 			if (error instanceof Error) {
 				return {
 					errors: {
@@ -377,6 +378,7 @@ export async function editSuite(_prevData, formData) {
 				throw new Error("Directorio de la suite inexistente");
 			}
 		} catch (error) {
+			console.log(error)
 			if (error instanceof Error) {
 				return {
 					errors: {
