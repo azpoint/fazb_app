@@ -55,13 +55,13 @@ services:
             - ADMIN_MAIL_VERIF_PASSWORD=
             - NEXT_PUBLIC_RECAPTCHA_SITE_KEY=6Lcw12IrAAAAAEnp28IOgZq_01u_xXCn32tB56xe
             - RECAPTCHA_SECRET_KEY=
-        secrets:
-            - database_url
-            - jwt_secret
-            - sys_admin_email
-            - sys_admin_password
-            - admin_mail_verif_password
-            - recaptcha_secret_key
+        # secrets:
+        #     - database_url
+        #     - jwt_secret
+        #     - sys_admin_email
+        #     - sys_admin_password
+        #     - admin_mail_verif_password
+        #     - recaptcha_secret_key
 
     db:
         image: postgres:16.8-alpine
@@ -84,10 +84,10 @@ services:
             - POSTGRES_DB=
             - POSTGRES_USER=
             - POSTGRES_PASSWORD=
-        secrets:
-            - postgres_db
-            - postgres_user
-            - postgres_password
+        # secrets:
+        #     - postgres_db
+        #     - postgres_user
+        #     - postgres_password
 
     nginx:
         depends_on:
@@ -110,23 +110,22 @@ networks:
 volumes:
     fazb_data:
     fazb_public_data:
-
-secrets:
-    database_url:
-        external: true
-    jwt_secret:
-        external: true
-    sys_admin_email:
-        external: true
-    sys_admin_password:
-        external: true
-    admin_mail_verif_password:
-        external: true
-    recaptcha_secret_key:
-        external: true
-    postgres_db:
-        external: true
-    postgres_user:
-        external: true
-    postgres_password:
-        external: true
+# secrets:
+#     database_url:
+#         external: true
+#     jwt_secret:
+#         external: true
+#     sys_admin_email:
+#         external: true
+#     sys_admin_password:
+#         external: true
+#     admin_mail_verif_password:
+#         external: true
+#     recaptcha_secret_key:
+#         external: true
+#     postgres_db:
+#         external: true
+#     postgres_user:
+#         external: true
+#     postgres_password:
+#         external: true
