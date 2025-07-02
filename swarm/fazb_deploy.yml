@@ -15,7 +15,7 @@ services:
 
     app:
         depends_on:
-            - db-fazb-service
+            - db
         image: clonit/fazb-app:v1.0.0
         user: "1001:1001"
         networks:
@@ -43,17 +43,18 @@ services:
                 window: 30s
         volumes:
             - fazb_public_data:/app/public
+            - ./entrypoint.sh:/usr/local/bin/entrypoint.sh:ro
         environment:
-            - DATABASE_URL=/run/secrets/database_url
+            - DATABASE_URL=
             - JWT_COOKIE=ST
             - JWT_DURATION=86400000
-            - JWT_SECRET=/run/secrets/jwt_secret
-            - SYS_ADMIN_EMAIL=/run/secrets/sys_admin_email
-            - SYS_ADMIN_PASSWORD=/run/secrets/sys_admin_password
+            - JWT_SECRET=
+            - SYS_ADMIN_EMAIL=
+            - SYS_ADMIN_PASSWORD=
             - ADMIN_MAIL_VERIF=contact.learnrhino@gmail.com
-            - ADMIN_MAIL_VERIF_PASSWORD=/run/secrets/admin_mail_verif_password
+            - ADMIN_MAIL_VERIF_PASSWORD=
             - NEXT_PUBLIC_RECAPTCHA_SITE_KEY=6Lcw12IrAAAAAEnp28IOgZq_01u_xXCn32tB56xe
-            - RECAPTCHA_SECRET_KEY=/run/secrets/recaptcha_secret_key
+            - RECAPTCHA_SECRET_KEY=
         secrets:
             - database_url
             - jwt_secret
@@ -80,9 +81,9 @@ services:
         volumes:
             - fazb_data:/var/lib/postgresql/data
         environment:
-            - POSTGRES_DB=/run/secrets/postgres_db
-            - POSTGRES_USER=/run/secrets/postgres_user
-            - POSTGRES_PASSWORD=/run/secrets/postgres_password
+            - POSTGRES_DB=
+            - POSTGRES_USER=
+            - POSTGRES_PASSWORD=
         secrets:
             - postgres_db
             - postgres_user
