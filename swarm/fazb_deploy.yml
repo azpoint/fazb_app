@@ -13,7 +13,7 @@ services:
                 constraints:
                     - node.role == manager
 
-    fazb-app:
+    app:
         depends_on:
             - db-fazb-service
         image: clonit/fazb-app:v1.0.0
@@ -62,7 +62,7 @@ services:
             - admin_mail_verif_password
             - recaptcha_secret_key
 
-    db-fazb-service:
+    db:
         image: postgres:16.8-alpine
         networks:
             - app-net
