@@ -1,9 +1,9 @@
 services:
     volume-init:
         image: busybox
-        command: ["sh", "-c", "chown -R 1001:1001 /app/public"]
+        command: ["sh", "-c", "chown -R 1001:1001 /public_data"]
         volumes:
-            - fazb_public_data:/app/public
+            - fazb_public_data:/public_data
         networks:
             - app-net
         deploy:
@@ -42,7 +42,7 @@ services:
                 max_attempts: 5
                 window: 30s
         volumes:
-            - fazb_public_data:/app/public
+            - fazb_public_data:/public_data
         environment:
             - DATABASE_URL=
             - JWT_COOKIE=ST
@@ -90,7 +90,7 @@ services:
 
     nginx:
         depends_on:
-            - fazb-app
+            - app
         image: nginx:1.29.0
         ports:
             - "80:80"
@@ -109,6 +109,11 @@ networks:
 volumes:
     fazb_data:
     fazb_public_data:
+        driver: local
+        driver_opts:
+            type: "nfs"
+            o: "addr=YOUR_NFS_SERVER_IP,rw"
+            device: ":/exported/path/on/nfs"
 # secrets:
 #     database_url:
 #         external: true
