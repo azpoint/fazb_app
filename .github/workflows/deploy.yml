@@ -44,7 +44,7 @@ jobs:
               with:
                   context: .
                   push: true
-                  tags: ${{secrets.DOCKERHUB_USERNAME}}/fazb-app:v1.0.0
+                  tags: ${{secrets.DOCKERHUB_USERNAME}}/fazb-app:v1.0.1
                   build-args: |
                       NEXT_PUBLIC_RECAPTCHA_SITE_KEY=${{ secrets.NEXT_PUBLIC_RECAPTCHA_SITE_KEY }}
                       RECAPTCHA_SECRET_KEY=${{ secrets.RECAPTCHA_SECRET_KEY }}
