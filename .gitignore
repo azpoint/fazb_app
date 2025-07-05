@@ -34,7 +34,8 @@
 docker-compose.yml
 docker-compose.dev.yml
 docker-cli-commands.txt
-/public/suites/
+/public/
+/public_data/
 
 # debug
 npm-debug.log*

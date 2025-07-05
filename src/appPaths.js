@@ -8,8 +8,8 @@ const appPaths = {
     createSuite() {
         return `/admin/panel/new-suite`;
     },
-    editSuite(slug) {
-        return `/admin/panel/edit-suite/${slug}`;
+    editSuite(suite_id) {
+        return `/admin/panel/edit-suite/${suite_id}`;
     },
     suite(slug, title) {
         return `/suites/${slug}?title=${title}`;

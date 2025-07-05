@@ -135,13 +135,13 @@ export async function createSuite(_formState, formData) {
 
 	//User load
 	const userSession = await getUserFromSession()
-	
+
 	const user = await prisma.user.findFirst({
 		where: {
 			email: userSession.user,
 		},
 	});
-	
+
 	if (imageFiles.length !== 0) {
 		try {
 			//File directory path
@@ -263,7 +263,7 @@ export async function createSuite(_formState, formData) {
 		}
 	}
 
-	let suiteDbCreated 
+	let suiteDbCreated
 	//------- DDBB Create -------
 	try {
 		suiteDbCreated = await prisma.suite.create({
@@ -323,7 +323,16 @@ export async function createSuite(_formState, formData) {
 	}
 
 	// Update static pages on the server at the path in production mode.
-	revalidatePath('/suites')
-	revalidatePath('/panel')
-	redirect(appPaths.editSuite(suiteDbCreated.suite_id));
+	if (suiteDbCreated) {
+		revalidatePath('/suites');
+		revalidatePath('/panel');
+		redirect(appPaths.editSuite(suiteDbCreated.suite_id));
+	} else {
+		return {
+			errors: {
+				_form: ["Error inesperado: suite no fue creada."],
+			},
+		};
+	}
+
 }

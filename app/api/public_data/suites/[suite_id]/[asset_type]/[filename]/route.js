@@ -1,4 +1,4 @@
-import { join } from "path";
+import path from "path";
 import { stat, createReadStream } from "fs";
 import { promisify } from "util";
 
@@ -23,8 +23,9 @@ function getContentType(path) {
 export async function GET(req, { params }) {
     const { suite_id, asset_type, filename } = await params;
 
-    const safePath = join(
-        "/public_data",
+    const safePath = path.resolve(
+		process.cwd(),
+        "public_data",
         "suites",
         suite_id,
         asset_type,

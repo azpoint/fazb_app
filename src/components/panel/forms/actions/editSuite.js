@@ -411,9 +411,9 @@ export async function editSuite(_prevData, formData) {
     }
 
     //------- DDBB Edit -------
-
+	let suiteDbEdited
     try {
-        await prisma.suite.update({
+        suiteDbEdited = await prisma.suite.update({
             where: { suite_id: suite_id },
             data: {
                 author: { connect: { user_id: user.user_id } },
@@ -467,7 +467,15 @@ export async function editSuite(_prevData, formData) {
     }
 
     // Update static pages on the server at the path in production mode.
-    revalidatePath("/suites");
-    revalidatePath("/panel");
-    redirect(appPaths.mainPanel());
+	if (suiteDbEdited) {
+		revalidatePath('/suites');
+		revalidatePath('/panel');
+		redirect(appPaths.mainPanel());
+	} else {
+		return {
+			errors: {
+				_form: ["Error inesperado: suite no fue creada."],
+			},
+		};
+	}
 }
