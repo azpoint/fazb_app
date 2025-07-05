@@ -119,7 +119,7 @@ function AudioCardWeb({ audio, description }) {
             </div>
 
             <div className="mt-4">
-                <audio ref={audioRef} src={audio} preload="metadata" />
+                <audio ref={audioRef} src={`/api${audio}`} preload="auto" />
                 <input
                     type="range"
                     min="0"

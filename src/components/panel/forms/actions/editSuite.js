@@ -26,431 +26,448 @@ import prisma from "@/lib/prisma";
 const writeFileAsync = util.promisify(fs.writeFile);
 
 export async function editSuite(_prevData, formData) {
-	//User load
-	const userSession = await getUserFromSession()
+    //User load
+    const userSession = await getUserFromSession();
 
-	const user = await prisma.user.findFirst({
-		where: {
-			email: userSession.user,
-		},
-	});
+    const user = await prisma.user.findFirst({
+        where: {
+            email: userSession.user,
+        },
+    });
 
-	//Find Suite
-	const suite_id = formData.get("suite_id");
-	const suite = await prisma.suite.findUnique({ where: { suite_id } });
+    //Find Suite
+    const suite_id = formData.get("suite_id");
+    const suite = await prisma.suite.findUnique({ where: { suite_id } });
 
-	//--------- Form Validator ---------
-	const zodResult = createSuiteZodSchema.safeParse({
-		title: formData.get("title"),
-		created: formData.get("created"),
-		rev: formData.get("rev") === "" ? null : formData.get("rev"),
-		_length:
-			formData.get("_length") === "" ? null : formData.get("_length"),
-		edition: formData.get("edition"),
-	});
+    //--------- Form Validator ---------
+    const zodResult = createSuiteZodSchema.safeParse({
+        title: formData.get("title"),
+        created: formData.get("created"),
+        rev: formData.get("rev") === "" ? null : formData.get("rev"),
+        _length:
+            formData.get("_length") === "" ? null : formData.get("_length"),
+        edition: formData.get("edition"),
+    });
 
-	if (!zodResult.success) {
-		return {
-			errors: zodResult.error.flatten().fieldErrors,
-		};
-	}
+    if (!zodResult.success) {
+        return {
+            errors: zodResult.error.flatten().fieldErrors,
+        };
+    }
 
-	//------- Images Validator --------
-	const imageFiles = formData.getAll("images");
+    //------- Images Validator --------
+    const imageFiles = formData.getAll("images");
 
-	if (imageFiles[0]?.size > 0) {
-		const imageVal = imageFiles.every((file) => {
-			return file.type === "image/jpeg" || file.type === "image/png";
-		});
+    if (imageFiles[0]?.size > 0) {
+        const imageVal = imageFiles.every((file) => {
+            return file.type === "image/jpeg" || file.type === "image/png";
+        });
 
-		if (!imageVal) {
-			return {
-				errors: {
-					images: ["Sólo puedes subir imágenes JPG y PNG"],
-				},
-			};
-		}
-	}
+        if (!imageVal) {
+            return {
+                errors: {
+                    images: ["Sólo puedes subir imágenes JPG y PNG"],
+                },
+            };
+        }
+    }
 
-	//------- Audios Validator --------
-	const audioFiles = formData.getAll("audios");
+    //------- Audios Validator --------
+    const audioFiles = formData.getAll("audios");
 
-	if (audioFiles[0]?.size > 0) {
-		const audioVal = audioFiles.every((file) => {
-			return file.type === "audio/mpeg";
-		});
+    if (audioFiles[0]?.size > 0) {
+        const audioVal = audioFiles.every((file) => {
+            return file.type === "audio/mpeg";
+        });
 
-		if (!audioVal) {
-			return {
-				errors: {
-					audios: ["Sólo puedes subir audios mp3"],
-				},
-			};
-		}
-	}
+        if (!audioVal) {
+            return {
+                errors: {
+                    audios: ["Sólo puedes subir audios mp3"],
+                },
+            };
+        }
+    }
 
-	//-------- Mov list Validator -------
-	let movs = [];
-	const movList = formData.getAll("mov");
-	let movErrorList = new Array(movList.length);
+    //-------- Mov list Validator -------
+    let movs = [];
+    const movList = formData.getAll("mov");
+    let movErrorList = new Array(movList.length);
 
-	movList.forEach((mov, index) => {
-		if (!mov || [...mov].length < 4 || [...mov].length > 80) {
-			movErrorList[index] = "Más de 3 y menos de 80 caracteres";
-		}
-		movs.push(mov);
-	});
+    movList.forEach((mov, index) => {
+        if (!mov || [...mov].length < 4 || [...mov].length > 80) {
+            movErrorList[index] = "Más de 3 y menos de 80 caracteres";
+        }
+        movs.push(mov);
+    });
 
-	let findMovError = movErrorList.findIndex(
-		(mov) => mov === "Más de 3 y menos de 80 caracteres"
-	);
+    let findMovError = movErrorList.findIndex(
+        (mov) => mov === "Más de 3 y menos de 80 caracteres"
+    );
 
-	if (findMovError !== -1) {
-		return {
-			errors: {
-				mov: movErrorList,
-			},
-		};
-	}
+    if (findMovError !== -1) {
+        return {
+            errors: {
+                mov: movErrorList,
+            },
+        };
+    }
 
-	//-------- Youtube Link Validator --------
-	let ytIds = [];
-	const ytLinkList = formData.getAll("youtube_l");
-	let ytLinkErrorsList = new Array(ytLinkList.length);
+    //-------- Youtube Link Validator --------
+    let ytIds = [];
+    const ytLinkList = formData.getAll("youtube_l");
+    let ytLinkErrorsList = new Array(ytLinkList.length);
 
-	ytLinkList.forEach((link, index) => {
-		if (link === "" && ytLinkList.length === 1) {
-			ytIds = [];
-		} else if (/www.youtube.com\/watch\?v=([^&]+)/.test(link)) {
-			ytIds.push(link.match(/watch\?v=([^&]+)/)[1]);
-		} else if (/youtu.be\/([^/]+)$/.test(link)) {
-			ytIds.push(link.match(/.be\/([^/]+)$/)[1]);
-		} else {
-			ytLinkErrorsList[index] = "Link Incorrecto ó vacío";
-		}
-	});
+    ytLinkList.forEach((link, index) => {
+        if (link === "" && ytLinkList.length === 1) {
+            ytIds = [];
+        } else if (/www.youtube.com\/watch\?v=([^&]+)/.test(link)) {
+            ytIds.push(link.match(/watch\?v=([^&]+)/)[1]);
+        } else if (/youtu.be\/([^/]+)$/.test(link)) {
+            ytIds.push(link.match(/.be\/([^/]+)$/)[1]);
+        } else {
+            ytLinkErrorsList[index] = "Link Incorrecto ó vacío";
+        }
+    });
 
-	let findLinkError = ytLinkErrorsList.findIndex(
-		(link) => link === "Link Incorrecto ó vacío"
-	);
+    let findLinkError = ytLinkErrorsList.findIndex(
+        (link) => link === "Link Incorrecto ó vacío"
+    );
 
-	if (findLinkError !== -1) {
-		return {
-			errors: {
-				youtube_l: ytLinkErrorsList,
-			},
-		};
-	}
+    if (findLinkError !== -1) {
+        return {
+            errors: {
+                youtube_l: ytLinkErrorsList,
+            },
+        };
+    }
 
-	//-------- File Operations -------
-	// -------- Image File Handling --------
-	const imageFilePath = path.join("public", "suites", suite_id, "images");
+    //-------- File Operations -------
+    // -------- Image File Handling --------
+    const imageFilePath = path.join(
+        "public_data",
+        "suites",
+        suite_id,
+        "images"
+    );
 
-	let imagePaths = [];
-	let serverFileList = [];
+    let imagePaths = [];
+    let serverFileList = [];
 
-	// Get photo filenames from server directory
-	try {
-		const dirents = await fsp.readdir(imageFilePath, {
-			withFileTypes: true,
-		});
-		serverFileList = dirents
-			.filter((dirent) => dirent.isFile())
-			.map((dirent) => dirent.name);
-	} catch (error) {
-		throw new Error(
-			`Error al leer el directorio de fotos: ${error.message}`
-		);
-	}
+    // Get photo filenames from server directory
+    try {
+        const dirents = await fsp.readdir(imageFilePath, {
+            withFileTypes: true,
+        });
+        serverFileList = dirents
+            .filter((dirent) => dirent.isFile())
+            .map((dirent) => dirent.name);
+    } catch (error) {
+        throw new Error(
+            `Error al leer el directorio de fotos: ${error.message}`
+        );
+    }
 
-	//Delete photo promises
-	if (serverFileList.length > 0) {
-		const fileListToDeleteFromClient = JSON.parse(
-			formData.get("images_to_delete")
-		);
-		const deletionPromises = fileListToDeleteFromClient.map(
-			async (fileName) => {
-				try {
-					await fsp.unlink(path.join("public", fileName));
-				} catch (error) {
-					throw new Error(`Error eliminando archivo de imagen`);
-				}
-			}
-		);
-		await Promise.allSettled(deletionPromises);
-	}
+    //Delete photo promises
+    if (serverFileList.length > 0) {
+        const fileListToDeleteFromClient = JSON.parse(
+            formData.get("images_to_delete")
+        );
 
-	//Sync server photo files with DB registered files
-	let currentServerFileList = [];
+        const deletionPromises = fileListToDeleteFromClient.map(
+            async (fileName) => {
+                try {
+                    console.log("FILENAME", fileName);
+                    await fsp.unlink(
+                        path.join(process.cwd(), fileName.slice(1))
+                    );
+                } catch (error) {
+                    throw new Error(`Error eliminando archivo de imagen`);
+                }
+            }
+        );
+        await Promise.allSettled(deletionPromises);
+    }
 
-	try {
-		const dirents = await fsp.readdir(imageFilePath, {
-			withFileTypes: true,
-		});
+    //Sync server photo files with DB registered files
+    let currentServerFileList = [];
 
-		currentServerFileList = dirents
-			.filter((dirent) => dirent.isFile())
-			.map((dirent) => dirent.name);
-	} catch (error) {
-		throw new Error(`Error al leer el directorio fotos: ${error.message}`);
-	}
+    try {
+        const dirents = await fsp.readdir(imageFilePath, {
+            withFileTypes: true,
+        });
 
-	let fileListFromDB = JSON.parse(suite.images) ?? [""];
+        currentServerFileList = dirents
+            .filter((dirent) => dirent.isFile())
+            .map((dirent) => dirent.name);
+    } catch (error) {
+        throw new Error(`Error al leer el directorio fotos: ${error.message}`);
+    }
 
-	if (fileListFromDB[0] !== "") {
-		let imageFileListFromDB = fileListFromDB.map((item) =>
-			item.filePath.split("/").slice(4).join("")
-		);
+    let fileListFromDB = JSON.parse(suite.images) ?? [""];
 
-		imageFileListFromDB.forEach((item, index) => {
-			let fileData = {
-				filePath: "",
-				fileDescription: "",
-			};
-			if (currentServerFileList.includes(item)) {
-				fileData.filePath = `/suites/${suite.suite_id}/images/${item}`;
-				fileData.fileDescription = fileListFromDB[index];
-				imagePaths.push(fileData);
-			}
-		});
-	}
+    if (fileListFromDB[0] !== "") {
+        let imageFileListFromDB = fileListFromDB.map((item) =>
+            item.filePath.split("/").slice(5).join("")
+        );
 
-	//Check input files
-	if (imageFiles.length !== 0) {
-		try {
-			// Check if directory exist and perform file handling
-			if (fs.existsSync(path.resolve(imageFilePath))) {
-				const writePromises = imageFiles.map(async (file) => {
-					let fileData = {
-						filePath: "",
-						fileDescription: "",
-					};
+        imageFileListFromDB.forEach((item, index) => {
+            let fileData = {
+                filePath: "",
+                fileDescription: "",
+            };
 
-					if (
-						file.type === "image/jpeg" ||
-						file.type === "image/png"
-					) {
-						const bytes = await file.arrayBuffer();
-						const buffer = Buffer.from(bytes);
+            if (currentServerFileList.includes(item)) {
+                fileData.filePath = `/public_data/suites/${suite.suite_id}/images/${item}`;
+                fileData.fileDescription = fileListFromDB[index];
+                imagePaths.push(fileData);
+            }
+        });
+    }
 
-						const imageName = `${uuidv4().slice(
-							0,
-							8
-						)}-${user.name}_${user.surname}-${slugify(formData.get("title"), slugifyOptions)}.${file.type === "image/jpeg" ? "jpg" : "png"}`;
+    //Check input files
+    if (imageFiles.length !== 0) {
+        try {
+            // Check if directory exist and perform file handling
+            if (fs.existsSync(path.resolve(imageFilePath))) {
+                const writePromises = imageFiles.map(async (file) => {
+                    let fileData = {
+                        filePath: "",
+                        fileDescription: "",
+                    };
 
-						await writeFileAsync(
-							`${path.resolve(imageFilePath)}/${imageName}`,
-							buffer
-						);
+                    if (
+                        file.type === "image/jpeg" ||
+                        file.type === "image/png"
+                    ) {
+                        const bytes = await file.arrayBuffer();
+                        const buffer = Buffer.from(bytes);
 
-						fileData.filePath = `/suites/${suite.suite_id}/images/${imageName}`;
-						fileData.fileDescription = file.name.slice(0, -4);
-						imagePaths.push(fileData);
-					}
-				});
+                        const imageName = `${uuidv4().slice(
+                            0,
+                            8
+                        )}-${user.name}_${user.surname}-${slugify(formData.get("title"), slugifyOptions)}.${file.type === "image/jpeg" ? "jpg" : "png"}`;
 
-				await Promise.all(writePromises);
-			} else {
-				throw new Error("Directorio de la suite inexistente");
-			}
-		} catch (error) {
-			console.log(error)
-			if (error instanceof Error) {
-				return {
-					errors: {
-						_form: [error.message],
-					},
-				};
-			} else {
-				return {
-					message: "Algo salió mal con las imágenes",
-				};
-			}
-		}
-	}
+                        await writeFileAsync(
+                            `${path.resolve(imageFilePath)}/${imageName}`,
+                            buffer
+                        );
 
-	//-------- Audio file server handler --------
-	const audioFilePath = path.join("public", "suites", suite_id, "audios");
+                        fileData.filePath = `/public_data/suites/${suite.suite_id}/images/${imageName}`;
+                        fileData.fileDescription = file.name.slice(0, -4);
+                        imagePaths.push(fileData);
+                    }
+                });
 
-	let audioPaths = [];
-	let serverAudioFileList = [];
+                await Promise.all(writePromises);
+            } else {
+                throw new Error("Directorio de la suite inexistente");
+            }
+        } catch (error) {
+            console.log(error);
+            if (error instanceof Error) {
+                return {
+                    errors: {
+                        _form: [error.message],
+                    },
+                };
+            } else {
+                return {
+                    message: "Algo salió mal con las imágenes",
+                };
+            }
+        }
+    }
 
-	// Get audio filenames from directory
-	try {
-		const dirents = await fsp.readdir(audioFilePath, {
-			withFileTypes: true,
-		});
-		serverAudioFileList = dirents
-			.filter((dirent) => dirent.isFile())
-			.map((dirent) => dirent.name);
-	} catch (error) {
-		throw new Error(
-			`Error al leer el directorio de audio: ${error.message}`
-		);
-	}
+    //-------- Audio file server handler --------
+    const audioFilePath = path.join(
+        "public_data",
+        "suites",
+        suite_id,
+        "audios"
+    );
 
-	// Delete audio promises
-	if (serverAudioFileList.length > 0) {
-		const fileAudioListToDeleteFromClient = JSON.parse(
-			formData.get("audios_to_delete")
-		);
+    let audioPaths = [];
+    let serverAudioFileList = [];
 
-		const audioDeletionPromises = fileAudioListToDeleteFromClient.map(
-			async (fileName) => {
-				try {
-					await fsp.unlink(path.join("public", fileName));
-				} catch (error) {
-					throw new Error(`Error eliminando archivo de imagen`);
-				}
-			}
-		);
-		await Promise.allSettled(audioDeletionPromises);
-	}
+    // Get audio filenames from directory
+    try {
+        const dirents = await fsp.readdir(audioFilePath, {
+            withFileTypes: true,
+        });
+        serverAudioFileList = dirents
+            .filter((dirent) => dirent.isFile())
+            .map((dirent) => dirent.name);
+    } catch (error) {
+        throw new Error(
+            `Error al leer el directorio de audio: ${error.message}`
+        );
+    }
 
-	//Sync server audio files with DB registered files
-	let currentAudioServerFileList = [];
+    // Delete audio promises
+    if (serverAudioFileList.length > 0) {
+        const fileAudioListToDeleteFromClient = JSON.parse(
+            formData.get("audios_to_delete")
+        );
 
-	try {
-		const dirents = await fsp.readdir(audioFilePath, {
-			withFileTypes: true,
-		});
+        const audioDeletionPromises = fileAudioListToDeleteFromClient.map(
+            async (fileName) => {
+                try {
+                    await fsp.unlink(path.join(process.cwd(), fileName.slice(1)));
+                } catch (error) {
+                    throw new Error(`Error eliminando archivo de imagen`);
+                }
+            }
+        );
+        await Promise.allSettled(audioDeletionPromises);
+    }
 
-		currentAudioServerFileList = dirents
-			.filter((dirent) => dirent.isFile())
-			.map((dirent) => dirent.name);
-	} catch (error) {
-		throw new Error(
-			`Error al leer el directorio de audio: ${error.message}`
-		);
-	}
+    //Sync server audio files with DB registered files
+    let currentAudioServerFileList = [];
 
-	let audioFileListFromDB = JSON.parse(suite.audios) ?? [""];
+    try {
+        const dirents = await fsp.readdir(audioFilePath, {
+            withFileTypes: true,
+        });
 
-	if (audioFileListFromDB[0] !== "") {
-		audioFileListFromDB = audioFileListFromDB.map((item) =>
-			item.filePath.split("/").slice(4).join("")
-		);
+        currentAudioServerFileList = dirents
+            .filter((dirent) => dirent.isFile())
+            .map((dirent) => dirent.name);
+    } catch (error) {
+        throw new Error(
+            `Error al leer el directorio de audio: ${error.message}`
+        );
+    }
 
-		audioFileListFromDB.forEach((item, index) => {
-			let fileData = {
-				filePath: "",
-				fileDescription: "",
-			};
-			if (currentAudioServerFileList.includes(item)) {
-				fileData.filePath = `/suites/${suite.suite_id}/audios/${item}`;
-				fileData.fileDescription = JSON.parse(suite.audios)[index].fileDescription;
-				audioPaths.push(fileData);
-			}
-		});
-	}
+    let audioFileListFromDB = JSON.parse(suite.audios) ?? [""];
 
-	if (audioFiles.length !== 0) {
-		try {
-			//Check if directory exist and creates it if not
-			if (fs.existsSync(path.resolve(audioFilePath))) {
-				const writePromises = audioFiles.map(async (file) => {
-					let fileData = {
-						filePath: "",
-						fileDescription: "",
-					};
+    if (audioFileListFromDB[0] !== "") {
+        audioFileListFromDB = audioFileListFromDB.map((item) =>
+            item.filePath.split("/").slice(5).join("")
+        );
 
-					if (file.type === "audio/mpeg") {
-						const bytes = await file.arrayBuffer();
-						const buffer = Buffer.from(bytes);
+        audioFileListFromDB.forEach((item, index) => {
+            let fileData = {
+                filePath: "",
+                fileDescription: "",
+            };
+            if (currentAudioServerFileList.includes(item)) {
+                fileData.filePath = `/public_data/suites/${suite.suite_id}/audios/${item}`;
+                fileData.fileDescription = JSON.parse(suite.audios)[
+                    index
+                ].fileDescription;
+                audioPaths.push(fileData);
+            }
+        });
+    }
 
-						const audioName = `${uuidv4().slice(
-							0,
-							8
-						)}-${user.name}${user.surname}-${slugify(file.name.slice(0, -4), slugifyOptions)}.mp3`
+    if (audioFiles.length !== 0) {
+        try {
+            //Check if directory exist and creates it if not
+            if (fs.existsSync(path.resolve(audioFilePath))) {
+                const writePromises = audioFiles.map(async (file) => {
+                    let fileData = {
+                        filePath: "",
+                        fileDescription: "",
+                    };
 
-						await writeFileAsync(
-							`${path.resolve(audioFilePath)}/${audioName}`,
-							buffer
-						);
+                    if (file.type === "audio/mpeg") {
+                        const bytes = await file.arrayBuffer();
+                        const buffer = Buffer.from(bytes);
 
-						fileData.filePath = `/suites/${suite.suite_id}/audios/${audioName}`;
-						fileData.fileDescription = file.name.slice(0, -4);
-						audioPaths.push(fileData);
-					}
-				});
-				await Promise.all(writePromises);
-			} else {
-				throw new Error("Directorio de la suite inexistente");
-			}
-		} catch (error) {
-			console.log(error)
-			if (error instanceof Error) {
-				return {
-					errors: {
-						_form: [error.message],
-					},
-				};
-			} else {
-				return {
-					message: "Algo salió mal con los audios",
-				};
-			}
-		}
-	}
+                        const audioName = `${uuidv4().slice(
+                            0,
+                            8
+                        )}-${user.name}${user.surname}-${slugify(file.name.slice(0, -4), slugifyOptions)}.mp3`;
 
-	//------- DDBB Edit -------
+                        await writeFileAsync(
+                            `${path.resolve(audioFilePath)}/${audioName}`,
+                            buffer
+                        );
 
-	try {
-		await prisma.suite.update({
-			where: { suite_id: suite_id },
-			data: {
-				author: { connect: { user_id: user.user_id } },
-				type: formData.get("type"),
-				title: formData.get("title"),
-				slug: slugify(formData.get("title"), slugifyOptions),
-				mov: movs.length === 0 ? null : JSON.stringify(movs),
-				created: formData.get("created"),
-				rev: formData.get("rev") === "" ? null : formData.get("rev"),
-				timeLength:
-					formData.get("_length") === ""
-						? null
-						: formData.get("_length"),
-				edition:
-					formData.get("edition") === ""
-						? null
-						: formData.get("edition"),
-				notes:
-					formData.get("description") === ""
-						? suite.description
-						: formData.get("description"),
-				images:
-					imagePaths.length === 0 ? null : JSON.stringify(imagePaths),
-				audios:
-					audioPaths.length === 0 ? null : JSON.stringify(audioPaths),
-				ytLinks: ytIds.length === 0 ? null : JSON.stringify(ytIds),
-			},
-		});
-		// Redirect must be outside of the try catch because redirect is handled like an error
-	} catch (error) {
-		if (error instanceof Error) {
-			if (error.code === "P2002") {
-				return {
-					errors: {
-						_form: ["Esta obra ya existe!"],
-					},
-				};
-			}
-			return {
-				errors: {
-					_form: [error.message],
-				},
-			};
-		} else {
-			return {
-				errors: {
-					_form: ["Algo salió mal con la Base de Datos"],
-				},
-			};
-		}
-	}
+                        fileData.filePath = `/public_data/suites/${suite.suite_id}/audios/${audioName}`;
+                        fileData.fileDescription = file.name.slice(0, -4);
+                        audioPaths.push(fileData);
+                    }
+                });
+                await Promise.all(writePromises);
+            } else {
+                throw new Error("Directorio de la suite inexistente");
+            }
+        } catch (error) {
+            console.log(error);
+            if (error instanceof Error) {
+                return {
+                    errors: {
+                        _form: [error.message],
+                    },
+                };
+            } else {
+                return {
+                    message: "Algo salió mal con los audios",
+                };
+            }
+        }
+    }
 
-	// Update static pages on the server at the path in production mode.
-	revalidatePath("/suites");
-	revalidatePath("/panel");
-	redirect(appPaths.mainPanel());
+    //------- DDBB Edit -------
+
+    try {
+        await prisma.suite.update({
+            where: { suite_id: suite_id },
+            data: {
+                author: { connect: { user_id: user.user_id } },
+                type: formData.get("type"),
+                title: formData.get("title"),
+                slug: slugify(formData.get("title"), slugifyOptions),
+                mov: movs.length === 0 ? null : JSON.stringify(movs),
+                created: formData.get("created"),
+                rev: formData.get("rev") === "" ? null : formData.get("rev"),
+                timeLength:
+                    formData.get("_length") === ""
+                        ? null
+                        : formData.get("_length"),
+                edition:
+                    formData.get("edition") === ""
+                        ? null
+                        : formData.get("edition"),
+                notes:
+                    formData.get("description") === ""
+                        ? suite.description
+                        : formData.get("description"),
+                images:
+                    imagePaths.length === 0 ? null : JSON.stringify(imagePaths),
+                audios:
+                    audioPaths.length === 0 ? null : JSON.stringify(audioPaths),
+                ytLinks: ytIds.length === 0 ? null : JSON.stringify(ytIds),
+            },
+        });
+        // Redirect must be outside of the try catch because redirect is handled like an error
+    } catch (error) {
+        if (error instanceof Error) {
+            if (error.code === "P2002") {
+                return {
+                    errors: {
+                        _form: ["Esta obra ya existe!"],
+                    },
+                };
+            }
+            return {
+                errors: {
+                    _form: [error.message],
+                },
+            };
+        } else {
+            return {
+                errors: {
+                    _form: ["Algo salió mal con la Base de Datos"],
+                },
+            };
+        }
+    }
+
+    // Update static pages on the server at the path in production mode.
+    revalidatePath("/suites");
+    revalidatePath("/panel");
+    redirect(appPaths.mainPanel());
 }

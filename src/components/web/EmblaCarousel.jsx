@@ -35,7 +35,7 @@ export function EmblaCarousel({ images }) {
                         >
                             <div className="relative w-full h-[40vh] overflow-hidden rounded-2xl shadow-lg cursor-pointer">
                                 <Image
-                                    src={image}
+                                    src={`/api${image}`}
                                     alt={"Suite Image"}
                                     fill={true}
                                     className="object-cover object-center"

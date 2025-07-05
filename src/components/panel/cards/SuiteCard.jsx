@@ -45,10 +45,10 @@ export default function SuiteCard({
     async function handleDeleteSuite() {
         "use server";
 
-        const suiteFilePath = path.join("public", "suites", suite_id);
+        const suiteFilePath = path.join("public_data", "suites", suite_id);
 
         try {
-            rm(suiteFilePath, { recursive: true, force: true });
+            await rm(suiteFilePath, { recursive: true, force: true });
 
             await prisma.suite.delete({
                 where: { suite_id },
@@ -66,7 +66,7 @@ export default function SuiteCard({
             <div className="relative aspect-[2/1.5]">
                 <Link href={published ? appPaths.suite(slug, title) : ""}>
                     <Image
-                        src={imageCard}
+                        src={`/api${imageCard}`}
                         alt={imageDescription || "Suite Text"}
                         fill={true}
                         className="object-cover object-center hover:brightness-125"
