@@ -1,17 +1,17 @@
 services:
-    volume-init:
-        image: busybox
-        command: ["sh", "-c", "chown -R 1001:1001 /public_data"]
-        volumes:
-            - fazb_public_data:/public_data
-        networks:
-            - app-net
-        deploy:
-            restart_policy:
-                condition: none
-            placement:
-                constraints:
-                    - node.role == manager
+    # volume-init:
+    #     image: busybox
+    #     command: ["sh", "-c", "chown -R 1001:1001 /public_data"]
+    #     volumes:
+    #         - fazb_public_data:/public_data
+    #     networks:
+    #         - app-net
+    #     deploy:
+    #         restart_policy:
+    #             condition: none
+    #         placement:
+    #             constraints:
+    #                 - node.role == manager
 
     app:
         depends_on:
@@ -24,7 +24,7 @@ services:
         #     - "3000:3000"
         deploy:
             mode: replicated
-            replicas: 2
+            replicas: 1
             update_config:
                 parallelism: 1
                 delay: 15s
@@ -109,11 +109,11 @@ networks:
 volumes:
     fazb_data:
     fazb_public_data:
-        driver: local
-        driver_opts:
-            type: "nfs"
-            o: "addr=YOUR_NFS_SERVER_IP,rw"
-            device: ":/exported/path/on/nfs"
+        # driver: local
+        # driver_opts:
+        #     type: "nfs"
+        #     o: "addr=5.161.222.224,rw"
+        #     device: ":/srv/nfs/fazb_public_data"
 # secrets:
 #     database_url:
 #         external: true
