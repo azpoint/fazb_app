@@ -166,7 +166,7 @@ export default function Navbar() {
                                     } desktopSubMenu`}
                                 >
                                     <li className="hover:text-sky-800 hover:underline">
-                                        Coral y A Capella
+                                        Coral A Capella
                                     </li>
                                 </Link>
                                 <Link
@@ -190,7 +190,7 @@ export default function Navbar() {
                                     } desktopSubMenu`}
                                 >
                                     <li className="hover:text-sky-800 hover:underline">
-                                        Orquesta y Cuerdas
+                                        Orquesta de Cuerdas
                                     </li>
                                 </Link>
                                 <Link
@@ -202,7 +202,7 @@ export default function Navbar() {
                                     } desktopSubMenu`}
                                 >
                                     <li className="hover:text-sky-800 hover:underline">
-                                        Orquesta y Sinfónica
+                                        Orquesta Sinfónica
                                     </li>
                                 </Link>
                                 <Link
@@ -288,7 +288,7 @@ export default function Navbar() {
                             </Link>
                             <Link href="" className="mobileLink">
                                 <li className="font-light">
-                                    Coral y A Capella
+                                    Coral A Capella
                                 </li>
                             </Link>
                             <Link
@@ -302,7 +302,7 @@ export default function Navbar() {
                                 className="mobileLink"
                             >
                                 <li className="font-light">
-                                    Orquesta y Cuerdas
+                                    Orquesta de Cuerdas
                                 </li>
                             </Link>
                             <Link
@@ -310,7 +310,7 @@ export default function Navbar() {
                                 className="mobileLink"
                             >
                                 <li className="font-light">
-                                    Orquesta y Sinfónica
+                                    Orquesta Sinfónica
                                 </li>
                             </Link>
                             <Link

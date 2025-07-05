@@ -135,21 +135,21 @@ export async function createSuite(_formState, formData) {
 
 	//User load
 	const userSession = await getUserFromSession()
-
+	
 	const user = await prisma.user.findFirst({
 		where: {
 			email: userSession.user,
 		},
 	});
-
+	
 	if (imageFiles.length !== 0) {
 		try {
 			//File directory path
 			const imageFilePath = path.join(
-				"public",
-				"/suites",
+				"public_data",
+				"suites",
 				suite_id,
-				"/images"
+				"images"
 			);
 
 			//Check if directory exist and creates it if not
@@ -170,14 +170,14 @@ export async function createSuite(_formState, formData) {
 					const imageName = `${uuidv4().slice(
 						0,
 						8
-					)}-${user.name}_${user.surname}-${slugify(formData.get("title"), slugifyOptions)}.${file.type === "image/jpeg" ? "jpg" : "png"}`;
+					)}-${user.name.toLowerCase()}_${user.surname.toLowerCase()}-${slugify(formData.get("title"), slugifyOptions)}.${file.type === "image/jpeg" ? "jpg" : "png"}`;
 
 					await writeFileAsync(
 						`${path.resolve(imageFilePath)}/${imageName}`,
 						buffer
 					);
 
-					fileData.filePath = `/suites/${suite_id}/images/${imageName}`;
+					fileData.filePath = `/public_data/suites/${suite_id}/images/${imageName}`;
 					fileData.fileDescription = file.name.slice(0, -4);
 					imagePaths.push(fileData);
 				}
@@ -209,10 +209,10 @@ export async function createSuite(_formState, formData) {
 	if (audioFiles.length !== 0) {
 		try {
 			const audioFilePath = path.join(
-				"public",
-				"/suites",
+				"public_data",
+				"suites",
 				suite_id,
-				"/audios"
+				"audios"
 			);
 
 			//Check if directory exist and creates it if not
@@ -233,14 +233,14 @@ export async function createSuite(_formState, formData) {
 					const audioName = `${uuidv4().slice(
 						0,
 						8
-					)}-${user.name}_${user.surname}-${slugify(file.name.slice(0, -4), slugifyOptions)}.mp3`;
+					)}-${user.name.toLowerCase()}_${user.surname.toLowerCase()}-${slugify(file.name.slice(0, -4), slugifyOptions)}.mp3`;
 
 					await writeFileAsync(
 						`${path.resolve(audioFilePath)}/${audioName}`,
 						buffer
 					);
 
-					fileData.filePath = `/suites/${suite_id}/audios/${audioName}`;
+					fileData.filePath = `/public_data/suites/${suite_id}/audios/${audioName}`;
 					fileData.fileDescription = file.name.slice(0, -4);
 					audioPaths.push(fileData);
 				}

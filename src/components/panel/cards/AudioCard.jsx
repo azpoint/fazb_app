@@ -36,12 +36,8 @@ function AudioCard({ audio, id, handleAudioCard, description, visibility }) {
 
         // Handle cases where metadata is already loaded or needs re-triggering ---
         if (audio.readyState >= 1) {
-            // 1 (HAVE_METADATA) or higher means metadata is available
-
             setAudioData(); // Call setAudioData immediately
         } else {
-            // If not ready, call load() to force the browser to load and dispatch events
-            // This is useful if the src changed or event was missed
             audio.load();
         }
 
@@ -51,7 +47,7 @@ function AudioCard({ audio, id, handleAudioCard, description, visibility }) {
             audio.removeEventListener("timeupdate", setAudioTime);
             audio.removeEventListener("ended", handleAudioEnded);
         };
-    }, []);
+    }, [audio]);
 
     const togglePlayPause = () => {
         if (isPlaying) {
@@ -63,7 +59,7 @@ function AudioCard({ audio, id, handleAudioCard, description, visibility }) {
     };
 
     const handleSeek = (e) => {
-        const newTime = e.target.value;
+        const newTime = parseFloat(e.target.value);
         audioRef.current.currentTime = newTime;
         setCurrentTime(newTime);
     };
@@ -95,7 +91,7 @@ function AudioCard({ audio, id, handleAudioCard, description, visibility }) {
                 />
             </div>
             <div className="mt-4">
-                <audio ref={audioRef} src={audio} preload="metadata" />
+                <audio ref={audioRef} src={`/api${audio}`} preload="auto" />
                 <input
                     type="range"
                     min="0"

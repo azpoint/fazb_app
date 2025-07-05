@@ -20,7 +20,7 @@ export default function SuiteCardWeb({
             <div className="relative aspect-[2/1.5]">
                 <Link href={appPaths.suite(slug, title)}>
                     <Image
-                        src={imageCard}
+                        src={`/api${imageCard}`}
                         alt={imageDescription || "Suite Text"}
                         fill={true}
 						priority
