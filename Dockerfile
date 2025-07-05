@@ -39,7 +39,9 @@ RUN chown nextjs:nodejs .next
 
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-# COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
+
+RUN mkdir -p /public_data/suites
+RUN chown -R nextjs:nodejs /public_data
 
 USER nextjs
 
