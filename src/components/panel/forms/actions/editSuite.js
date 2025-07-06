@@ -144,12 +144,13 @@ export async function editSuite(_prevData, formData) {
 
     //-------- File Operations -------
     // -------- Image File Handling --------
-    const imageFilePath = path.join(
-        "public_data",
-        "suites",
-        suite_id,
-        "images"
-    );
+    let imageFilePath;
+
+    if (process.env.NODE_ENV === "prod") {
+        imageFilePath = path.join("/public_data", "suites", suite_id, "images");
+    } else {
+        imageFilePath = path.join("public_data", "suites", suite_id, "images");
+    }
 
     let imagePaths = [];
     let serverFileList = [];
@@ -177,10 +178,13 @@ export async function editSuite(_prevData, formData) {
         const deletionPromises = fileListToDeleteFromClient.map(
             async (fileName) => {
                 try {
-                    console.log("FILENAME", fileName);
-                    await fsp.unlink(
-                        path.join(process.cwd(), fileName.slice(1))
-                    );
+                    if (process.env.NODE_ENV === "prod") {
+                        await fsp.unlink(fileName);
+                    } else {
+                        await fsp.unlink(
+                            path.join(process.cwd(), fileName.slice(1))
+                        );
+                    }
                 } catch (error) {
                     throw new Error(`Error eliminando archivo de imagen`);
                 }
@@ -280,12 +284,13 @@ export async function editSuite(_prevData, formData) {
     }
 
     //-------- Audio file server handler --------
-    const audioFilePath = path.join(
-        "public_data",
-        "suites",
-        suite_id,
-        "audios"
-    );
+    let audioFilePath;
+
+    if (process.env.NODE_ENV === "prod") {
+        audioFilePath = path.join("/public_data", "suites", suite_id, "audios");
+    } else {
+        audioFilePath = path.join("public_data", "suites", suite_id, "audios");
+    }
 
     let audioPaths = [];
     let serverAudioFileList = [];
@@ -313,7 +318,13 @@ export async function editSuite(_prevData, formData) {
         const audioDeletionPromises = fileAudioListToDeleteFromClient.map(
             async (fileName) => {
                 try {
-                    await fsp.unlink(path.join(process.cwd(), fileName.slice(1)));
+                    if (process.env.NODE_ENV === "prod") {
+                        await fsp.unlink(fileName);
+                    } else {
+                        await fsp.unlink(
+                            path.join(process.cwd(), fileName.slice(1))
+                        );
+                    }
                 } catch (error) {
                     throw new Error(`Error eliminando archivo de imagen`);
                 }
@@ -411,7 +422,7 @@ export async function editSuite(_prevData, formData) {
     }
 
     //------- DDBB Edit -------
-	let suiteDbEdited
+    let suiteDbEdited;
     try {
         suiteDbEdited = await prisma.suite.update({
             where: { suite_id: suite_id },
@@ -467,15 +478,15 @@ export async function editSuite(_prevData, formData) {
     }
 
     // Update static pages on the server at the path in production mode.
-	if (suiteDbEdited) {
-		revalidatePath('/suites');
-		revalidatePath('/panel');
-		redirect(appPaths.mainPanel());
-	} else {
-		return {
-			errors: {
-				_form: ["Error inesperado: suite no fue creada."],
-			},
-		};
-	}
+    if (suiteDbEdited) {
+        revalidatePath("/suites");
+        revalidatePath("/panel");
+        redirect(appPaths.mainPanel());
+    } else {
+        return {
+            errors: {
+                _form: ["Error inesperado: suite no fue creada."],
+            },
+        };
+    }
 }

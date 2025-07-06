@@ -19,18 +19,29 @@ function getContentType(path) {
     return types[ext] || "application/octet-stream"; // Fallback
 }
 
-
 export async function GET(req, { params }) {
     const { suite_id, asset_type, filename } = await params;
 
-    const safePath = path.resolve(
-		process.cwd(),
-        "public_data",
-        "suites",
-        suite_id,
-        asset_type,
-        filename
-    );
+    let safePath;
+
+    if (process.env.NODE_ENV === "prod") {
+        safePath = path.resolve(
+            "/public_data",
+            "suites",
+            suite_id,
+            asset_type,
+            filename
+        );
+    } else {
+        safePath = path.resolve(
+            process.cwd(),
+            "public_data",
+            "suites",
+            suite_id,
+            asset_type,
+            filename
+        );
+    }
 
     try {
         const fileStats = await statAsync(safePath);
@@ -40,7 +51,7 @@ export async function GET(req, { params }) {
 
         const fileSize = fileStats.size;
         const contentType = getContentType(safePath);
-        
+
         // Check for Range header
         const range = req.headers.get("range");
 
@@ -48,8 +59,8 @@ export async function GET(req, { params }) {
             const parts = range.replace(/bytes=/, "").split("-");
             const start = parseInt(parts[0], 10);
             const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1;
-            const chunksize = (end - start) + 1;
-            
+            const chunksize = end - start + 1;
+
             // Create stream for the requested chunk
             const stream = createReadStream(safePath, { start, end });
 
@@ -63,25 +74,25 @@ export async function GET(req, { params }) {
                     "Content-Type": contentType,
                 },
             });
-
         } else {
             // If no range, send the full file (initial load)
             const stream = createReadStream(safePath);
-            
+
             return new Response(stream, {
                 status: 200,
                 headers: {
                     "Content-Length": fileSize,
                     "Content-Type": contentType,
                     // Signal that we accept range requests
-                    "Accept-Ranges": "bytes", 
+                    "Accept-Ranges": "bytes",
                 },
             });
         }
-
     } catch (err) {
         // More specific error logging can be helpful
-        console.error(err); 
-        return new Response("File not found or error reading file", { status: 404 });
+        console.error(err);
+        return new Response("File not found or error reading file", {
+            status: 404,
+        });
     }
 }

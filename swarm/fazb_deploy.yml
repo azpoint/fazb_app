@@ -1,7 +1,7 @@
 services:
     volume-init:
         image: busybox
-        command: ["sh", "-c", "chown -R 1001:1001 /public_data"]
+        command: ["sh", "-c", "chown -R 1001:1001 /public_data && exit 0"]
         volumes:
             - public_data:/public_data
         networks:
@@ -16,6 +16,8 @@ services:
     app:
         depends_on:
             - db
+            - volume-init:
+                  condition: service_completed_successfully
         image: clonit/fazb-app:v1.0.1
         user: "1001:1001"
         networks:
@@ -54,6 +56,7 @@ services:
             - ADMIN_MAIL_VERIF_PASSWORD=
             - NEXT_PUBLIC_RECAPTCHA_SITE_KEY=6Lcw12IrAAAAAEnp28IOgZq_01u_xXCn32tB56xe
             - RECAPTCHA_SECRET_KEY=
+            - NODE_ENV=prod
         # secrets:
         #     - database_url
         #     - jwt_secret
@@ -112,7 +115,7 @@ volumes:
         # driver: local
         # driver_opts:
         #     type: "nfs"
-        #     o: "addr=5.161.222.224,rw"
+        #     o: "addr=THE_IP_ADDRESS,rw"
         #     device: ":/srv/nfs/fazb_public_data"
 # secrets:
 #     database_url:

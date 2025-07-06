@@ -25,7 +25,6 @@ import { getUserFromSession } from "@/lib/auth";
 const writeFileAsync = util.promisify(fs.writeFile);
 
 export async function createSuite(_formState, formData) {
-
 	//--------- Form Validator ---------
 	const zodResult = createSuiteZodSchema.safeParse({
 		title: formData.get("title"),
@@ -134,7 +133,7 @@ export async function createSuite(_formState, formData) {
 	let imagePaths = [];
 
 	//User load
-	const userSession = await getUserFromSession()
+	const userSession = await getUserFromSession();
 
 	const user = await prisma.user.findFirst({
 		where: {
@@ -144,13 +143,23 @@ export async function createSuite(_formState, formData) {
 
 	if (imageFiles.length !== 0) {
 		try {
-			//File directory path
-			const imageFilePath = path.join(
-				"public_data",
-				"suites",
-				suite_id,
-				"images"
-			);
+			let imageFilePath;
+
+			if (process.env.NODE_ENV === "prod") {
+				imageFilePath = path.join(
+					"/public_data",
+					"suites",
+					suite_id,
+					"images"
+				);
+			} else {
+				imageFilePath = path.join(
+					"public_data",
+					"suites",
+					suite_id,
+					"images"
+				);
+			}
 
 			//Check if directory exist and creates it if not
 			if (!fs.existsSync(path.resolve(imageFilePath))) {
@@ -188,7 +197,7 @@ export async function createSuite(_formState, formData) {
 			// Redirect must be outside of the try catch because redirect is handled like an error
 			// redirect('/panel')
 		} catch (error) {
-			console.log(error)
+			console.log(error);
 			if (error instanceof Error) {
 				return {
 					errors: {
@@ -208,12 +217,23 @@ export async function createSuite(_formState, formData) {
 
 	if (audioFiles.length !== 0) {
 		try {
-			const audioFilePath = path.join(
-				"public_data",
-				"suites",
-				suite_id,
-				"audios"
-			);
+			let audioFilePath;
+
+			if (process.env.NODE_ENV === "prod") {
+				audioFilePath = path.join(
+					"/public_data",
+					"suites",
+					suite_id,
+					"audios"
+				);
+			} else {
+				audioFilePath = path.join(
+					"public_data",
+					"suites",
+					suite_id,
+					"audios"
+				);
+			}
 
 			//Check if directory exist and creates it if not
 			if (!fs.existsSync(path.resolve(audioFilePath))) {
@@ -248,7 +268,7 @@ export async function createSuite(_formState, formData) {
 
 			await Promise.all(writePromises);
 		} catch (error) {
-			console.log(error)
+			console.log(error);
 			if (error instanceof Error) {
 				return {
 					errors: {
@@ -263,7 +283,7 @@ export async function createSuite(_formState, formData) {
 		}
 	}
 
-	let suiteDbCreated
+	let suiteDbCreated;
 	//------- DDBB Create -------
 	try {
 		suiteDbCreated = await prisma.suite.create({
@@ -324,8 +344,8 @@ export async function createSuite(_formState, formData) {
 
 	// Update static pages on the server at the path in production mode.
 	if (suiteDbCreated) {
-		revalidatePath('/suites');
-		revalidatePath('/panel');
+		revalidatePath("/suites");
+		revalidatePath("/panel");
 		redirect(appPaths.editSuite(suiteDbCreated.suite_id));
 	} else {
 		return {
@@ -334,5 +354,4 @@ export async function createSuite(_formState, formData) {
 			},
 		};
 	}
-
 }
