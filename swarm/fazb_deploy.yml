@@ -83,7 +83,8 @@ services:
                 delay: 10s
                 max_attempts: 3
                 window: 30s
-        volumes: ../data:/var/lib/postgresql/data
+        volumes:
+            - ../data:/var/lib/postgresql/data
         environment:
             POSTGRES_DB: ${POSTGRES_DB}
             POSTGRES_USER: ${POSTGRES_USER}
