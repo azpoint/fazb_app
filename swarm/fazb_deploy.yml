@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
     volume-init:
         image: busybox
@@ -119,15 +117,14 @@ services:
                     - node.role == manager
 networks:
     app-net:
-
-volumes:
-    data:
-    public_data:
-        # driver: local
-        # driver_opts:
-        #     type: "nfs"
-        #     o: "addr=THE_IP_ADDRESS,rw"
-        #     device: ":/srv/nfs/fazb_public_data"
+# volumes:
+#     data:
+#     public_data:
+# driver: local
+# driver_opts:
+#     type: "nfs"
+#     o: "addr=THE_IP_ADDRESS,rw"
+#     device: ":/srv/nfs/fazb_public_data"
 # secrets:
 #     database_url:
 #         external: true
