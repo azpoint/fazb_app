@@ -8,7 +8,13 @@ services:
                 "chown -R 1001:1001 /public_data && chmod -R 755 /public_data && echo 'Permissions set for /public_data'",
             ]
         volumes:
-            - ../public_data:/public_data:rw
+            - type: bind
+              source: /home/deploy/sites/fazb-app/public_data # ABSOLUTE PATH
+              target: /public_data
+              bind:
+                  create_host_path: true
+                  propagation: rshared
+              read_only: false
         networks:
             - app-net
         deploy:
@@ -47,7 +53,13 @@ services:
                 max_attempts: 5
                 window: 30s
         volumes:
-            - ../public_data:/public_data:rw
+            - type: bind
+              source: /home/deploy/sites/fazb-app/public_data
+              target: /public_data
+              bind:
+                  create_host_path: true
+                  propagation: rshared
+              read_only: false
         environment:
             DATABASE_URL: ${DATABASE_URL}
             JWT_COOKIE: ${JWT_COOKIE}
@@ -60,13 +72,6 @@ services:
             NEXT_PUBLIC_RECAPTCHA_SITE_KEY: ${NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
             RECAPTCHA_SECRET_KEY: ${RECAPTCHA_SECRET_KEY}
             NODE_ENV: "prod"
-        # secrets:
-        #     - database_url
-        #     - jwt_secret
-        #     - sys_admin_email
-        #     - sys_admin_password
-        #     - admin_mail_verif_password
-        #     - recaptcha_secret_key
 
     db:
         image: postgres:16.8-alpine
@@ -84,7 +89,13 @@ services:
                 max_attempts: 3
                 window: 30s
         volumes:
-            - ../data:/var/lib/postgresql/data:rw
+            - type: bind
+              source: /home/deploy/sites/fazb-app/data
+              target: /var/lib/postgresql/data
+              bind:
+                  create_host_path: true
+                  propagation: rshared
+              read_only: false
         environment:
             POSTGRES_DB: ${POSTGRES_DB}
             POSTGRES_USER: ${POSTGRES_USER}
@@ -95,10 +106,6 @@ services:
             interval: 5s
             timeout: 5s
             retries: 5
-        # secrets:
-        #     - postgres_db
-        #     - postgres_user
-        #     - postgres_password
 
     nginx:
         depends_on:
@@ -108,7 +115,10 @@ services:
             - "80:80"
             - "443:443"
         volumes:
-            - ../configs/nginx.conf:/etc/nginx/nginx.conf:ro
+            - type: bind
+              source: /home/deploy/sites/fazb-app/configs/nginx.conf
+              target: /etc/nginx/nginx.conf
+              read_only: true
         networks:
             - app-net
         deploy:
@@ -125,22 +135,4 @@ networks:
 #     type: "nfs"
 #     o: "addr=THE_IP_ADDRESS,rw"
 #     device: ":/srv/nfs/fazb_public_data"
-# secrets:
-#     database_url:
-#         external: true
-#     jwt_secret:
-#         external: true
-#     sys_admin_email:
-#         external: true
-#     sys_admin_password:
-#         external: true
-#     admin_mail_verif_password:
-#         external: true
-#     recaptcha_secret_key:
-#         external: true
-#     postgres_db:
-#         external: true
-#     postgres_user:
-#         external: true
-#     postgres_password:
-#         external: true
+
