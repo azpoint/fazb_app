@@ -29,7 +29,7 @@ services:
         #     - "3000:3000"
         deploy:
             mode: replicated
-            replicas: 2
+            replicas: 1
             update_config:
                 parallelism: 1
                 delay: 15s
