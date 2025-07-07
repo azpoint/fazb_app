@@ -1,9 +1,16 @@
+version: "3.8"
+
 services:
     volume-init:
         image: busybox
-        command: ["sh", "-c", "chown -R 1001:1001 /public_data && exit 0"]
+        command:
+            [
+                "sh",
+                "-c",
+                "chown -R 1001:1001 /public_data && chmod -R 755 /public_data && echo 'Permissions set for /public_data'",
+            ]
         volumes:
-            - public_data:/public_data
+            - ./public_data:/public_data
         networks:
             - app-net
         deploy:
@@ -16,8 +23,6 @@ services:
     app:
         depends_on:
             - db
-            - volume-init:
-                  condition: service_completed_successfully
         image: clonit/fazb-app:v1.0.1
         user: "1001:1001"
         networks:
@@ -26,7 +31,7 @@ services:
         #     - "3000:3000"
         deploy:
             mode: replicated
-            replicas: 1
+            replicas: 2
             update_config:
                 parallelism: 1
                 delay: 15s
@@ -44,7 +49,7 @@ services:
                 max_attempts: 5
                 window: 30s
         volumes:
-            - public_data:/public_data
+            - ./public_data:/public_data
         environment:
             - DATABASE_URL=
             - JWT_COOKIE=ST
@@ -81,11 +86,17 @@ services:
                 max_attempts: 3
                 window: 30s
         volumes:
-            - data:/var/lib/postgresql/data
+            - ./data:/var/lib/postgresql/data
         environment:
             - POSTGRES_DB=
             - POSTGRES_USER=
             - POSTGRES_PASSWORD=
+        healthcheck:
+            test:
+                ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+            interval: 5s
+            timeout: 5s
+            retries: 5
         # secrets:
         #     - postgres_db
         #     - postgres_user
