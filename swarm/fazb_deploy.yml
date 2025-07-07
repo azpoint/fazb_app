@@ -1,28 +1,23 @@
 services:
-    # volume-init:
-    #     image: busybox
-    #     command:
-    #         [
-    #             "sh",
-    #             "-c",
-    #             "chown -R 1001:1001 /public_data && chmod -R 755 /public_data && exit 0",
-    #         ]
-    #     volumes:
-    #         - type: bind
-    #           source: /home/deploy/sites/fazb-app/public_data
-    #           target: /public_data
-    #           bind:
-    #               create_host_path: true
-    #               propagation: rshared
-    #           read_only: false
-    #     networks:
-    #         - app-net
-    #     deploy:
-    #         restart_policy:
-    #             condition: none
-    #         placement:
-    #             constraints:
-    #                 - node.role == manager
+    volume-init:
+        image: busybox
+        command: ["sh", "-c", "chown -R 1001:1001 /public_data && exit 0"]
+        volumes:
+            - type: bind
+              source: /home/deploy/sites/fazb-app/public_data
+              target: /public_data
+              bind:
+                  create_host_path: true
+                  propagation: rshared
+              read_only: false
+        networks:
+            - app-net
+        deploy:
+            restart_policy:
+                condition: none
+            placement:
+                constraints:
+                    - node.role == manager
 
     app:
         depends_on:
