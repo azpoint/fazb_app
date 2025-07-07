@@ -1,28 +1,28 @@
 services:
-    volume-init:
-        image: busybox
-        command:
-            [
-                "sh",
-                "-c",
-                "chown -R 1001:1001 /public_data && chmod -R 755 /public_data && echo 'Permissions set for /public_data'",
-            ]
-        volumes:
-            - type: bind
-              source: /home/deploy/sites/fazb-app/public_data # ABSOLUTE PATH
-              target: /public_data
-              bind:
-                  create_host_path: true
-                  propagation: rshared
-              read_only: false
-        networks:
-            - app-net
-        deploy:
-            restart_policy:
-                condition: none
-            placement:
-                constraints:
-                    - node.role == manager
+    # volume-init:
+    #     image: busybox
+    #     command:
+    #         [
+    #             "sh",
+    #             "-c",
+    #             "chown -R 1001:1001 /public_data && chmod -R 755 /public_data && exit 0",
+    #         ]
+    #     volumes:
+    #         - type: bind
+    #           source: /home/deploy/sites/fazb-app/public_data
+    #           target: /public_data
+    #           bind:
+    #               create_host_path: true
+    #               propagation: rshared
+    #           read_only: false
+    #     networks:
+    #         - app-net
+    #     deploy:
+    #         restart_policy:
+    #             condition: none
+    #         placement:
+    #             constraints:
+    #                 - node.role == manager
 
     app:
         depends_on:
@@ -31,8 +31,6 @@ services:
         user: "1001:1001"
         networks:
             - app-net
-        # ports:
-        #     - "3000:3000"
         deploy:
             mode: replicated
             replicas: 1
@@ -77,8 +75,6 @@ services:
         image: postgres:16.8-alpine
         networks:
             - app-net
-        # ports:
-        #     - 5432:5432
         deploy:
             placement:
                 constraints:
