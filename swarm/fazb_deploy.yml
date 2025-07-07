@@ -5,7 +5,7 @@ services:
         volumes:
             - type: bind
               source: /home/deploy/sites/fazb-app/public_data
-              target: /public_data
+              target: /app/public_data
               bind:
                   create_host_path: true
                   propagation: rshared
@@ -48,7 +48,7 @@ services:
         volumes:
             - type: bind
               source: /home/deploy/sites/fazb-app/public_data
-              target: /public_data
+              target: /app/public_data
               bind:
                   create_host_path: true
                   propagation: rshared
