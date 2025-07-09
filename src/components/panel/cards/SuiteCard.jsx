@@ -23,7 +23,7 @@ export default function SuiteCard({
     suite_id,
     slug,
 }) {
-    const imageCard = image || "/assets/Oraquesta-70s-fazb.jpg";
+    const imageCard = image ? `/api${image}` : "/assets/Oraquesta-70s-fazb.jpg";
 
     async function handlePublishedStatus() {
         "use server";
@@ -66,7 +66,7 @@ export default function SuiteCard({
             <div className="relative aspect-[2/1.5]">
                 <Link href={published ? appPaths.suite(slug, title) : ""}>
                     <Image
-                        src={`/api${imageCard}`}
+                        src={imageCard}
                         alt={imageDescription || "Suite Text"}
                         fill={true}
                         className="object-cover object-center hover:brightness-125"
