@@ -38,7 +38,7 @@ export default async function Suites({ searchParams }) {
         where: {
             ...(typeFilter && { type: typeFilter }),
         },
-        orderBy: { created: "asc" },
+        orderBy: { composed: "desc" },
     });
 
     const firstImages = suites.map((suite) => {
@@ -70,18 +70,15 @@ export default async function Suites({ searchParams }) {
                                     firstImages[index]?.imageDescription
                                 }
                                 title={suite.title}
-                                createdAt={suite.created?.toLocaleDateString(
-                                    "es-ES",
-                                    { year: "numeric" }
-                                )}
-                                revAt={suite.rev?.toLocaleDateString("es-ES", {
-                                    year: "numeric",
-                                })}
+								composedInit={suite.composedInit}
+                                composed={suite.composed}
+                                revAt={suite.rev}
                                 publishedAt={suite.createdAt?.toLocaleDateString()}
                                 lastUpdateAt={suite.updatedAt?.toLocaleDateString()}
                                 published={suite.published}
                                 suite_id={suite.suite_id}
                                 slug={suite.slug}
+								arrangement={suite.arrangement}
                             />
                         ))
                     ) : (

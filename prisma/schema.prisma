@@ -16,24 +16,26 @@ datasource db {
 }
 
 model Suite {
-    suite_id   String    @id
-    author     User      @relation(fields: [author_id], references: [user_id])
-    author_id  Int
-    createdAt  DateTime  @default(now())
-    updatedAt  DateTime  @updatedAt
-    type       String
-    title      String    @unique
-    slug       String    @unique
-    mov        String?
-    created    DateTime
-    rev        DateTime?
-    timeLength String?
-    edition    String?
-    notes      String?
-    images     String?
-    audios     String?
-    ytLinks    String?
-    published  Boolean   @default(false)
+    suite_id     String    @id
+    author       User      @relation(fields: [author_id], references: [user_id])
+    author_id    Int
+    createdAt    DateTime  @default(now())
+    updatedAt    DateTime  @updatedAt
+    type         String
+    title        String    @unique
+    slug         String    @unique
+    mov          String?
+    composedInit Int?
+    composed     Int
+    rev          Int?
+    timeLength   String?
+    edition      String?
+    notes        String?
+    images       String?
+    audios       String?
+    ytLinks      String?
+    published    Boolean   @default(false)
+    arrangement  Boolean   @default(false)
 }
 
 model User {

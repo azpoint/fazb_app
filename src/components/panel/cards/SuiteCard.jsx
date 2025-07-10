@@ -16,13 +16,15 @@ export default function SuiteCard({
     image,
     imageDescription,
     title,
-    createdAt,
+    composedInit,
+	composed,
     revAt,
     publishedAt,
     lastUpdateAt,
     published,
     suite_id,
     slug,
+	arrangement
 }) {
     const imageCard = image ? `/api${image}` : "/assets/Oraquesta-70s-fazb.jpg";
     const [deleteModal, setDeleteModal] = useState(false);
@@ -128,12 +130,13 @@ export default function SuiteCard({
             <div>
                 <div>
                     <p className="w-fit py-1 px-4 font-semibold text-sky-700">
-                        Compuesta en: <strong>{createdAt}</strong>
+                        Composición: <strong>{composedInit ? `${composedInit} - ${composed}` : composed}</strong>
+						
                     </p>
                 </div>
                 <div>
                     <p className="w-fit py-1 px-4 font-semibold text-sky-700">
-                        Revisada en: <strong>{revAt}</strong>
+                        Última revisión en: <strong>{revAt}</strong>
                     </p>
                 </div>
                 <div>
