@@ -44,7 +44,7 @@ export default function SuiteCardWeb({
                 </div>
                 <div>
                     <p className="w-fit py-1 px-4 font-semibold text-sky-700">
-                        <strong>{composedInit ? `${composedInit} - ${composed}` : composed}</strong>
+                        Composición: <strong>{composedInit ? `${composedInit} - ${composed}` : composed}</strong>
                     </p>
                 </div>
                 <div>
