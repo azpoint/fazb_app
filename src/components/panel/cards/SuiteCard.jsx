@@ -95,7 +95,11 @@ export default function SuiteCard({
                     </div>
                 </Link>
 
-                <div role="button" onClick={handlePublishedStatus} className="cursor-pointer">
+                <div
+                    role="button"
+                    onClick={handlePublishedStatus}
+                    className="cursor-pointer"
+                >
                     <div
                         className="relative hover:scale-125 transition-all duration-300"
                         title="Poner/Quitar en linea"
@@ -158,8 +162,14 @@ export default function SuiteCard({
             {deleteModal &&
                 portalElement &&
                 createPortal(
-                    <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50">
-                        <div className="bg-slate-100 p-6 rounded-lg shadow-lg">
+                    <div
+                        className="fixed inset-0 bg-black/70 flex justify-center items-center z-50"
+                        onClick={() => setDeleteModal(false)}
+                    >
+                        <div
+                            className="bg-slate-100 p-6 rounded-lg shadow-lg"
+                            onClick={(e) => e.stopPropagation()}
+                        >
                             <h3 className="text-xl font-bold mb-4">
                                 Confirmar Eliminación
                             </h3>
