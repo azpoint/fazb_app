@@ -18,5 +18,5 @@ export async function middleware(request) {
 }
 
 export const config = {
-    matcher: ["/admin/:path*"], // This correctly uses the wildcard for protection
+    matcher: ["/admin/:path*", "/api/suites/:path*"], // Use the wildcard for protection
 };

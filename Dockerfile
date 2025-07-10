@@ -34,6 +34,9 @@ RUN adduser --system --uid 1001 nextjs
 COPY --from=builder /app/public ./public
 RUN chown -R nextjs:nodejs ./public
 
+COPY --from=builder /app/prisma ./app/prisma
+RUN chown -R nextjs:nodejs ./app/prisma
+
 COPY --from=builder /app/public_data ./public_data
 RUN chown -R nextjs:nodejs ./public_data
 
