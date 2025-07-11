@@ -267,7 +267,7 @@ export default function NewSuitesForm() {
 
                         <div className="flex flex-col">
                             <label
-                                htmlFor="arrangement"
+                                htmlFor="isArrangement"
                                 className="inline-flex items-start gap-4 mt-8 font-semibold"
                             >
                                 Esta obra es un arreglo:
@@ -275,7 +275,7 @@ export default function NewSuitesForm() {
                                     <input
                                         type="checkbox"
                                         name="isArrangement"
-                                        id="arrangement"
+                                        id="isArrangement"
                                         checked={formValues.isArrangement}
                                         onChange={handleInputChange}
                                         className="appearance-none w-6 h-6 border-[3px] border-sky-900 rounded-sm bg-slate-100 checked:bg-sky-700 checked:border-0"
@@ -297,7 +297,7 @@ export default function NewSuitesForm() {
                             </label>
 
                             <label
-                                htmlFor="suite"
+                                htmlFor="isSuite"
                                 className="inline-flex items-start gap-4 mt-8 font-semibold"
                             >
                                 Esta obra tiene movimientos:
@@ -305,7 +305,7 @@ export default function NewSuitesForm() {
                                     <input
                                         type="checkbox"
                                         name="isSuite"
-                                        id="suite"
+                                        id="isSuite"
                                         checked={formValues.isSuite}
                                         onChange={handleInputChange}
                                         className="appearance-none w-6 h-6 border-[3px] border-sky-900 rounded-sm bg-slate-100 checked:bg-sky-700 checked:border-0"
