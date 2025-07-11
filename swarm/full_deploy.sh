@@ -16,8 +16,9 @@ download_files() {
     || echo "❌ Failed to update nginx.conf"
 }
 
-get_image_tag_from_yml() {
-  grep 'image:' "$DEPLOY_YML" | awk -F 'image:' '{print $2}' | tr -d ' '
+write_tag_to_yml() {
+  local TAG_LINE="  image: clonit/fazb-app:$1"
+  sed -i "s|^[[:space:]]*image:[[:space:]]*clonit\/fazb-app:[^[:space:]]*|$TAG_LINE|" "$DEPLOY_YML"
 }
 
 is_image_present() {
@@ -29,10 +30,22 @@ deploy_stack() {
   docker stack deploy -c "$DEPLOY_YML" "$STACK_NAME"
 }
 
-case "$1" in
+# ---------------------------------------------------------------------------
+
+ACTION="$1"
+TAG="$2"
+IMAGE_TAG="clonit/fazb-app:$TAG"
+
+case "$ACTION" in
   update)
+    if [ -z "$TAG" ]; then
+      echo "❌ No image tag supplied."
+      echo "Usage: $0 update <tag>"
+      exit 1
+    fi
+
     download_files
-    IMAGE_TAG=$(get_image_tag_from_yml)
+    write_tag_to_yml "$TAG"
 
     if is_image_present "$IMAGE_TAG"; then
       echo "🟢 Image $IMAGE_TAG is already locally available."
@@ -46,7 +59,11 @@ case "$1" in
     ;;
 
   replace)
-    IMAGE_TAG=$(get_image_tag_from_yml)
+    if [ -z "$TAG" ]; then
+      echo "❌ No image tag supplied."
+      echo "Usage: $0 replace <tag>"
+      exit 1
+    fi
 
     echo "🛑 Stopping current deployment..."
     docker stack rm "$STACK_NAME"
@@ -66,29 +83,25 @@ case "$1" in
     ;;
 
   rollback)
-    if [ -z "$2" ]; then
-      echo "❌ No image tag provided for rollback."
+    if [ -z "$TAG" ]; then
+      echo "❌ No image tag supplied."
       echo "Usage: $0 rollback <tag>"
       exit 1
     fi
 
-    ROLLBACK_TAG="clonit/fazb-app:$2"
-
-    if is_image_present "$ROLLBACK_TAG"; then
-      echo "🔁 Rolling back to $ROLLBACK_TAG"
+    if is_image_present "$IMAGE_TAG"; then
+      echo "🔁 Rolling back to $IMAGE_TAG"
     else
-      echo "⬇️ Attempting to pull $ROLLBACK_TAG..."
-      if docker pull "$ROLLBACK_TAG"; then
-        echo "✅ Pulled image $ROLLBACK_TAG"
+      echo "⬇️ Attempting to pull $IMAGE_TAG..."
+      if docker pull "$IMAGE_TAG"; then
+        echo "✅ Pulled image $IMAGE_TAG"
       else
         echo "❌ Image not found locally and could not be downloaded. Rollback aborted."
         exit 1
       fi
     fi
 
-    echo "🛠 Updating image tag in deploy file..."
-    sed -i "s|clonit/fazb-app:.*|$ROLLBACK_TAG|g" "$DEPLOY_YML"
-
+    write_tag_to_yml "$TAG"
     deploy_stack
     ;;
 
@@ -98,4 +111,3 @@ case "$1" in
     deploy_stack
     ;;
 esac
-

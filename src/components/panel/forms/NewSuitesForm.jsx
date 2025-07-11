@@ -492,7 +492,7 @@ export default function NewSuitesForm() {
                                         formState.errors?._length
                                             ? "border-rose-600"
                                             : null
-                                    }`}
+                                    } h-10`}
                                     value={formValues._length}
                                     onChange={handleInputChange}
                                 />
@@ -524,7 +524,7 @@ export default function NewSuitesForm() {
                                         formState.errors?.edition
                                             ? "border-rose-600"
                                             : null
-                                    }`}
+                                    } h-10`}
                                 />
                             </div>
                             <HintFeedBack

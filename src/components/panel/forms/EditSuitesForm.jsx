@@ -568,7 +568,7 @@ export default function EditSuitesForm({ suite }) {
                                         formState?.errors?._length
                                             ? "border-rose-600"
                                             : null
-                                    }`}
+                                    } h-10`}
                                     value={formValues._length}
                                     onChange={handleInputChange}
                                 />
@@ -598,7 +598,7 @@ export default function EditSuitesForm({ suite }) {
                                         formState?.errors?.edition
                                             ? "border-rose-600"
                                             : null
-                                    }`}
+                                    } h-10`}
                                     value={formValues.edition}
                                     onChange={handleInputChange}
                                 />
