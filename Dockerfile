@@ -21,6 +21,8 @@ ENV RECAPTCHA_SECRET_KEY=$RECAPTCHA_SECRET_KEY
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+
+RUN npx prisma generate
 RUN npm run build
 
 FROM base AS runner
@@ -34,8 +36,8 @@ RUN adduser --system --uid 1001 nextjs
 COPY --from=builder /app/public ./public
 RUN chown -R nextjs:nodejs ./public
 
-COPY --from=builder /app/prisma ./app/prisma
-RUN chown -R nextjs:nodejs ./app/prisma
+COPY --from=builder /app/prisma ./prisma
+RUN chown -R nextjs:nodejs ./prisma
 
 COPY --from=builder /app/public_data ./public_data
 RUN chown -R nextjs:nodejs ./public_data
@@ -52,4 +54,4 @@ EXPOSE 3000
 ENV PORT=3000
 
 ENV HOSTNAME="0.0.0.0"
-CMD ["node", "server.js"]
+CMD ["sh", "-c", "npx prisma migrate deploy && node server.js"]
