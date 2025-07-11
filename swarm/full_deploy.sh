@@ -2,7 +2,6 @@
 
 DEPLOY_YML=~/sites/fazb-app/stacks/fazb_deploy.yml
 NGINX_CONF=~/sites/fazb-app/configs/nginx.conf
-FULL_DEPLOY=~/sites/fazb-app/full_deploy.sh
 BASE_URL="https://raw.githubusercontent.com/azpoint/fazb_app/refs/heads/main/swarm"
 STACK_NAME=fazb
 
@@ -15,10 +14,6 @@ download_files() {
   curl -fsSL -o "$NGINX_CONF" "$BASE_URL/nginx.conf" \
     && echo "✅ Updated: nginx.conf" \
     || echo "❌ Failed to update nginx.conf"
-
-	curl -fsSL -o "$FULL_DEPLOY" "$BASE_URL/full_deploy.sh" \
-	&& echo "✅ Updated: full_deploy.sh" \
-    || echo "❌ Failed to update full_deploy.sh"
 }
 
 get_image_tag_from_yml() {
