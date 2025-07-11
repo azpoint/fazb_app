@@ -2,7 +2,7 @@
 
 DEPLOY_YML=~/sites/fazb-app/stacks/fazb_deploy.yml
 NGINX_CONF=~/sites/fazb-app/configs/nginx.conf
-FULL_DEPLOY=~/sites/fazb-app/configs/full_deploy.sh
+FULL_DEPLOY=~/sites/fazb-app/full_deploy.sh
 BASE_URL="https://raw.githubusercontent.com/azpoint/fazb_app/refs/heads/main/swarm"
 STACK_NAME=fazb
 
