@@ -392,7 +392,7 @@ export default function NewSuitesForm() {
                         <div className="mt-8">
                             <div className="flex">
                                 <label htmlFor="composedInit" className="w-1/6 text-xl">
-                                    Fecha Inicio:
+                                    Fecha inicio:
                                 </label>
                                 <input
                                     type="number"
@@ -422,7 +422,7 @@ export default function NewSuitesForm() {
                         <div className="mt-8">
                             <div className="flex">
                                 <label htmlFor="composed" className="w-1/6 text-xl">
-                                    *Fecha Culminación:
+                                    *Fecha culminación:
                                 </label>
                                 <input
                                     type="number"
@@ -511,7 +511,7 @@ export default function NewSuitesForm() {
                                     htmlFor="edition"
                                     className="w-1/6 text-xl"
                                 >
-                                    Edición:
+                                    Última edición:
                                 </label>
                                 <input
                                     type="text"
