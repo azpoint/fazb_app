@@ -8,7 +8,7 @@ export default function FormButton({ children }) {
 	return (
 		<button
 			type="submit"
-			className={`text-stone-200 text-2xl font-semibold py-4 mt-4 rounded-full max-w-3/5  hover:bg-sky-700 active:scale-[98%] shadow-lg w-full ${pending ? "bg-slate-600 hover:bg-slate-600 active:scale-100" : "bg-sky-900"}`}
+			className={`text-stone-200 text-2xl font-semibold py-4 mt-4 rounded-full max-w-3/5  hover:bg-sky-700 active:scale-[98%] shadow-lg w-full ${pending ? "bg-slate-600 hover:bg-slate-600 active:scale-100" : "bg-sky-900"} cursor-pointer`}
 			disabled={pending}
 		>
 			{pending ? <span className="loader"></span> : children}

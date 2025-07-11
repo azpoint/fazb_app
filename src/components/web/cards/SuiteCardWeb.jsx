@@ -8,19 +8,20 @@ export default function SuiteCardWeb({
     image,
     imageDescription,
     title,
-    createdAt,
+	composedInit,
+    composed,
     revAt,
 	type,
 	slug
 }) {
-    const imageCard = image || "/assets/Oraquesta-70s-fazb.jpg";
+    const imageCard = image ? `/api${image}` : "/assets/Oraquesta-70s-fazb.jpg";
 
     return (
         <div className="bg-slate-200 rounded-xl overflow-hidden shadow-sky-950/50 shadow-xl hover:scale-102 transition-all duration-300">
             <div className="relative aspect-[2/1.5]">
                 <Link href={appPaths.suite(slug, title)}>
                     <Image
-                        src={`/api${imageCard}`}
+                        src={imageCard}
                         alt={imageDescription || "Suite Text"}
                         fill={true}
 						priority
@@ -29,7 +30,7 @@ export default function SuiteCardWeb({
                 </Link>
             </div>
 
-            <div className="p-2 text-sky-800 hover:text-sky-600">
+            <div className="py-4 text-sky-800 hover:text-sky-600">
                 <Link href={appPaths.suite(slug, title)}>
                     <h4 className="text-center text-2xl font-bold">{title}</h4>
                 </Link>
@@ -37,18 +38,18 @@ export default function SuiteCardWeb({
 
             <div>
 				<div>
-                    <p className="w-fit py-1 px-4 font-semibold text-sky-700">
-                        Tipo: <strong>{type}</strong>
+                    <p className="w-fit py-1 px-4 font-semibold text-sky-700 mx-auto">
+                        <strong>{type}</strong>
                     </p>
                 </div>
                 <div>
                     <p className="w-fit py-1 px-4 font-semibold text-sky-700">
-                        Creada en: <strong>{createdAt}</strong>
+                        Composición: <strong>{composedInit ? `${composedInit} - ${composed}` : composed}</strong>
                     </p>
                 </div>
                 <div>
-                    <p className="w-fit py-1 px-4 font-semibold text-sky-700">
-                        Revisada en: <strong>{revAt}</strong>
+                    <p className="w-fit py-1 px-4 pb-4 font-semibold text-sky-700">
+                        Última revisión en: <strong>{revAt}</strong>
                     </p>
                 </div>
             </div>

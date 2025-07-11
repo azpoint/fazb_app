@@ -33,7 +33,9 @@ export default async function SignInPage() {
         sysAdmin = await createUser(
             process.env.SYS_ADMIN_EMAIL,
             process.env.SYS_ADMIN_PASSWORD,
-            "sysAdmin"
+            "sysAdmin",
+			process.env.SYS_ADMIN_NAME,
+			process.env.SYS_ADMIN_SURNAME
         );
     }
 

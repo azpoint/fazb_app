@@ -19,7 +19,6 @@ import AudioCard from "@/src/components/panel/cards/AudioCard";
 
 //Actions & Options
 import { editSuite } from "@/src/components/panel/forms/actions/editSuite";
-import dateToObjIsoString from "@/lib/dateObjToIsoString";
 
 export default function EditSuitesForm({ suite }) {
     const originalImagesArray = useRef(
@@ -46,12 +45,14 @@ export default function EditSuitesForm({ suite }) {
     const [editorContent, setEditorContent] = useState("");
 
     const [formValues, setFormValues] = useState({
+        isArrangement: suite?.arrangement,
         isSuite: suite?.mov ? true : false,
         title: suite.title,
         type: suite.type,
         mov: suite.mov ? JSON.parse(suite.mov) : ["", ""],
-        created: dateToObjIsoString(suite.created),
-        rev: suite.rev ? dateToObjIsoString(suite.rev) : "",
+        composedInit: suite.composedInit,
+        composed: suite.composed,
+        rev: suite.rev,
         _length: suite.timeLength || "",
         edition: suite.edition || "",
         youtube_l: suite.ytLinks
@@ -121,6 +122,40 @@ export default function EditSuitesForm({ suite }) {
     const handleInputChange = (event) => {
         const { name, value, checked, type } = event.target;
 
+        const yearFields = ["composedInit", "composed", "rev"];
+
+        if (yearFields.includes(name)) {
+            // Allow empty to enable backspace
+            if (value === "") {
+                setFormValues((prev) => ({
+                    ...prev,
+                    [name]: value,
+                }));
+                return;
+            }
+            // Allow input only if it's a number or partially typed number
+            // Check if value consists only of digits
+            if (/^\d*$/.test(value)) {
+                const numeric = Number(value);
+
+                // Only accept if empty or in range
+                if (numeric >= 1900 && numeric <= 2050) {
+                    setFormValues((prev) => ({
+                        ...prev,
+                        [name]: value,
+                    }));
+                } else if (value.length < 4) {
+                    // Allow user to type partial number smaller than 4 digits (e.g. "1", "19", "205")
+                    setFormValues((prev) => ({
+                        ...prev,
+                        [name]: value,
+                    }));
+                }
+            }
+            // Otherwise ignore invalid input
+            return;
+        }
+
         setFormValues((prevData) => ({
             ...prevData,
             [name]: type === "checkbox" ? checked : value,
@@ -159,15 +194,6 @@ export default function EditSuitesForm({ suite }) {
 
     //Format date string and append the description(Text editor) to the formData before submit.
     const handleSubmit = async (formData) => {
-        if (formData.get("created") !== "")
-            formData.set(
-                "created",
-                new Date(formData.get("created")).toISOString()
-            );
-
-        if (formData.get("rev") !== "")
-            formData.set("rev", new Date(formData.get("rev")).toISOString());
-
         formData.append("description", editorContent);
         formData.append("suite_id", suite.suite_id);
 
@@ -204,7 +230,9 @@ export default function EditSuitesForm({ suite }) {
                     className="mt-8 text-xl flex flex-col"
                 >
                     <div className="mx-auto">
+
                         {/* -------- Suite Type -------- */}
+
                         <h3 className="text-xl text-left font-semibold">
                             *Tipo de Obra
                         </h3>
@@ -304,43 +332,78 @@ export default function EditSuitesForm({ suite }) {
                                 />
                             </div>
                         </div>
+
                         {/* -------- Data Fields -------- */}
-                        <label
-                            htmlFor="suite"
-                            className="inline-flex items-start gap-4 mt-8 font-semibold"
-                        >
-                            Esta obra es una suite
-                            <div className="relative">
-                                <input
-                                    type="checkbox"
-                                    name="isSuite"
-                                    id="suite"
-                                    checked={formValues.isSuite}
-                                    onChange={handleInputChange}
-                                    className="appearance-none w-6 h-6 border-[3px] border-sky-900 rounded-sm bg-slate-100 checked:bg-sky-700 checked:border-0"
-                                />
-                                <svg
-                                    className="absolute w-4 h-4 top-1 left-1 peer-checked:block pointer-events-none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    // stroke="#000"
-                                    stroke="#f1f5f9"
-                                    strokeWidth="4"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                >
-                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                </svg>
-                            </div>
-                        </label>
+						
+                        <div className="flex flex-col">
+                            <label
+                                htmlFor="isArrangement"
+                                className="inline-flex items-start gap-4 mt-8 font-semibold"
+                            >
+                                Esta obra es un arreglo:
+                                <div className="relative align-">
+                                    <input
+                                        type="checkbox"
+                                        name="isArrangement"
+                                        id="isArrangement"
+                                        checked={formValues.isArrangement}
+                                        onChange={handleInputChange}
+                                        className="appearance-none w-6 h-6 border-[3px] border-sky-900 rounded-sm bg-slate-100 checked:bg-sky-700 checked:border-0"
+                                    />
+                                    <svg
+                                        className="absolute w-4 h-4 top-1 left-1 peer-checked:block pointer-events-none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        // stroke="#000"
+                                        stroke="#f1f5f9"
+                                        strokeWidth="4"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    >
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                </div>
+                            </label>
+
+                            <label
+                                htmlFor="isSuite"
+                                className="inline-flex items-start gap-4 mt-8 font-semibold"
+                            >
+                                Esta obra tiene movimientos:
+                                <div className="relative align-">
+                                    <input
+                                        type="checkbox"
+                                        name="isSuite"
+                                        id="isSuite"
+                                        checked={formValues.isSuite}
+                                        onChange={handleInputChange}
+                                        className="appearance-none w-6 h-6 border-[3px] border-sky-900 rounded-sm bg-slate-100 checked:bg-sky-700 checked:border-0"
+                                    />
+                                    <svg
+                                        className="absolute w-4 h-4 top-1 left-1 peer-checked:block pointer-events-none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        // stroke="#000"
+                                        stroke="#f1f5f9"
+                                        strokeWidth="4"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    >
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                </div>
+                            </label>
+                        </div>
+
                         <div className="mt-4">
                             <div className="flex">
                                 <label
                                     htmlFor="title"
                                     className="w-1/6 text-xl"
                                 >
-                                    *Título
+                                    *Título:
                                 </label>
                                 <input
                                     type="text"
@@ -365,6 +428,7 @@ export default function EditSuitesForm({ suite }) {
                                 hintStyle="text-sky-600 text-right"
                             />
                         </div>
+
                         <div className="mt-4 space-y-2">
                             {formValues.isSuite ? (
                                 <div className="flex justify-end mt-8 gap-x-4">
@@ -394,63 +458,106 @@ export default function EditSuitesForm({ suite }) {
                                   ))
                                 : null}
                         </div>
+
                         <div className="mt-8">
                             <div className="flex">
-                                <label htmlFor="rev" className="w-1/6 text-xl">
-                                    *Fecha
+                                <label
+                                    htmlFor="composedInit"
+                                    className="w-1/6 text-xl"
+                                >
+                                    Fecha inicio:
                                 </label>
                                 <input
-                                    type="date"
-                                    id="created"
-                                    name="created"
+                                    type="number"
+                                    id="composedInit"
+                                    name="composedInit"
+                                    value={formValues.composedInit}
+                                    onChange={handleInputChange}
                                     className={`field ${
-                                        formState?.errors?.created
+                                        formState.errors?.composedInit
                                             ? "border-rose-600"
                                             : null
-                                    }`}
-                                    value={formValues.created}
-                                    onChange={handleInputChange}
+                                    } h-10`}
+                                    min={1900}
+                                    max={2050}
                                 />
                             </div>
                             <HintFeedBack
-                                error={formState?.errors.created?.join(", ")}
+                                error={formState.errors.composedInit?.join(
+                                    ", "
+                                )}
                                 errorStyle="text-rose-600 text-right"
-                                hint="Si no sabes el día exacto usa el primero del mes"
+                                hint="Año en que iniciaste a componer"
                                 hintStyle="text-sky-600 text-right"
                             />
                         </div>
+
+                        <div className="mt-8">
+                            <div className="flex">
+                                <label
+                                    htmlFor="composed"
+                                    className="w-1/6 text-xl"
+                                >
+                                    *Fecha culminación:
+                                </label>
+                                <input
+                                    type="number"
+                                    id="composed"
+                                    name="composed"
+                                    value={formValues.composed}
+                                    onChange={handleInputChange}
+                                    className={`field ${
+                                        formState.errors?.composed
+                                            ? "border-rose-600"
+                                            : null
+                                    } h-10`}
+                                    min={1900}
+                                    max={2050}
+                                />
+                            </div>
+                            <HintFeedBack
+                                error={formState.errors.composed?.join(", ")}
+                                errorStyle="text-rose-600 text-right"
+                                hint="Año de la composición"
+                                hintStyle="text-sky-600 text-right"
+                            />
+                        </div>
+
                         <div className="mt-4">
                             <div className="flex">
                                 <label htmlFor="rev" className="w-1/6 text-xl">
-                                    Revisión
+                                    Última revisión:
                                 </label>
                                 <input
-                                    type="date"
+                                    type="number"
                                     id="rev"
                                     name="rev"
-                                    className={`field ${
-                                        formState?.errors?.rev
-                                            ? "border-rose-600"
-                                            : null
-                                    }`}
                                     value={formValues.rev}
                                     onChange={handleInputChange}
+                                    className={`field ${
+                                        formState.errors?.rev
+                                            ? "border-rose-600"
+                                            : null
+                                    } h-10`}
+                                    min={1900}
+                                    max={2050}
                                 />
                             </div>
                             <HintFeedBack
-                                error={formState?.errors.rev?.join(", ")}
+                                error={formState.errors.rev?.join(", ")}
                                 errorStyle="text-rose-600 text-right"
-                                hint="Si no sabes el día exacto usa el primero del mes"
+                                hint="Año de la última revisión"
                                 hintStyle="text-sky-600 text-right"
                             />
                         </div>
+
                         <div className="mt-4">
                             <div className="flex">
                                 <label
                                     htmlFor="length"
                                     className="w-1/6 text-xl"
                                 >
-                                    Duración
+                                    Duración:
                                 </label>
                                 <input
                                     type="text"
@@ -473,13 +580,14 @@ export default function EditSuitesForm({ suite }) {
                                 hintStyle="text-sky-600 text-right"
                             />
                         </div>
+
                         <div className="mt-4">
                             <div className="flex">
                                 <label
                                     htmlFor="edition"
                                     className="w-1/6 text-xl"
                                 >
-                                    Edición
+                                    Última edición:
                                 </label>
                                 <input
                                     type="text"
@@ -706,7 +814,7 @@ export default function EditSuitesForm({ suite }) {
                                         <MDXEditorWrapper
                                             prevMarkdown={suite.notes}
                                             setEditorContent={(markdown) => {
-                                                    setEditorContent(markdown);
+                                                setEditorContent(markdown);
                                             }}
                                         />
                                     </Suspense>

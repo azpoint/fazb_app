@@ -57,12 +57,38 @@ export default async function SuitePage({ params }) {
                 {suite.title}
             </h1>
 
+            <div className="font-bold flex flex-col max-w-screen-lg mx-auto mt-12">
+                <h2 className="text-xl md:text-2xl">
+                    {suite.composedInit
+                        ? `${suite.composedInit} - ${suite.composed}`
+                        : suite.composed}
+                </h2>
+            </div>
+
+            {suite.rev ? (
+                <div className="font-bold flex flex-col max-w-screen-lg mx-auto mt-4">
+                    <h3 className="text-xl md:text-2xl">
+                        Última revisión: {suite.rev}
+                    </h3>
+                </div>
+            ) : null}
+
+            {suite.timeLength ? (
+                <div className="font-bold flex flex-col max-w-screen-lg mx-auto mt-4">
+                    <h3 className="text-xl md:text-2xl">
+                        Duración: ~{suite.timeLength}
+                    </h3>
+                </div>
+            ) : null}
+
             {movs ? (
-                <div className="font-bold flex flex-col max-w-screen-lg mx-auto mt-12">
+                <div className="font-bold flex flex-col max-w-screen-lg mx-auto mt-8">
                     <h2 className="text-2xl md:text-4xl">Movimientos</h2>
                     <ul className="mt-4 ml-8 list-disc list-inside">
                         {movs.map((mov, index) => (
-                            <li key={"mov" + index} className="mt-2 text-xl">{mov}</li>
+                            <li key={"mov" + index} className="mt-2 text-xl">
+                                {mov}
+                            </li>
                         ))}
                     </ul>
                 </div>

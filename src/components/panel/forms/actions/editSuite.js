@@ -42,7 +42,11 @@ export async function editSuite(_prevData, formData) {
     //--------- Form Validator ---------
     const zodResult = createSuiteZodSchema.safeParse({
         title: formData.get("title"),
-        created: formData.get("created"),
+        composedInit:
+            formData.get("composedInit") === ""
+                ? null
+                : formData.get("composedInit"),
+        composed: formData.get("composed"),
         rev: formData.get("rev") === "" ? null : formData.get("rev"),
         _length:
             formData.get("_length") === "" ? null : formData.get("_length"),
@@ -432,8 +436,12 @@ export async function editSuite(_prevData, formData) {
                 title: formData.get("title"),
                 slug: slugify(formData.get("title"), slugifyOptions),
                 mov: movs.length === 0 ? null : JSON.stringify(movs),
-                created: formData.get("created"),
-                rev: formData.get("rev") === "" ? null : formData.get("rev"),
+                composedInit:
+                    formData.get("composedInit") === ""
+                        ? null
+                        : parseInt(formData.get("composedInit")),
+                composed: parseInt(formData.get("composed"), 10),
+                rev: formData.get("rev") === "" ? null : parseInt(formData.get("rev")),
                 timeLength:
                     formData.get("_length") === ""
                         ? null
@@ -451,6 +459,7 @@ export async function editSuite(_prevData, formData) {
                 audios:
                     audioPaths.length === 0 ? null : JSON.stringify(audioPaths),
                 ytLinks: ytIds.length === 0 ? null : JSON.stringify(ytIds),
+				arrangement: Boolean(formData.get("isArrangement")),
             },
         });
         // Redirect must be outside of the try catch because redirect is handled like an error
