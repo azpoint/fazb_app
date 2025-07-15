@@ -230,7 +230,6 @@ export default function EditSuitesForm({ suite }) {
                     className="mt-8 text-xl flex flex-col"
                 >
                     <div className="mx-auto">
-
                         {/* -------- Suite Type -------- */}
 
                         <h3 className="text-xl text-left font-semibold">
@@ -334,7 +333,7 @@ export default function EditSuitesForm({ suite }) {
                         </div>
 
                         {/* -------- Data Fields -------- */}
-						
+
                         <div className="flex flex-col">
                             <label
                                 htmlFor="isArrangement"
@@ -649,13 +648,7 @@ export default function EditSuitesForm({ suite }) {
                                 {originalImagesArray.current[0] == "" ? (
                                     <>
                                         <div className="col-span-full flex justify-center">
-                                            <Image
-                                                src={`/desert_plant.gif`}
-                                                width={800}
-                                                height={600}
-                                                alt="Empty space"
-                                                unoptimized
-                                            />
+                                            <h2 className="text-sky-800 font-bold text-2xl">No hay fotos aquí...</h2>
                                         </div>
                                     </>
                                 ) : (
@@ -727,13 +720,9 @@ export default function EditSuitesForm({ suite }) {
                                 {originalAudiosArray.current[0] == "" ? (
                                     <>
                                         <div className="col-span-full flex justify-center">
-                                            <Image
-                                                src={`/desert_plant.gif`}
-                                                width={800}
-                                                height={600}
-                                                alt="Empty space"
-                                                unoptimized
-                                            />
+                                            <div className="col-span-full flex justify-center">
+                                                <h2 className="text-sky-800 font-bold text-2xl">No hay audios aquí...</h2>
+                                            </div>
                                         </div>
                                     </>
                                 ) : (

@@ -58,11 +58,11 @@ export default async function SuitePage({ params }) {
             </h1>
 
             <div className="font-bold flex flex-col max-w-screen-lg mx-auto mt-12">
-                <h2 className="text-xl md:text-2xl">
-                    {suite.composedInit
+                <h3 className="text-xl md:text-2xl">
+                    Composición: {suite.composedInit
                         ? `${suite.composedInit} - ${suite.composed}`
                         : suite.composed}
-                </h2>
+                </h3>
             </div>
 
             {suite.rev ? (
