@@ -1,7 +1,7 @@
 services:
     volume-init:
         image: busybox
-        command: ["sh", "-c", "chown -R 1001:1001 /public_data && exit 0"]
+        command: ["sh", "-c", "chown -R 1002:1002 /public_data && exit 0"]
         volumes:
             - type: bind
               source: /home/deploy/sites/fazb-app/public_data
@@ -23,7 +23,7 @@ services:
         depends_on:
             - db
         image: clonit/fazb-app:v1.0.2
-        user: "1001:1001"
+        user: "1002:1002"
         networks:
             - app-net
         deploy:
