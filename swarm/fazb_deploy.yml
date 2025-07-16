@@ -100,24 +100,24 @@ services:
         #     timeout: 5s
         #     retries: 5
 
-    nginx:
-        depends_on:
-            - app
-        image: nginx:1.29.0
-        ports:
-            - "80:80"
-            - "443:443"
-        volumes:
-            - type: bind
-              source: /home/deploy/sites/fazb-app/configs/nginx.conf
-              target: /etc/nginx/nginx.conf
-              read_only: true
-        networks:
-            - app-net
-        deploy:
-            placement:
-                constraints:
-                    - node.role == manager
+    # nginx:
+    #     depends_on:
+    #         - app
+    #     image: nginx:1.29.0
+    #     ports:
+    #         - "80:80"
+    #         - "443:443"
+    #     volumes:
+    #         - type: bind
+    #           source: /home/deploy/sites/fazb-app/configs/nginx.conf
+    #           target: /etc/nginx/nginx.conf
+    #           read_only: true
+    #     networks:
+    #         - app-net
+    #     deploy:
+    #         placement:
+    #             constraints:
+    #                 - node.role == manager
 networks:
     app-net:
 # volumes:
