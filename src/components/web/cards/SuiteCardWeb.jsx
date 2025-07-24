@@ -8,43 +8,48 @@ export default function SuiteCardWeb({
     image,
     imageDescription,
     title,
-	composedInit,
+    composedInit,
     composed,
     revAt,
-	type,
-	slug
+    type,
+    slug,
 }) {
     const imageCard = image ? `/api${image}` : "/assets/Oraquesta-70s-fazb.jpg";
 
     return (
-        <div className="bg-slate-200 rounded-xl overflow-hidden shadow-sky-950/50 shadow-xl hover:scale-102 transition-all duration-300">
+        <div className="bg-slate-200 rounded-xl overflow-hidden shadow-sky-950/50 shadow-xl hover:scale-102 transition-all duration-300 flex flex-col">
             <div className="relative aspect-[2/1.5]">
                 <Link href={appPaths.suite(slug, title)}>
                     <Image
                         src={imageCard}
                         alt={imageDescription || "Suite Text"}
                         fill={true}
-						priority
+                        priority
                         className="object-cover object-center hover:brightness-125"
                     />
                 </Link>
             </div>
 
-            <div className="py-4 text-sky-800 hover:text-sky-600">
+            <div className="p-4 text-sky-800 hover:text-sky-600">
                 <Link href={appPaths.suite(slug, title)}>
                     <h4 className="text-center text-2xl font-bold">{title}</h4>
                 </Link>
             </div>
-
+            <div className="flex-1" />
             <div>
-				<div>
+                <div>
                     <p className="w-fit py-1 px-4 font-semibold text-sky-700 mx-auto">
                         <strong>{type}</strong>
                     </p>
                 </div>
                 <div>
                     <p className="w-fit py-1 px-4 font-semibold text-sky-700">
-                        Composición: <strong>{composedInit ? `${composedInit} - ${composed}` : composed}</strong>
+                        Composición:{" "}
+                        <strong>
+                            {composedInit
+                                ? `${composedInit} - ${composed}`
+                                : composed}
+                        </strong>
                     </p>
                 </div>
                 <div>

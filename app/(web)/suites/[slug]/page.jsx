@@ -94,9 +94,11 @@ export default async function SuitePage({ params }) {
                 </div>
             ) : null}
 
+			<hr className="my-12 w-full max-w-screen-lg mx-auto text-gray-300"/>
+
             <article
                 dangerouslySetInnerHTML={{ __html: HTML }}
-                className="prose prose-slate prose-xl mx-auto w-full mt-12 max-w-screen-lg"
+                className="prose prose-slate prose-xl mx-auto w-full max-w-screen-lg"
             ></article>
 
             {images ? <EmblaCarousel images={images} /> : null}
