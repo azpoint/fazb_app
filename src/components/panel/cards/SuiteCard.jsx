@@ -79,7 +79,7 @@ export default function SuiteCard({
     };
 
     return (
-        <div className="bg-slate-200 rounded-xl overflow-hidden shadow-sky-950/50 shadow-xl hover:scale-102 transition-all duration-300">
+        <div className="bg-slate-200 rounded-xl overflow-hidden shadow-sky-950/50 shadow-xl hover:scale-102 transition-all duration-300 flex flex-col">
             <div className="relative aspect-[2/1.5]">
                 <Link href={published ? appPaths.suite(slug, title) : ""}>
                     <Image
@@ -126,6 +126,8 @@ export default function SuiteCard({
                     <h4 className="text-center text-2xl font-bold">{title}</h4>
                 </Link>
             </div>
+
+			<div className="flex-1" />
 
             <div>
                 <div>

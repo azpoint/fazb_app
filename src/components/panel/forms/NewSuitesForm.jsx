@@ -626,6 +626,38 @@ export default function NewSuitesForm() {
                             />
                         </div>
 
+						<div className="space-y-2 my-8 border-b-2 border-slate-300 pb-10">
+                            <div className="grid grid-cols-2 items-center">
+                                <label
+                                    htmlFor="partitura"
+                                    className="text-xl justify-self-start"
+                                >
+                                    Partitura
+                                </label>
+                                <input
+                                    type="file"
+                                    id="partitura"
+                                    name="partitura"
+                                    className={`w-5/6 outline-none justify-self-end ${
+                                        formState.errors?.partitura
+                                            ? "border-rose-600"
+                                            : null
+                                    } file:mr-4 file:py-2 file:px-6
+									file:rounded-full file:border-0
+									file:text-xl file:bg-sky-900 file:text-stone-100
+									hover:file:cursor-pointer hover:file:bg-sky-700 active:file:scale-95`}
+                                    placeholder="Introduce Editor"
+                                    multiple
+                                />
+                            </div>
+                            <HintFeedBack
+                                error={formState.errors.partitura?.join(", ")}
+                                errorStyle="text-rose-600 text-right"
+                                hint="Sólo archivos PDF"
+                                hintStyle="text-sky-600 text-right"
+                            />
+                        </div>
+
                         {/* -------- Text Input -------- */}
                         <div className="flex flex-col mt-4">
                             <label

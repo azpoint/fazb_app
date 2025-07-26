@@ -76,6 +76,25 @@ export async function createSuite(_formState, formData) {
         }
     }
 
+	//------- Partitura Validator --------
+    const partituraFile = formData.getAll("partitura");
+
+	console.log("___AQUI!!", partituraFile.length)
+	
+    if (partituraFile[0]?.size > 0) {
+        const partituraVal = partituraFile.every((file) => {
+            return file.type === "application/pdf";
+        });
+
+        if (!partituraVal || partituraFile.length > 1) {
+            return {
+                errors: {
+                    partitura: ["Formato Inválido o subiste mas de 1 archivo"],
+                },
+            };
+        }
+    }
+
     //-------- Mov list Validator -------
     let movs = [];
     const movList = formData.getAll("mov");
@@ -284,6 +303,77 @@ export async function createSuite(_formState, formData) {
         }
     }
 
+	//-------- Partitura file server handler --------
+    let partituraPath = [];
+
+    if (partituraFile.length !== 0) {
+        try {
+            let partituraFilePath;
+
+            if (process.env.NODE_ENV === "prod") {
+                partituraFilePath = path.join(
+                    "/public_data",
+                    "suites",
+                    suite_id,
+                    "partitura"
+                );
+            } else {
+                partituraFilePath = path.join(
+                    "public_data",
+                    "suites",
+                    suite_id,
+                    "partitura"
+                );
+            }
+
+            //Check if directory exist and creates it if not
+            if (!fs.existsSync(path.resolve(partituraFilePath))) {
+                fs.mkdirSync(path.resolve(partituraFilePath), { recursive: true });
+            }
+
+            const writePromises = partituraFile.map(async (file) => {
+                let fileData = {
+                    filePath: "",
+                    fileDescription: "",
+                };
+
+                if (file.type === "application/pdf") {
+                    const bytes = await file.arrayBuffer();
+                    const buffer = Buffer.from(bytes);
+
+                    const partituraName = `${uuidv4().slice(
+                        0,
+                        8
+                    )}-${formData.get("title")}-${user.name.toLowerCase()}_${user.surname.toLowerCase()}.pdf`;
+
+                    await writeFileAsync(
+                        `${path.resolve(partituraFilePath)}/${partituraName}`,
+                        buffer
+                    );
+
+                    fileData.filePath = `/public_data/suites/${suite_id}/partitura/${partituraName}`;
+                    fileData.fileDescription = file.name.slice(0, -4);
+                    partituraPath.push(fileData);
+                }
+            });
+
+            await Promise.all(writePromises);
+        } catch (error) {
+            console.log(error);
+            if (error instanceof Error) {
+                return {
+                    errors: {
+                        _form: [error.message],
+                    },
+                };
+            } else {
+                return {
+                    message: "Algo salió mal con los audios",
+                };
+            }
+        }
+    }
+
     let suiteDbCreated;
     //------- DDBB Create -------
 
@@ -318,10 +408,13 @@ export async function createSuite(_formState, formData) {
                     imagePaths.length === 0 ? null : JSON.stringify(imagePaths),
                 audios:
                     audioPaths.length === 0 ? null : JSON.stringify(audioPaths),
+                partitura:
+                    partituraPath.length === 0 ? null : JSON.stringify(partituraPath),
                 ytLinks: ytIds.length === 0 ? null : JSON.stringify(ytIds),
                 arrangement: Boolean(formData.get("isArrangement")),
             },
         });
+
 
         //Redirect must be outside of the try catch because redirect is handled like an error
     } catch (error) {
@@ -351,7 +444,7 @@ export async function createSuite(_formState, formData) {
     if (suiteDbCreated) {
         revalidatePath("/suites");
         revalidatePath("/panel");
-        redirect(appPaths.editSuite(suiteDbCreated.suite_id));
+        redirect(appPaths.mainPanel());
     } else {
         return {
             errors: {
