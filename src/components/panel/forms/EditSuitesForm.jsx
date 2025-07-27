@@ -1,4 +1,5 @@
 "use client";
+
 //Dependencies
 import { useState, useRef, useEffect } from "react";
 import { useActionState } from "react";
@@ -16,6 +17,7 @@ import MovField from "@/src/components/panel/forms/fields/MovementField";
 import { FaCircleMinus, FaCirclePlus } from "react-icons/fa6";
 import ImageCard from "@/src/components/panel/cards/ImageCard";
 import AudioCard from "@/src/components/panel/cards/AudioCard";
+import PartituraCard from "@/src/components/panel/cards/PartituraCard";
 
 //Actions & Options
 import { editSuite } from "@/src/components/panel/forms/actions/editSuite";
@@ -31,12 +33,22 @@ export default function EditSuitesForm({ suite }) {
             ? JSON.parse(suite.audios).map((audio) => audio.filePath)
             : [""]
     );
-
-    const originalAudiosDescriptionArray = useRef(
-        suite.audios
-            ? JSON.parse(suite.audios).map((audio) => audio.fileDescription)
+	const originalAudiosDescriptionArray = useRef(
+		suite.audios
+			? JSON.parse(suite.audios).map((audio) => audio.fileDescription)
+			: [""]
+	);
+	const originalPartiturasArray = useRef(
+        suite.partitura
+            ? JSON.parse(suite.partitura).map((partitura) => partitura.filePath)
             : [""]
     );
+	const originalPartituraDescriptionArray = useRef(
+		suite.partitura
+			? JSON.parse(suite.partitura).map((partitura) => partitura.fileDescription)
+			: [""]
+	);
+
 
     const [formState, formStateAction] = useActionState(editSuite, {
         errors: {},
@@ -63,6 +75,7 @@ export default function EditSuitesForm({ suite }) {
         description: "",
         images_to_delete: originalImagesArray.current,
         audios_to_delete: originalAudiosArray.current,
+        partitura_to_delete: originalPartiturasArray.current,
     });
 
     //Force re-render when formState.errors change to re-sync states
@@ -192,6 +205,23 @@ export default function EditSuitesForm({ suite }) {
         setFormValues({ ...formValues, audios_to_delete: audiosArrayToEdit });
     };
 
+	//Handle Partitura card
+    const handlePartituraCard = (e) => {
+        const clickedIndex = e.currentTarget.id;
+        const partituraArrayToEdit = [...formValues.partitura_to_delete];
+
+        if (partituraArrayToEdit[clickedIndex] === "del") {
+            partituraArrayToEdit[clickedIndex] =
+                originalPartiturasArray.current[clickedIndex];
+        } else {
+            partituraArrayToEdit[clickedIndex] = "del";
+        }
+
+		
+		
+        setFormValues({ ...formValues, partitura_to_delete: partituraArrayToEdit });
+    };
+
     //Format date string and append the description(Text editor) to the formData before submit.
     const handleSubmit = async (formData) => {
         formData.append("description", editorContent);
@@ -214,6 +244,15 @@ export default function EditSuitesForm({ suite }) {
             .filter((fileName) => fileName !== null);
 
         formData.append("audios_to_delete", JSON.stringify(audiosToDelete));
+
+		let partituraToDelete = formValues.partitura_to_delete
+            .map((partitura, index) => {
+                if (partitura === "del") return originalPartiturasArray.current[index];
+                else return null;
+            })
+            .filter((fileName) => fileName !== null);
+
+        formData.append("partitura_to_delete", JSON.stringify(partituraToDelete));
 
         formStateAction(formData);
     };
@@ -784,6 +823,80 @@ export default function EditSuitesForm({ suite }) {
                                 hintStyle="text-sky-600 text-right"
                             />
                         </div>
+
+                        {/* Partitura Gallery */}
+
+                        <h3 className="text-2xl font-bold text-center text-stone-900">
+                            Editar Partitura - <span className="text-red-400">Por favor un(1) solo archivo por obra</span>
+                        </h3>
+
+                        <div className="container mx-auto px-4 py-8">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">
+                                {originalPartiturasArray.current[0] == "" ? (
+                                    <>
+                                        <div className="col-span-full flex justify-center">
+                                            <h2 className="text-sky-800 font-bold text-2xl">No hay partituras aquí...</h2>
+                                        </div>
+                                    </>
+                                ) : (
+                                    originalPartiturasArray.current.map(
+                                        (partitura, index) => (
+                                            <PartituraCard
+                                                key={"card" + index}
+                                                image={"/PDF_file_icon.png"}
+                                                id={index}
+                                                handlePartituraCard={
+                                                    handlePartituraCard
+                                                }
+												description={originalPartituraDescriptionArray.current[index]}
+                                                visibility={
+                                                    formValues.partitura_to_delete[
+                                                        index
+                                                    ] === "del"
+                                                        ? ""
+                                                        : "hidden"
+                                                }
+                                            />
+                                        )
+                                    )
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Partitura Input */}
+
+                        <div className="space-y-2 my-8 border-b-2 border-slate-300 pb-10">
+                            <div className="grid grid-cols-2 items-center">
+                                <label
+                                    htmlFor="partitura"
+                                    className="text-xl justify-self-start"
+                                >
+                                    Partitura
+                                </label>
+                                <input
+                                    type="file"
+                                    id="partitura"
+                                    name="partitura"
+                                    className={`w-5/6 outline-none justify-self-end ${
+                                        formState?.errors?.partitura
+                                            ? "border-rose-600"
+                                            : null
+                                    } file:mr-4 file:py-2 file:px-6
+									file:rounded-full file:border-0
+									file:text-xl file:bg-sky-900 file:text-stone-100
+									hover:file:cursor-pointer hover:file:bg-sky-700 active:file:scale-95`}
+                                    placeholder="Introduce Editor"
+                                    multiple
+                                />
+                            </div>
+                            <HintFeedBack
+                                error={formState?.errors.partitura?.join(", ")}
+                                errorStyle="text-rose-600 text-right"
+                                hint="Sólo imagenes JPG ó PNG"
+                                hintStyle="text-sky-600 text-right"
+                            />
+                        </div>
+
                         {/* -------- Text Input -------- */}
                         <div className="flex flex-col mt-4">
                             <label
