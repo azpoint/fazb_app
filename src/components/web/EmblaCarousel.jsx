@@ -38,7 +38,7 @@ export function EmblaCarousel({ images }) {
                                     src={`/api${image}`}
                                     alt={"Suite Image"}
                                     fill={true}
-                                    className="object-cover object-center"
+                                    className="object-contain object-center"
                                 />
                             </div>
                         </div>

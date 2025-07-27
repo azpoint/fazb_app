@@ -78,8 +78,6 @@ export async function createSuite(_formState, formData) {
 
 	//------- Partitura Validator --------
     const partituraFile = formData.getAll("partitura");
-
-	console.log("___AQUI!!", partituraFile.length)
 	
     if (partituraFile[0]?.size > 0) {
         const partituraVal = partituraFile.every((file) => {
