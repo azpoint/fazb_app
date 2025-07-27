@@ -17,8 +17,7 @@ download_files() {
 }
 
 write_tag_to_yml() {
-  local TAG_LINE="  image: clonit/fazb-app:$1"
-  sed -i "s|^[[:space:]]*image:[[:space:]]*clonit\/fazb-app:[^[:space:]]*|$TAG_LINE|" "$DEPLOY_YML"
+  sed -i -E "s|(image:\s*clonit/fazb-app:)[^[:space:]]+|\1$1|" "$DEPLOY_YML"
 }
 
 is_image_present() {
