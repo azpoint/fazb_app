@@ -8,6 +8,7 @@ import { EmblaCarousel } from "@/src/components/web/EmblaCarousel";
 import { redirect } from "next/navigation";
 import AudioCardWeb from "@/src/components/web/cards/AudioCardWeb";
 import { GrPrevious } from "react-icons/gr";
+import Image from "next/image";
 
 export async function generateMetadata({ searchParams }) {
     const params = await searchParams;
@@ -59,7 +60,8 @@ export default async function SuitePage({ params }) {
 
             <div className="font-bold flex flex-col max-w-screen-lg mx-auto mt-12">
                 <h3 className="text-xl md:text-2xl">
-                    Composición: {suite.composedInit
+                    Composición:{" "}
+                    {suite.composedInit
                         ? `${suite.composedInit} - ${suite.composed}`
                         : suite.composed}
                 </h3>
@@ -94,14 +96,25 @@ export default async function SuitePage({ params }) {
                 </div>
             ) : null}
 
-			<hr className="my-12 w-full max-w-screen-lg mx-auto text-gray-300"/>
+            <hr className="my-12 w-full max-w-screen-lg mx-auto text-gray-300" />
 
             <article
                 dangerouslySetInnerHTML={{ __html: HTML }}
                 className="prose prose-slate prose-xl mx-auto w-full max-w-screen-lg"
             ></article>
 
-            {images ? <EmblaCarousel images={images} /> : null}
+            {images && images.length === 1 ? (
+                <div className="mx-auto max-w-screen-lg mt-12 relative aspect-video overflow-hidden rounded-sm">
+                    <Image
+                        src={`/api${images[0]}`}
+                        fill
+                        className="object-contain object-center"
+                        alt="Image"
+                    />
+                </div>
+            ) : images && images.length > 1 ? (
+                <EmblaCarousel images={images} />
+            ) : null}
 
             <div className="max-w-screen-lg my-12 w-full mx-auto space-y-8">
                 {audios
