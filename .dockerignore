@@ -8,3 +8,4 @@ public/suites
 !.next/static
 !.next/standalone
 .git
+!prisma/
