@@ -39,6 +39,12 @@ jobs:
                   # password: ${{secrets.GITHUB_TOKEN}}
                   username: ${{secrets.DOCKERHUB_USERNAME}}
                   password: ${{secrets.DOCKERHUB_TOKEN}}
+            - name: List files before Docker build
+              run: |
+                  echo "Top-level files:"
+                  ls -la
+                  echo "Prisma folder contents:"
+                  ls -la prisma
             - name: Build and push Docker image to Github Packages
               uses: docker/build-push-action@v6
               with:
