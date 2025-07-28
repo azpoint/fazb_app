@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# 1st argument [update, replace, rollback]. 2nd argument docker tag ex v1.1.1
+
 DEPLOY_YML=~/sites/fazb-app/stacks/fazb_deploy.yml
 NGINX_CONF=~/sites/fazb-app/configs/nginx.conf
 BASE_URL="https://raw.githubusercontent.com/azpoint/fazb_app/refs/heads/main/swarm"
