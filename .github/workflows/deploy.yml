@@ -44,7 +44,7 @@ jobs:
                   echo "Top-level files:"
                   ls -la
                   echo "Prisma folder contents:"
-                  ls -la prisma
+                  ls -la prisma/migrations
             - name: Build and push Docker image to Github Packages
               uses: docker/build-push-action@v6
               with:

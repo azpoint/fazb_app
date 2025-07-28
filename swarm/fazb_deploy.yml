@@ -22,7 +22,7 @@ services:
     app:
         depends_on:
             - db
-        image: clonit/fazb-app:v1.0.2
+        image: clonit/fazb-app:v1.1.1
         user: "1002:1002"
         networks:
             - app-net
