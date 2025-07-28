@@ -21,6 +21,7 @@ ENV RECAPTCHA_SECRET_KEY=$RECAPTCHA_SECRET_KEY
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+COPY prisma ./prisma
 
 RUN npx prisma generate
 RUN npm run build
