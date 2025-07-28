@@ -33,10 +33,10 @@ model Suite {
     notes        String?
     images       String?
     audios       String?
-    partitura    String?
     ytLinks      String?
     published    Boolean  @default(false)
     arrangement  Boolean  @default(false)
+    partitura    String?
 }
 
 model User {
