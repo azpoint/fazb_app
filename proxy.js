@@ -2,7 +2,7 @@
 import { NextResponse } from "next/server";
 import { getUserFromSession } from "@/lib/auth";
 
-export async function middleware(request) {
+export async function proxy(request) {
     const user = await getUserFromSession();
     const { pathname } = request.nextUrl;
 
