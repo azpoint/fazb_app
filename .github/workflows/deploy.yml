@@ -6,7 +6,7 @@ on:
       - main
 jobs:
   build-and-publish:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     if: github.event_name == 'workflow_dispatch' || endsWith(github.event.head_commit.message, '/deploy')
     permissions:
       contents: read
@@ -17,7 +17,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20.14.0
+          node-version: 22.18.0
       - name: Cache NextJS build
         id: cache-build
         uses: actions/cache@v4
