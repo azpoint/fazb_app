@@ -7,7 +7,6 @@ on:
 jobs:
   build-and-publish:
     runs-on: ubuntu-24.04
-    if: github.event_name == 'workflow_dispatch' || endsWith(github.event.head_commit.message, '/deploy')
     permissions:
       contents: read
       packages: write
