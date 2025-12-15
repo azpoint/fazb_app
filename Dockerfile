@@ -1,4 +1,4 @@
-FROM node:22.14.0-alpine AS base
+FROM node:22.18.0-alpine AS base
 
 FROM base AS deps
 # to avoid possible compatibility issues in NextJS
@@ -31,8 +31,8 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
-RUN addgroup --system --gid 1002 nodejs
-RUN adduser --system --uid 1002 nextjs
+RUN addgroup --system --gid 1000 nodejs
+RUN adduser --system --uid 1000 nextjs
 
 COPY --from=builder /app/public ./public
 RUN chown -R nextjs:nodejs ./public

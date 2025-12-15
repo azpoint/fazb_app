@@ -1,6 +1,6 @@
-FROM node:22.14.0
+FROM node:22.18.0
 
-RUN useradd -d /app -u 1001 alejo
+RUN useradd -d /app -u 1000 alejo
 
 USER 1001
 
