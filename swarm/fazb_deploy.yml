@@ -1,10 +1,10 @@
 services:
   volume-init:
     image: busybox
-    command: ["sh", "-c", "chown -R 1001:1001 /public_data && exit 0"]
+    command: ["sh", "-c", "chown -R 1002:1002 /public_data && exit 0"]
     volumes:
       - type: bind
-        source: /home/deploy/sites/fazb-app/public_data
+        source: /home/deploy/sites/fazb_app/public_data
         target: /app/public_data
         read_only: false
     networks:
@@ -19,8 +19,8 @@ services:
   app:
     depends_on:
       - db
-    image: clonit/fazb-app:v1.2.3
-    user: "1001:1001"
+    image: clonit/fazb-app:v1.2.4
+    user: "1002:1002"
     networks:
       - app-net
     ports:
@@ -46,7 +46,7 @@ services:
         window: 30s
     volumes:
       - type: bind
-        source: /home/deploy/sites/fazb-app/public_data
+        source: /home/deploy/sites/fazb_app/public_data
         target: /app/public_data
         read_only: false
     env_file:
@@ -72,11 +72,11 @@ services:
         window: 30s
     volumes:
       - type: bind
-        source: /home/deploy/sites/fazb-app/data
+        source: /home/deploy/sites/fazb_app/data
         target: /var/lib/postgresql/data
         read_only: false
       - type: bind
-        source: /home/deploy/sites/fazb-app/db_dumps
+        source: /home/deploy/sites/fazb_app/db_dumps
         target: /app/db_dumps
         read_only: false
     env_file:
