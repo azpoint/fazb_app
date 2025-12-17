@@ -1,108 +1,47 @@
-services:
-  volume-init:
-    image: busybox
-    command: ["sh", "-c", "chown -R 1002:1002 /public_data && exit 0"]
-    volumes:
-      - type: bind
-        source: /home/deploy/sites/fazb_app/public_data
-        target: /app/public_data
-        read_only: false
-    networks:
-      - app-net
-    deploy:
-      restart_policy:
-        condition: none
-      placement:
-        constraints:
-          - node.role == manager
+version: "3.8"
 
+services:
   app:
-    depends_on:
-      - db
     image: clonit/fazb-app:v1.2.4
     user: "1002:1002"
     networks:
       - app-net
     ports:
       - "3000:3000"
-    deploy:
-      mode: replicated
-      replicas: 1
-      update_config:
-        parallelism: 1
-        delay: 15s
-        failure_action: rollback
-      rollback_config:
-        parallelism: 1
-        delay: 5s
-        failure_action: continue
-      placement:
-        constraints:
-          - node.role == manager
-      restart_policy:
-        condition: any
-        delay: 10s
-        max_attempts: 5
-        window: 30s
-    volumes:
-      - type: bind
-        source: /home/deploy/sites/fazb_app/public_data
-        target: /app/public_data
-        read_only: false
     env_file:
       - .env
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:3000/health || exit 1"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-      start_period: 15s
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      update_config:
+        parallelism: 1
+        order: start-first
+        delay: 15s
+      restart_policy:
+        condition: on-failure
+    volumes:
+      - /home/deploy/sites/fazb_app/public_data:/app/public_data
+
   db:
     image: postgres:16.8-alpine
     networks:
       - app-net
-    deploy:
-      placement:
-        constraints:
-          - node.role == manager
-      restart_policy:
-        condition: any
-        delay: 10s
-        max_attempts: 3
-        window: 30s
-    volumes:
-      - type: bind
-        source: /home/deploy/sites/fazb_app/data
-        target: /var/lib/postgresql/data
-        read_only: false
-      - type: bind
-        source: /home/deploy/sites/fazb_app/db_dumps
-        target: /app/db_dumps
-        read_only: false
     env_file:
       - .env
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+    volumes:
+      - /home/deploy/sites/fazb_app/data:/var/lib/postgresql/data
+      - /home/deploy/sites/fazb_app/db_dumps:/app/db_dumps
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
-      interval: 5s
+      interval: 10s
       timeout: 5s
       retries: 5
+
 networks:
   app-net:
-
-    # DATABASE_URL: ${DATABASE_URL}
-    # JWT_COOKIE: ${JWT_COOKIE}
-    # JWT_DURATION: ${JWT_DURATION}
-    # JWT_SECRET: ${JWT_SECRET}
-    # SYS_ADMIN_EMAIL: ${SYS_ADMIN_EMAIL}
-    # SYS_ADMIN_PASSWORD: ${SYS_ADMIN_PASSWORD}
-    # SYS_ADMIN_NAME: ${SYS_ADMIN_NAME}
-    # SYS_ADMIN_SURNAME: ${SYS_ADMIN_SURNAME}
-    # ADMIN_MAIL_VERIF: ${ADMIN_MAIL_VERIF}
-    # ADMIN_MAIL_VERIF_PASSWORD: ${ADMIN_MAIL_VERIF_PASSWORD}
-    # NEXT_PUBLIC_RECAPTCHA_SITE_KEY: ${NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-    # RECAPTCHA_SECRET_KEY: ${RECAPTCHA_SECRET_KEY}
-    # NODE_ENV: "prod"
-
-    # POSTGRES_DB: ${POSTGRES_DB}
-    # POSTGRES_USER: ${POSTGRES_USER}
-    # POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    driver: overlay
+    attachable: true
