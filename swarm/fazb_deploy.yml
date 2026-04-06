@@ -19,7 +19,7 @@ services:
         order: start-first
         delay: 15s
       restart_policy:
-        condition: on-failure
+        condition: any
     volumes:
       - /home/deploy/sites/fazb_app/public_data:/app/public_data
 
